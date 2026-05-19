@@ -7,7 +7,7 @@ import { SITE_CONFIG } from "@/lib/constants/site";
 
 export function CTASection() {
   return (
-    <section className="gradient-navy py-20 relative overflow-hidden">
+    <section className="gradient-navy py-12 sm:py-20 relative overflow-hidden">
       <div className="absolute inset-0 pattern-medical opacity-50" />
       <div className="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
         <motion.div
@@ -16,7 +16,7 @@ export function CTASection() {
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
         >
-          <h2 className="text-3xl sm:text-4xl font-bold font-heading text-white mb-4">
+          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold font-heading text-white mb-4">
             Ready to Start Your Healthcare Career?
           </h2>
           <p className="text-gray-300 text-lg mb-3">

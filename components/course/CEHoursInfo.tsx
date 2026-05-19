@@ -5,14 +5,14 @@ import { ShieldCheck, Award, BookOpen } from "lucide-react";
 
 export function CEHoursInfo() {
   return (
-    <section className="gradient-navy py-16">
+    <section className="gradient-navy py-12 sm:py-16">
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
-          className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center"
+          className="grid grid-cols-1 sm:grid-cols-3 gap-6 sm:gap-8 text-center"
         >
           <div>
             <ShieldCheck className="h-10 w-10 text-gold-400 mx-auto mb-3" />

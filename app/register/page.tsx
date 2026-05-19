@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 
 export default function RegisterPage() {
   return (
-    <Section className="pt-28">
+    <Section className="pt-8 sm:pt-28">
       <SectionHeading
         title="Register for the Course"
         subtitle="Complete the form below to enroll in our EKG Monitor Tech Certification program."

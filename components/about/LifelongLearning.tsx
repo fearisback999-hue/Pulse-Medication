@@ -5,14 +5,14 @@ import { Section } from "@/components/ui/Section";
 
 export function LifelongLearning() {
   return (
-    <Section className="pt-28">
+    <Section className="pt-8 sm:pt-28">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
         className="max-w-4xl mx-auto text-center"
       >
-        <h1 className="text-4xl sm:text-5xl font-bold font-heading text-navy-800 mb-6">
+        <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold font-heading text-navy-800 mb-4 sm:mb-6">
           We Believe in{" "}
           <span className="text-gold-500">Lifelong Learning</span>
         </h1>

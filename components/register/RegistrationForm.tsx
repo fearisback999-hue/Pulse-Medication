@@ -71,7 +71,7 @@ export function RegistrationForm() {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
       onSubmit={handleSubmit(onSubmit)}
-      className="max-w-3xl mx-auto bg-white rounded-xl shadow-lg border border-gray-100 p-8 sm:p-10"
+      className="max-w-3xl mx-auto bg-white rounded-xl shadow-lg border border-gray-100 p-4 sm:p-6 md:p-8 lg:p-10"
     >
       {error && (
         <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg text-red-700 text-sm">

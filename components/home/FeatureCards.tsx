@@ -59,7 +59,7 @@ export function FeatureCards() {
         title="Why This Program Stands Out"
         subtitle="Our EKG Monitor Tech Certification is designed to prepare you for a successful career in cardiac monitoring."
       />
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
         {features.map((feature, index) => (
           <motion.div
             key={feature.title}

@@ -38,7 +38,7 @@ export default function AdminLoginPage() {
 
   return (
     <div className="min-h-screen gradient-navy flex items-center justify-center px-4">
-      <div className="w-full max-w-md bg-white rounded-xl shadow-2xl p-8">
+      <div className="w-full max-w-md bg-white rounded-xl shadow-2xl p-5 sm:p-8 mx-4 sm:mx-0">
         <div className="text-center mb-8">
           <Activity className="h-10 w-10 text-gold-500 mx-auto mb-3" />
           <h1 className="text-2xl font-bold font-heading text-navy-800">

@@ -17,11 +17,11 @@ export function SectionHeading({ title, subtitle, light, className }: SectionHea
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-100px" }}
       transition={{ duration: 0.5 }}
-      className={cn("text-center mb-16", className)}
+      className={cn("text-center mb-8 sm:mb-12 lg:mb-16", className)}
     >
       <h2
         className={cn(
-          "text-3xl sm:text-4xl font-bold font-heading mb-4",
+          "text-2xl sm:text-3xl lg:text-4xl font-bold font-heading mb-3 sm:mb-4",
           light ? "text-white" : "text-navy-800"
         )}
       >

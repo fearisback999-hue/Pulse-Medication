@@ -12,7 +12,7 @@ export function CourseSchedule() {
         title="Course Schedule"
         subtitle="4 days of intensive, structured learning covering all essential cardiac monitoring topics."
       />
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 lg:gap-8 max-w-5xl mx-auto">
         {COURSE_SCHEDULE.map((day, index) => (
           <motion.div
             key={day.day}

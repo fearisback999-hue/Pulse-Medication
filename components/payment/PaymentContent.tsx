@@ -39,7 +39,7 @@ export function PaymentContent() {
 
   if (success) {
     return (
-      <Section className="pt-28">
+      <Section className="pt-8 sm:pt-28">
         <motion.div
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
@@ -68,7 +68,7 @@ export function PaymentContent() {
 
   if (canceled) {
     return (
-      <Section className="pt-28">
+      <Section className="pt-8 sm:pt-28">
         <motion.div
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
@@ -96,7 +96,7 @@ export function PaymentContent() {
 
   if (loading) {
     return (
-      <Section className="pt-28">
+      <Section className="pt-8 sm:pt-28">
         <div className="flex justify-center">
           <LoadingSpinner size="lg" />
         </div>
@@ -136,7 +136,7 @@ export function PaymentContent() {
         transition={{ duration: 0.5 }}
         className="max-w-lg mx-auto"
       >
-        <div className="bg-white rounded-xl shadow-lg border border-gray-100 p-8">
+        <div className="bg-white rounded-xl shadow-lg border border-gray-100 p-4 sm:p-6 md:p-8">
           <h1 className="text-2xl font-bold font-heading text-navy-800 mb-6">
             Complete Your Payment
           </h1>

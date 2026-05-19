@@ -5,10 +5,10 @@ import { Button } from "@/components/ui/Button";
 
 export function Hero() {
   return (
-    <section className="relative min-h-[90vh] flex items-center gradient-navy pattern-medical overflow-hidden">
+    <section className="relative min-h-[80vh] sm:min-h-[90vh] flex items-center gradient-navy pattern-medical overflow-hidden">
       <div className="absolute inset-0 bg-gradient-to-b from-transparent to-navy-950/50" />
 
-      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-20">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
@@ -31,7 +31,7 @@ export function Hero() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3, duration: 0.6 }}
-            className="text-4xl sm:text-5xl lg:text-6xl font-bold font-heading text-white leading-tight mb-6"
+            className="text-3xl sm:text-5xl lg:text-6xl font-bold font-heading text-white leading-tight mb-4 sm:mb-6"
           >
             Monitor Tech{" "}
             <span className="text-gold-400">Certification Program</span>
@@ -41,7 +41,7 @@ export function Hero() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.5, duration: 0.6 }}
-            className="text-xl text-gray-300 mb-10 leading-relaxed"
+            className="text-base sm:text-xl text-gray-300 mb-6 sm:mb-10 leading-relaxed"
           >
             Live Online EKG Monitor Technician Training Designed For Healthcare
             Professionals And Beginners.
@@ -65,7 +65,7 @@ export function Hero() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 1, duration: 0.6 }}
-            className="flex flex-wrap gap-6 mt-12 text-sm text-gray-400"
+            className="flex flex-wrap gap-3 sm:gap-6 mt-8 sm:mt-12 text-xs sm:text-sm text-gray-400"
           >
             <span className="flex items-center gap-2">
               <div className="w-1.5 h-1.5 bg-gold-500 rounded-full" />

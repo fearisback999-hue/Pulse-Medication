@@ -15,6 +15,9 @@ import {
   ChevronDown,
   ChevronUp,
   X,
+  Mail,
+  Phone,
+  MapPin,
 } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 import { Badge } from "@/components/ui/Badge";
@@ -122,48 +125,50 @@ export default function AdminDashboardPage() {
   return (
     <div className="min-h-screen bg-gray-50">
       <header className="bg-white shadow-sm border-b border-gray-200">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <Activity className="h-7 w-7 text-gold-500" />
-            <h1 className="text-xl font-bold font-heading text-navy-800">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 sm:py-4 flex items-center justify-between">
+          <div className="flex items-center gap-2 sm:gap-3">
+            <Activity className="h-6 w-6 sm:h-7 sm:w-7 text-gold-500" />
+            <h1 className="text-base sm:text-xl font-bold font-heading text-navy-800">
               Admin Dashboard
             </h1>
           </div>
           <button
             onClick={handleLogout}
-            className="flex items-center gap-2 text-gray-500 hover:text-red-500 transition-colors text-sm"
+            className="flex items-center gap-1 sm:gap-2 text-gray-500 hover:text-red-500 transition-colors text-xs sm:text-sm"
           >
             <LogOut className="h-4 w-4" />
-            Sign Out
+            <span className="hidden sm:inline">Sign Out</span>
           </button>
         </div>
       </header>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-8">
+        {/* Stats cards */}
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mb-6 sm:mb-8">
           {[
             { label: "Total Registrations", value: registrations.length, icon: Users, color: "text-blue-600" },
             { label: "Completed Payments", value: completedCount, icon: DollarSign, color: "text-green-600" },
             { label: "Total Revenue", value: `$${totalRevenue.toLocaleString()}`, icon: DollarSign, color: "text-gold-600" },
             { label: "Pending Payments", value: pendingCount, icon: Clock, color: "text-yellow-600" },
           ].map((stat) => (
-            <div key={stat.label} className="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
-              <div className="flex items-center gap-3 mb-2">
-                <stat.icon className={cn("h-5 w-5", stat.color)} />
-                <span className="text-sm text-gray-500">{stat.label}</span>
+            <div key={stat.label} className="bg-white rounded-xl p-4 sm:p-6 shadow-sm border border-gray-100">
+              <div className="flex items-center gap-2 sm:gap-3 mb-1 sm:mb-2">
+                <stat.icon className={cn("h-4 w-4 sm:h-5 sm:w-5", stat.color)} />
+                <span className="text-xs sm:text-sm text-gray-500 truncate">{stat.label}</span>
               </div>
-              <p className="text-2xl font-bold text-navy-800">{stat.value}</p>
+              <p className="text-xl sm:text-2xl font-bold text-navy-800">{stat.value}</p>
             </div>
           ))}
         </div>
 
-        <div className="flex gap-2 mb-6">
+        {/* Tabs */}
+        <div className="flex gap-2 mb-4 sm:mb-6 overflow-x-auto pb-1">
           {(["registrations", "dates", "email"] as const).map((tab) => (
             <button
               key={tab}
               onClick={() => setActiveTab(tab)}
               className={cn(
-                "px-4 py-2 rounded-lg text-sm font-medium transition-colors",
+                "px-3 sm:px-4 py-2 rounded-lg text-xs sm:text-sm font-medium transition-colors whitespace-nowrap flex-shrink-0",
                 activeTab === tab
                   ? "bg-navy-700 text-white"
                   : "bg-white text-gray-600 hover:bg-gray-100 border border-gray-200"
@@ -176,39 +181,45 @@ export default function AdminDashboardPage() {
           ))}
         </div>
 
+        {/* Registrations Tab */}
         {activeTab === "registrations" && (
           <div className="bg-white rounded-xl shadow-sm border border-gray-100">
-            <div className="p-4 border-b border-gray-100 flex flex-col sm:flex-row gap-4">
+            {/* Search & Filters */}
+            <div className="p-3 sm:p-4 border-b border-gray-100 flex flex-col gap-3 sm:flex-row sm:gap-4">
               <div className="relative flex-1">
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
                 <input
                   type="text"
                   value={search}
                   onChange={(e) => setSearch(e.target.value)}
-                  placeholder="Search by name, email, or phone..."
+                  placeholder="Search name, email, phone..."
                   className="w-full pl-10 pr-4 py-2.5 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-navy-500 text-sm"
                 />
               </div>
-              <select
-                value={statusFilter}
-                onChange={(e) => setStatusFilter(e.target.value)}
-                className="px-4 py-2.5 rounded-lg border border-gray-300 bg-white text-sm focus:outline-none focus:ring-2 focus:ring-navy-500"
-              >
-                <option value="all">All Statuses</option>
-                <option value="completed">Completed</option>
-                <option value="pending">Pending</option>
-                <option value="failed">Failed</option>
-              </select>
-              <button
-                onClick={handleExportCSV}
-                className="flex items-center gap-2 px-4 py-2.5 bg-navy-700 text-white rounded-lg text-sm font-medium hover:bg-navy-600 transition-colors"
-              >
-                <Download className="h-4 w-4" />
-                Export CSV
-              </button>
+              <div className="flex gap-2">
+                <select
+                  value={statusFilter}
+                  onChange={(e) => setStatusFilter(e.target.value)}
+                  className="flex-1 sm:flex-none px-3 sm:px-4 py-2.5 rounded-lg border border-gray-300 bg-white text-sm focus:outline-none focus:ring-2 focus:ring-navy-500"
+                >
+                  <option value="all">All</option>
+                  <option value="completed">Completed</option>
+                  <option value="pending">Pending</option>
+                  <option value="failed">Failed</option>
+                </select>
+                <button
+                  onClick={handleExportCSV}
+                  className="flex items-center gap-1 sm:gap-2 px-3 sm:px-4 py-2.5 bg-navy-700 text-white rounded-lg text-xs sm:text-sm font-medium hover:bg-navy-600 transition-colors whitespace-nowrap"
+                >
+                  <Download className="h-4 w-4" />
+                  <span className="hidden sm:inline">Export CSV</span>
+                  <span className="sm:hidden">CSV</span>
+                </button>
+              </div>
             </div>
 
-            <div className="overflow-x-auto">
+            {/* Desktop Table (hidden on mobile) */}
+            <div className="hidden md:block overflow-x-auto">
               <table className="w-full text-sm">
                 <thead className="bg-gray-50 text-gray-500 text-xs uppercase">
                   <tr>
@@ -223,88 +234,16 @@ export default function AdminDashboardPage() {
                 </thead>
                 <tbody className="divide-y divide-gray-100">
                   {filtered.map((reg) => (
-                    <>
-                      <tr key={reg.id} className="hover:bg-gray-50 transition-colors">
-                        <td className="px-4 py-3 font-medium text-navy-800">
-                          {reg.first_name} {reg.last_name}
-                        </td>
-                        <td className="px-4 py-3 text-gray-600">{reg.email}</td>
-                        <td className="px-4 py-3 text-gray-600">{reg.phone}</td>
-                        <td className="px-4 py-3 text-gray-600 text-xs">{reg.course_date}</td>
-                        <td className="px-4 py-3">
-                          <Badge
-                            variant={
-                              reg.payment_status === "completed"
-                                ? "success"
-                                : reg.payment_status === "pending"
-                                  ? "warning"
-                                  : "error"
-                            }
-                          >
-                            {reg.payment_status}
-                          </Badge>
-                        </td>
-                        <td className="px-4 py-3 text-gray-500 text-xs">
-                          {new Date(reg.created_at).toLocaleDateString()}
-                        </td>
-                        <td className="px-4 py-3">
-                          <button
-                            onClick={() =>
-                              setExpandedRow(expandedRow === reg.id ? null : reg.id)
-                            }
-                            className="text-gray-400 hover:text-navy-700"
-                          >
-                            {expandedRow === reg.id ? (
-                              <ChevronUp className="h-4 w-4" />
-                            ) : (
-                              <ChevronDown className="h-4 w-4" />
-                            )}
-                          </button>
-                        </td>
-                      </tr>
-                      {expandedRow === reg.id && (
-                        <tr key={`${reg.id}-details`}>
-                          <td colSpan={7} className="px-4 py-4 bg-gray-50">
-                            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-xs">
-                              <div>
-                                <p className="text-gray-500">Address</p>
-                                <p className="text-navy-800">
-                                  {reg.street}
-                                  {reg.street2 && `, ${reg.street2}`}
-                                  <br />
-                                  {reg.city}, {reg.state} {reg.zip}
-                                  <br />
-                                  {reg.country}
-                                </p>
-                              </div>
-                              <div>
-                                <p className="text-gray-500">Course</p>
-                                <p className="text-navy-800">{reg.course_selection}</p>
-                              </div>
-                              <div>
-                                <p className="text-gray-500">Message</p>
-                                <p className="text-navy-800">{reg.message || "—"}</p>
-                              </div>
-                              <div>
-                                <p className="text-gray-500">Stripe Session</p>
-                                <p className="text-navy-800 break-all">
-                                  {reg.stripe_session_id || "—"}
-                                </p>
-                              </div>
-                            </div>
-                            <button
-                              onClick={() => {
-                                setActiveTab("email");
-                                setEmailTo(reg.email);
-                              }}
-                              className="mt-3 flex items-center gap-1 text-xs text-gold-600 hover:text-gold-500"
-                            >
-                              <Send className="h-3 w-3" /> Email this student
-                            </button>
-                          </td>
-                        </tr>
-                      )}
-                    </>
+                    <DesktopRow
+                      key={reg.id}
+                      reg={reg}
+                      expanded={expandedRow === reg.id}
+                      onToggle={() => setExpandedRow(expandedRow === reg.id ? null : reg.id)}
+                      onEmailStudent={() => {
+                        setActiveTab("email");
+                        setEmailTo(reg.email);
+                      }}
+                    />
                   ))}
                   {filtered.length === 0 && (
                     <tr>
@@ -316,43 +255,67 @@ export default function AdminDashboardPage() {
                 </tbody>
               </table>
             </div>
+
+            {/* Mobile Card Layout (hidden on desktop) */}
+            <div className="md:hidden divide-y divide-gray-100">
+              {filtered.map((reg) => (
+                <MobileCard
+                  key={reg.id}
+                  reg={reg}
+                  expanded={expandedRow === reg.id}
+                  onToggle={() => setExpandedRow(expandedRow === reg.id ? null : reg.id)}
+                  onEmailStudent={() => {
+                    setActiveTab("email");
+                    setEmailTo(reg.email);
+                  }}
+                />
+              ))}
+              {filtered.length === 0 && (
+                <div className="px-4 py-12 text-center text-gray-400 text-sm">
+                  No registrations found.
+                </div>
+              )}
+            </div>
           </div>
         )}
 
+        {/* Course Dates Tab */}
         {activeTab === "dates" && (
-          <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
-            <h2 className="text-lg font-bold font-heading text-navy-800 mb-4 flex items-center gap-2">
+          <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-4 sm:p-6">
+            <h2 className="text-base sm:text-lg font-bold font-heading text-navy-800 mb-4 flex items-center gap-2">
               <Calendar className="h-5 w-5 text-gold-500" />
               Course Dates
             </h2>
             <p className="text-gray-500 text-sm mb-4">
               Manage course dates directly in your Supabase dashboard&apos;s{" "}
-              <code className="bg-gray-100 px-1 rounded">course_dates</code> table, or use the API endpoints.
+              <code className="bg-gray-100 px-1 rounded text-xs">course_dates</code> table, or use the API endpoints.
             </p>
             <div className="bg-navy-50 rounded-lg p-4 text-sm">
               <p className="text-navy-800 font-medium mb-2">Current Course Dates:</p>
-              <p className="text-gray-600">June 12, 13, 14 &amp; 16, 2026 — 9:00 AM – 5:00 PM PST</p>
+              <p className="text-gray-600">June 12, 13, 14 &amp; 16, 2026</p>
+              <p className="text-gray-600">9:00 AM – 5:00 PM PST</p>
             </div>
           </div>
         )}
 
+        {/* Send Email Tab */}
         {activeTab === "email" && (
-          <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6 max-w-2xl">
-            <h2 className="text-lg font-bold font-heading text-navy-800 mb-4 flex items-center gap-2">
+          <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-4 sm:p-6 max-w-2xl">
+            <h2 className="text-base sm:text-lg font-bold font-heading text-navy-800 mb-4 flex items-center gap-2">
               <Send className="h-5 w-5 text-gold-500" />
               Send Email
             </h2>
             {emailStatus && (
               <div
                 className={cn(
-                  "mb-4 p-3 rounded-lg text-sm",
+                  "mb-4 p-3 rounded-lg text-sm flex items-center justify-between",
                   emailStatus.includes("success")
                     ? "bg-green-50 text-green-700 border border-green-200"
                     : "bg-red-50 text-red-700 border border-red-200"
                 )}
               >
-                {emailStatus}
-                <button onClick={() => setEmailStatus(null)} className="float-right">
+                <span>{emailStatus}</span>
+                <button onClick={() => setEmailStatus(null)}>
                   <X className="h-4 w-4" />
                 </button>
               </div>
@@ -394,7 +357,7 @@ export default function AdminDashboardPage() {
               <button
                 type="submit"
                 disabled={sendingEmail}
-                className="flex items-center gap-2 px-6 py-2.5 bg-navy-700 text-white rounded-lg text-sm font-medium hover:bg-navy-600 transition-colors disabled:opacity-50"
+                className="w-full sm:w-auto flex items-center justify-center gap-2 px-6 py-2.5 bg-navy-700 text-white rounded-lg text-sm font-medium hover:bg-navy-600 transition-colors disabled:opacity-50"
               >
                 {sendingEmail ? (
                   <LoadingSpinner size="sm" className="border-white border-t-transparent" />
@@ -407,6 +370,172 @@ export default function AdminDashboardPage() {
           </div>
         )}
       </div>
+    </div>
+  );
+}
+
+function DesktopRow({
+  reg,
+  expanded,
+  onToggle,
+  onEmailStudent,
+}: {
+  reg: Registration;
+  expanded: boolean;
+  onToggle: () => void;
+  onEmailStudent: () => void;
+}) {
+  return (
+    <>
+      <tr className="hover:bg-gray-50 transition-colors">
+        <td className="px-4 py-3 font-medium text-navy-800">
+          {reg.first_name} {reg.last_name}
+        </td>
+        <td className="px-4 py-3 text-gray-600">{reg.email}</td>
+        <td className="px-4 py-3 text-gray-600">{reg.phone}</td>
+        <td className="px-4 py-3 text-gray-600 text-xs">{reg.course_date}</td>
+        <td className="px-4 py-3">
+          <Badge
+            variant={
+              reg.payment_status === "completed"
+                ? "success"
+                : reg.payment_status === "pending"
+                  ? "warning"
+                  : "error"
+            }
+          >
+            {reg.payment_status}
+          </Badge>
+        </td>
+        <td className="px-4 py-3 text-gray-500 text-xs">
+          {new Date(reg.created_at).toLocaleDateString()}
+        </td>
+        <td className="px-4 py-3">
+          <button onClick={onToggle} className="text-gray-400 hover:text-navy-700">
+            {expanded ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />}
+          </button>
+        </td>
+      </tr>
+      {expanded && (
+        <tr>
+          <td colSpan={7} className="px-4 py-4 bg-gray-50">
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 text-xs">
+              <div>
+                <p className="text-gray-500">Address</p>
+                <p className="text-navy-800">
+                  {reg.street}{reg.street2 && `, ${reg.street2}`}<br />
+                  {reg.city}, {reg.state} {reg.zip}<br />
+                  {reg.country}
+                </p>
+              </div>
+              <div>
+                <p className="text-gray-500">Course</p>
+                <p className="text-navy-800">{reg.course_selection}</p>
+              </div>
+              <div>
+                <p className="text-gray-500">Message</p>
+                <p className="text-navy-800">{reg.message || "—"}</p>
+              </div>
+              <div>
+                <p className="text-gray-500">Stripe Session</p>
+                <p className="text-navy-800 break-all">{reg.stripe_session_id || "—"}</p>
+              </div>
+            </div>
+            <button
+              onClick={onEmailStudent}
+              className="mt-3 flex items-center gap-1 text-xs text-gold-600 hover:text-gold-500"
+            >
+              <Send className="h-3 w-3" /> Email this student
+            </button>
+          </td>
+        </tr>
+      )}
+    </>
+  );
+}
+
+function MobileCard({
+  reg,
+  expanded,
+  onToggle,
+  onEmailStudent,
+}: {
+  reg: Registration;
+  expanded: boolean;
+  onToggle: () => void;
+  onEmailStudent: () => void;
+}) {
+  return (
+    <div className="p-4">
+      <button onClick={onToggle} className="w-full text-left">
+        <div className="flex items-start justify-between gap-3">
+          <div className="min-w-0 flex-1">
+            <p className="font-medium text-navy-800 text-sm">
+              {reg.first_name} {reg.last_name}
+            </p>
+            <p className="text-gray-500 text-xs mt-0.5 truncate">{reg.email}</p>
+          </div>
+          <div className="flex items-center gap-2 flex-shrink-0">
+            <Badge
+              variant={
+                reg.payment_status === "completed"
+                  ? "success"
+                  : reg.payment_status === "pending"
+                    ? "warning"
+                    : "error"
+              }
+            >
+              {reg.payment_status}
+            </Badge>
+            {expanded ? (
+              <ChevronUp className="h-4 w-4 text-gray-400" />
+            ) : (
+              <ChevronDown className="h-4 w-4 text-gray-400" />
+            )}
+          </div>
+        </div>
+        <div className="flex items-center gap-4 mt-2 text-xs text-gray-500">
+          <span>{reg.phone}</span>
+          <span>{new Date(reg.created_at).toLocaleDateString()}</span>
+        </div>
+      </button>
+
+      {expanded && (
+        <div className="mt-3 pt-3 border-t border-gray-100 space-y-3">
+          <div className="grid grid-cols-1 gap-3 text-xs">
+            <div className="flex items-start gap-2">
+              <MapPin className="h-3.5 w-3.5 text-gray-400 mt-0.5 flex-shrink-0" />
+              <p className="text-gray-700">
+                {reg.street}{reg.street2 && `, ${reg.street2}`}, {reg.city}, {reg.state} {reg.zip}
+              </p>
+            </div>
+            <div className="flex items-start gap-2">
+              <Mail className="h-3.5 w-3.5 text-gray-400 mt-0.5 flex-shrink-0" />
+              <p className="text-gray-700 break-all">{reg.email}</p>
+            </div>
+            <div className="flex items-start gap-2">
+              <Phone className="h-3.5 w-3.5 text-gray-400 mt-0.5 flex-shrink-0" />
+              <p className="text-gray-700">{reg.phone}</p>
+            </div>
+            <div className="flex items-start gap-2">
+              <Calendar className="h-3.5 w-3.5 text-gray-400 mt-0.5 flex-shrink-0" />
+              <p className="text-gray-700 text-[11px]">{reg.course_date}</p>
+            </div>
+          </div>
+          {reg.message && (
+            <div className="text-xs">
+              <p className="text-gray-500 mb-0.5">Message</p>
+              <p className="text-gray-700">{reg.message}</p>
+            </div>
+          )}
+          <button
+            onClick={onEmailStudent}
+            className="flex items-center gap-1 text-xs text-gold-600 hover:text-gold-500 py-1"
+          >
+            <Send className="h-3 w-3" /> Email this student
+          </button>
+        </div>
+      )}
     </div>
   );
 }

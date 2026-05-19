@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 
 export default function FAQPage() {
   return (
-    <Section className="pt-28">
+    <Section className="pt-8 sm:pt-28">
       <SectionHeading
         title="Frequently Asked Questions"
         subtitle="Find answers to the most common questions about our Monitor Tech Certification program."

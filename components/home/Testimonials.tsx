@@ -14,7 +14,7 @@ export function Testimonials() {
         title="What Our Students Say"
         subtitle="Hear from graduates who have successfully completed our Monitor Tech Certification program."
       />
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
         {TESTIMONIALS.map((testimonial, index) => (
           <motion.div
             key={testimonial.name}

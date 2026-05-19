@@ -10,7 +10,7 @@ import { CheckCircle, ArrowRight } from "lucide-react";
 export function CourseDetails() {
   return (
     <Section>
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-12">
         <motion.div
           initial={{ opacity: 0, x: -20 }}
           whileInView={{ opacity: 1, x: 0 }}
@@ -48,7 +48,7 @@ export function CourseDetails() {
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
         >
-          <div className="bg-white rounded-xl shadow-lg border border-gray-100 p-8 sticky top-28">
+          <div className="bg-white rounded-xl shadow-lg border border-gray-100 p-5 sm:p-8 lg:sticky lg:top-28">
             <h3 className="text-xl font-bold font-heading text-navy-800 mb-6">
               Course Details
             </h3>

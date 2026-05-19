@@ -12,7 +12,7 @@ export function CourseHero() {
   ];
 
   return (
-    <section className="gradient-navy pattern-medical py-24 pt-32">
+    <section className="gradient-navy pattern-medical py-16 pt-24 sm:py-24 sm:pt-32">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -20,7 +20,7 @@ export function CourseHero() {
           transition={{ duration: 0.6 }}
           className="text-center"
         >
-          <h1 className="text-4xl sm:text-5xl font-bold font-heading text-white mb-4">
+          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold font-heading text-white mb-4">
             EKG Monitor Tech{" "}
             <span className="text-gold-400">Certification</span>
           </h1>
