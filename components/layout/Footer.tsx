@@ -1,7 +1,21 @@
 import Link from "next/link";
 import { Activity, Phone, Mail, MapPin } from "lucide-react";
 import { SITE_CONFIG } from "@/lib/constants/site";
-import { NAV_LINKS } from "@/lib/constants/navigation";
+
+const quickLinks = [
+  { label: "Home", href: "/" },
+  { label: "About Us", href: "/about" },
+  { label: "Course Overview", href: "/course" },
+  { label: "FAQ", href: "/faq" },
+  { label: "Contact", href: "/contact" },
+  { label: "Enrollment", href: "/register" },
+];
+
+const legalLinks = [
+  { label: "Privacy Policy", href: "/privacy" },
+  { label: "Terms & Conditions", href: "/terms" },
+  { label: "Refund Policy", href: "/refund" },
+];
 
 export function Footer() {
   return (
@@ -29,7 +43,7 @@ export function Footer() {
               Quick Links
             </h3>
             <ul className="space-y-2">
-              {NAV_LINKS.map((link) => (
+              {quickLinks.map((link) => (
                 <li key={link.href}>
                   <Link
                     href={link.href}
@@ -39,14 +53,6 @@ export function Footer() {
                   </Link>
                 </li>
               ))}
-              <li>
-                <Link
-                  href="/register"
-                  className="text-gold-400 hover:text-gold-300 transition-colors text-sm font-medium"
-                >
-                  Register Now
-                </Link>
-              </li>
             </ul>
           </div>
 
@@ -85,39 +91,30 @@ export function Footer() {
           <div>
             <h3 className="font-heading font-semibold text-lg mb-4">Legal</h3>
             <ul className="space-y-2">
-              <li>
-                <Link
-                  href="/privacy"
-                  className="text-gray-400 hover:text-gold-400 transition-colors text-sm"
-                >
-                  Privacy Policy
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/terms"
-                  className="text-gray-400 hover:text-gold-400 transition-colors text-sm"
-                >
-                  Terms of Service
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/refund"
-                  className="text-gray-400 hover:text-gold-400 transition-colors text-sm"
-                >
-                  Refund Policy
-                </Link>
-              </li>
+              {legalLinks.map((link) => (
+                <li key={link.href}>
+                  <Link
+                    href={link.href}
+                    className="text-gray-400 hover:text-gold-400 transition-colors text-sm"
+                  >
+                    {link.label}
+                  </Link>
+                </li>
+              ))}
             </ul>
           </div>
         </div>
 
-        <div className="border-t border-white/10 mt-12 pt-8 text-center">
-          <p className="text-gray-500 text-sm">
-            &copy; {new Date().getFullYear()} Pulse Medication. All rights
-            reserved.
-          </p>
+        <div className="border-t border-white/10 mt-10 sm:mt-12 pt-6 sm:pt-8">
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-4 text-center sm:text-left">
+            <p className="text-gray-500 text-sm">
+              &copy; {new Date().getFullYear()} Pulse Medication. All rights
+              reserved.
+            </p>
+            <p className="text-gray-600 text-xs">
+              1240 S State College Blvd, Anaheim, CA 92806 &middot; (714) 539-7081
+            </p>
+          </div>
         </div>
       </div>
     </footer>

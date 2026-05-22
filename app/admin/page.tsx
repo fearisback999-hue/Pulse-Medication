@@ -18,6 +18,8 @@ import {
   Mail,
   Phone,
   MapPin,
+  UserCheck,
+  RefreshCw,
 } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 import { Badge } from "@/components/ui/Badge";
@@ -31,6 +33,7 @@ export default function AdminDashboardPage() {
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState<string>("all");
+  const [enrollmentFilter, setEnrollmentFilter] = useState<string>("all");
   const [expandedRow, setExpandedRow] = useState<string | null>(null);
   const [activeTab, setActiveTab] = useState<"registrations" | "dates" | "email">("registrations");
   const [emailTo, setEmailTo] = useState("");
@@ -94,6 +97,22 @@ export default function AdminDashboardPage() {
     setSendingEmail(false);
   };
 
+  const handleEnrollmentUpdate = async (registrationId: string, enrollmentStatus: string) => {
+    const res = await fetch("/api/admin/enrollment", {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ registrationId, enrollmentStatus }),
+    });
+
+    if (res.ok) {
+      setRegistrations((prev) =>
+        prev.map((r) =>
+          r.id === registrationId ? { ...r, enrollment_status: enrollmentStatus as Registration["enrollment_status"] } : r
+        )
+      );
+    }
+  };
+
   const filtered = registrations.filter((r) => {
     const matchesSearch =
       !search ||
@@ -101,7 +120,8 @@ export default function AdminDashboardPage() {
         .toLowerCase()
         .includes(search.toLowerCase());
     const matchesStatus = statusFilter === "all" || r.payment_status === statusFilter;
-    return matchesSearch && matchesStatus;
+    const matchesEnrollment = enrollmentFilter === "all" || r.enrollment_status === enrollmentFilter;
+    return matchesSearch && matchesStatus && matchesEnrollment;
   });
 
   const totalRevenue = registrations
@@ -112,6 +132,9 @@ export default function AdminDashboardPage() {
   ).length;
   const pendingCount = registrations.filter(
     (r) => r.payment_status === "pending"
+  ).length;
+  const enrolledCount = registrations.filter(
+    (r) => r.enrollment_status === "enrolled"
   ).length;
 
   if (loading) {
@@ -144,12 +167,13 @@ export default function AdminDashboardPage() {
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-8">
         {/* Stats cards */}
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mb-6 sm:mb-8">
+        <div className="grid grid-cols-2 lg:grid-cols-5 gap-3 sm:gap-4 mb-6 sm:mb-8">
           {[
             { label: "Total Registrations", value: registrations.length, icon: Users, color: "text-blue-600" },
             { label: "Completed Payments", value: completedCount, icon: DollarSign, color: "text-green-600" },
             { label: "Total Revenue", value: `$${totalRevenue.toLocaleString()}`, icon: DollarSign, color: "text-gold-600" },
             { label: "Pending Payments", value: pendingCount, icon: Clock, color: "text-yellow-600" },
+            { label: "Enrolled Students", value: enrolledCount, icon: UserCheck, color: "text-purple-600" },
           ].map((stat) => (
             <div key={stat.label} className="bg-white rounded-xl p-4 sm:p-6 shadow-sm border border-gray-100">
               <div className="flex items-center gap-2 sm:gap-3 mb-1 sm:mb-2">
@@ -196,16 +220,27 @@ export default function AdminDashboardPage() {
                   className="w-full pl-10 pr-4 py-2.5 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-navy-500 text-sm"
                 />
               </div>
-              <div className="flex gap-2">
+              <div className="flex gap-2 flex-wrap">
                 <select
                   value={statusFilter}
                   onChange={(e) => setStatusFilter(e.target.value)}
                   className="flex-1 sm:flex-none px-3 sm:px-4 py-2.5 rounded-lg border border-gray-300 bg-white text-sm focus:outline-none focus:ring-2 focus:ring-navy-500"
                 >
-                  <option value="all">All</option>
+                  <option value="all">All Payments</option>
                   <option value="completed">Completed</option>
                   <option value="pending">Pending</option>
                   <option value="failed">Failed</option>
+                </select>
+                <select
+                  value={enrollmentFilter}
+                  onChange={(e) => setEnrollmentFilter(e.target.value)}
+                  className="flex-1 sm:flex-none px-3 sm:px-4 py-2.5 rounded-lg border border-gray-300 bg-white text-sm focus:outline-none focus:ring-2 focus:ring-navy-500"
+                >
+                  <option value="all">All Enrollment</option>
+                  <option value="registered">Registered</option>
+                  <option value="enrolled">Enrolled</option>
+                  <option value="completed">Completed</option>
+                  <option value="withdrawn">Withdrawn</option>
                 </select>
                 <button
                   onClick={handleExportCSV}
@@ -227,7 +262,8 @@ export default function AdminDashboardPage() {
                     <th className="px-4 py-3 text-left">Email</th>
                     <th className="px-4 py-3 text-left">Phone</th>
                     <th className="px-4 py-3 text-left">Course Date</th>
-                    <th className="px-4 py-3 text-left">Status</th>
+                    <th className="px-4 py-3 text-left">Payment</th>
+                    <th className="px-4 py-3 text-left">Enrollment</th>
                     <th className="px-4 py-3 text-left">Date</th>
                     <th className="px-4 py-3 text-left"></th>
                   </tr>
@@ -243,11 +279,12 @@ export default function AdminDashboardPage() {
                         setActiveTab("email");
                         setEmailTo(reg.email);
                       }}
+                      onEnrollmentUpdate={handleEnrollmentUpdate}
                     />
                   ))}
                   {filtered.length === 0 && (
                     <tr>
-                      <td colSpan={7} className="px-4 py-12 text-center text-gray-400">
+                      <td colSpan={8} className="px-4 py-12 text-center text-gray-400">
                         No registrations found.
                       </td>
                     </tr>
@@ -268,6 +305,7 @@ export default function AdminDashboardPage() {
                     setActiveTab("email");
                     setEmailTo(reg.email);
                   }}
+                  onEnrollmentUpdate={handleEnrollmentUpdate}
                 />
               ))}
               {filtered.length === 0 && (
@@ -374,16 +412,25 @@ export default function AdminDashboardPage() {
   );
 }
 
+const ENROLLMENT_BADGE_VARIANT: Record<string, "success" | "warning" | "error" | "info"> = {
+  registered: "info",
+  enrolled: "success",
+  completed: "success",
+  withdrawn: "error",
+};
+
 function DesktopRow({
   reg,
   expanded,
   onToggle,
   onEmailStudent,
+  onEnrollmentUpdate,
 }: {
   reg: Registration;
   expanded: boolean;
   onToggle: () => void;
   onEmailStudent: () => void;
+  onEnrollmentUpdate: (id: string, status: string) => void;
 }) {
   return (
     <>
@@ -407,6 +454,24 @@ function DesktopRow({
             {reg.payment_status}
           </Badge>
         </td>
+        <td className="px-4 py-3">
+          <select
+            value={reg.enrollment_status}
+            onChange={(e) => onEnrollmentUpdate(reg.id, e.target.value)}
+            className={cn(
+              "text-xs font-medium px-2 py-1 rounded-md border cursor-pointer focus:outline-none focus:ring-2 focus:ring-navy-500",
+              reg.enrollment_status === "enrolled" && "bg-green-50 border-green-200 text-green-700",
+              reg.enrollment_status === "registered" && "bg-blue-50 border-blue-200 text-blue-700",
+              reg.enrollment_status === "completed" && "bg-emerald-50 border-emerald-200 text-emerald-700",
+              reg.enrollment_status === "withdrawn" && "bg-red-50 border-red-200 text-red-700",
+            )}
+          >
+            <option value="registered">Registered</option>
+            <option value="enrolled">Enrolled</option>
+            <option value="completed">Completed</option>
+            <option value="withdrawn">Withdrawn</option>
+          </select>
+        </td>
         <td className="px-4 py-3 text-gray-500 text-xs">
           {new Date(reg.created_at).toLocaleDateString()}
         </td>
@@ -418,7 +483,7 @@ function DesktopRow({
       </tr>
       {expanded && (
         <tr>
-          <td colSpan={7} className="px-4 py-4 bg-gray-50">
+          <td colSpan={8} className="px-4 py-4 bg-gray-50">
             <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 text-xs">
               <div>
                 <p className="text-gray-500">Address</p>
@@ -459,11 +524,13 @@ function MobileCard({
   expanded,
   onToggle,
   onEmailStudent,
+  onEnrollmentUpdate,
 }: {
   reg: Registration;
   expanded: boolean;
   onToggle: () => void;
   onEmailStudent: () => void;
+  onEnrollmentUpdate: (id: string, status: string) => void;
 }) {
   return (
     <div className="p-4">
@@ -486,6 +553,9 @@ function MobileCard({
               }
             >
               {reg.payment_status}
+            </Badge>
+            <Badge variant={ENROLLMENT_BADGE_VARIANT[reg.enrollment_status] || "info"}>
+              {reg.enrollment_status}
             </Badge>
             {expanded ? (
               <ChevronUp className="h-4 w-4 text-gray-400" />
@@ -521,6 +591,26 @@ function MobileCard({
               <Calendar className="h-3.5 w-3.5 text-gray-400 mt-0.5 flex-shrink-0" />
               <p className="text-gray-700 text-[11px]">{reg.course_date}</p>
             </div>
+          </div>
+          <div className="flex items-center gap-2 text-xs">
+            <UserCheck className="h-3.5 w-3.5 text-gray-400 flex-shrink-0" />
+            <span className="text-gray-500">Enrollment:</span>
+            <select
+              value={reg.enrollment_status}
+              onChange={(e) => onEnrollmentUpdate(reg.id, e.target.value)}
+              className={cn(
+                "text-xs font-medium px-2 py-1 rounded-md border cursor-pointer focus:outline-none focus:ring-2 focus:ring-navy-500",
+                reg.enrollment_status === "enrolled" && "bg-green-50 border-green-200 text-green-700",
+                reg.enrollment_status === "registered" && "bg-blue-50 border-blue-200 text-blue-700",
+                reg.enrollment_status === "completed" && "bg-emerald-50 border-emerald-200 text-emerald-700",
+                reg.enrollment_status === "withdrawn" && "bg-red-50 border-red-200 text-red-700",
+              )}
+            >
+              <option value="registered">Registered</option>
+              <option value="enrolled">Enrolled</option>
+              <option value="completed">Completed</option>
+              <option value="withdrawn">Withdrawn</option>
+            </select>
           </div>
           {reg.message && (
             <div className="text-xs">

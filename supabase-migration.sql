@@ -19,6 +19,7 @@ CREATE TABLE registrations (
   course_date TEXT NOT NULL,
   terms_accepted BOOLEAN NOT NULL DEFAULT false,
   payment_status TEXT NOT NULL DEFAULT 'pending' CHECK (payment_status IN ('pending', 'completed', 'failed')),
+  enrollment_status TEXT NOT NULL DEFAULT 'registered' CHECK (enrollment_status IN ('registered', 'enrolled', 'completed', 'withdrawn')),
   stripe_session_id TEXT,
   stripe_payment_intent_id TEXT,
   created_at TIMESTAMPTZ DEFAULT now(),
