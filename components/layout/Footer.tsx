@@ -20,34 +20,37 @@ const legalLinks = [
 export function Footer() {
   return (
     <footer className="gradient-navy text-white">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-16">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 sm:gap-10 lg:gap-12">
-          <div>
-            <div className="flex items-center gap-2 mb-4">
-              <Activity className="h-7 w-7 text-gold-500" />
-              <span className="text-lg font-bold font-heading">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="py-12 sm:py-16 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-12">
+          <div className="sm:col-span-2 lg:col-span-1">
+            <div className="flex items-center gap-2.5 mb-4">
+              <Activity className="h-6 w-6 text-gold-500" />
+              <span className="text-lg font-bold font-heading tracking-tight">
                 Pulse Medication
               </span>
             </div>
-            <p className="text-gray-400 text-sm leading-relaxed">
+            <p className="text-gray-400/80 text-sm leading-relaxed mb-4 max-w-xs">
               Providing quality healthcare education and monitor tech
               certification programs for aspiring healthcare professionals.
             </p>
-            <p className="text-gray-500 text-xs mt-4">
-              CA BRN Approved Provider
-            </p>
+            <div className="inline-flex items-center gap-2 bg-white/[0.05] border border-white/[0.08] rounded-full px-3 py-1.5">
+              <div className="w-1.5 h-1.5 bg-gold-500 rounded-full" />
+              <span className="text-gray-400 text-xs">
+                CA BRN Approved Provider
+              </span>
+            </div>
           </div>
 
           <div>
-            <h3 className="font-heading font-semibold text-lg mb-4">
+            <h3 className="font-heading font-semibold text-sm tracking-wide uppercase text-gray-300 mb-4">
               Quick Links
             </h3>
-            <ul className="space-y-2">
+            <ul className="space-y-2.5">
               {quickLinks.map((link) => (
                 <li key={link.href}>
                   <Link
                     href={link.href}
-                    className="text-gray-400 hover:text-gold-400 transition-colors text-sm"
+                    className="text-gray-400/80 hover:text-white transition-colors text-sm"
                   >
                     {link.label}
                   </Link>
@@ -57,31 +60,31 @@ export function Footer() {
           </div>
 
           <div>
-            <h3 className="font-heading font-semibold text-lg mb-4">
+            <h3 className="font-heading font-semibold text-sm tracking-wide uppercase text-gray-300 mb-4">
               Contact Us
             </h3>
             <ul className="space-y-3">
               <li>
                 <a
                   href={`tel:${SITE_CONFIG.phone.replace(/\D/g, "")}`}
-                  className="flex items-center gap-3 text-gray-400 hover:text-gold-400 transition-colors text-sm"
+                  className="flex items-center gap-3 text-gray-400/80 hover:text-white transition-colors text-sm"
                 >
-                  <Phone className="h-4 w-4 flex-shrink-0" />
+                  <Phone className="h-4 w-4 flex-shrink-0 text-gray-500" />
                   {SITE_CONFIG.phone}
                 </a>
               </li>
               <li>
                 <a
                   href={`mailto:${SITE_CONFIG.email}`}
-                  className="flex items-center gap-3 text-gray-400 hover:text-gold-400 transition-colors text-sm"
+                  className="flex items-center gap-3 text-gray-400/80 hover:text-white transition-colors text-sm"
                 >
-                  <Mail className="h-4 w-4 flex-shrink-0" />
+                  <Mail className="h-4 w-4 flex-shrink-0 text-gray-500" />
                   {SITE_CONFIG.email}
                 </a>
               </li>
               <li>
-                <div className="flex items-start gap-3 text-gray-400 text-sm">
-                  <MapPin className="h-4 w-4 flex-shrink-0 mt-0.5" />
+                <div className="flex items-start gap-3 text-gray-400/80 text-sm">
+                  <MapPin className="h-4 w-4 flex-shrink-0 mt-0.5 text-gray-500" />
                   {SITE_CONFIG.address.full}
                 </div>
               </li>
@@ -89,13 +92,15 @@ export function Footer() {
           </div>
 
           <div>
-            <h3 className="font-heading font-semibold text-lg mb-4">Legal</h3>
-            <ul className="space-y-2">
+            <h3 className="font-heading font-semibold text-sm tracking-wide uppercase text-gray-300 mb-4">
+              Legal
+            </h3>
+            <ul className="space-y-2.5">
               {legalLinks.map((link) => (
                 <li key={link.href}>
                   <Link
                     href={link.href}
-                    className="text-gray-400 hover:text-gold-400 transition-colors text-sm"
+                    className="text-gray-400/80 hover:text-white transition-colors text-sm"
                   >
                     {link.label}
                   </Link>
@@ -105,14 +110,14 @@ export function Footer() {
           </div>
         </div>
 
-        <div className="border-t border-white/10 mt-10 sm:mt-12 pt-6 sm:pt-8">
-          <div className="flex flex-col sm:flex-row items-center justify-between gap-4 text-center sm:text-left">
-            <p className="text-gray-500 text-sm">
+        <div className="border-t border-white/[0.06] py-6">
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-3 text-center sm:text-left">
+            <p className="text-gray-500/80 text-sm">
               &copy; {new Date().getFullYear()} Pulse Medication. All rights
               reserved.
             </p>
             <p className="text-gray-600 text-xs">
-              1240 S State College Blvd, Anaheim, CA 92806 &middot; (714) 539-7081
+              1240 S State College Blvd, Anaheim, CA 92806
             </p>
           </div>
         </div>

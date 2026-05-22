@@ -3,7 +3,15 @@
 import { useEffect, useState } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { motion } from "framer-motion";
-import { CheckCircle, XCircle, ArrowRight, ShieldCheck } from "lucide-react";
+import {
+  CheckCircle,
+  XCircle,
+  ArrowRight,
+  ShieldCheck,
+  Award,
+  Clock,
+  Mail,
+} from "lucide-react";
 import { Section } from "@/components/ui/Section";
 import { Button } from "@/components/ui/Button";
 import { LoadingSpinner } from "@/components/ui/LoadingSpinner";
@@ -41,23 +49,52 @@ export function PaymentContent() {
     return (
       <Section className="pt-8 sm:pt-28">
         <motion.div
-          initial={{ opacity: 0, scale: 0.9 }}
+          initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.5 }}
+          transition={{ duration: 0.4 }}
           className="max-w-lg mx-auto text-center"
         >
-          <CheckCircle className="h-20 w-20 text-green-500 mx-auto mb-6" />
-          <h1 className="text-3xl font-bold font-heading text-navy-800 mb-4">
-            Payment Successful!
+          <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-green-50 mb-6">
+            <CheckCircle className="h-10 w-10 text-green-500" />
+          </div>
+          <h1 className="text-3xl font-extrabold font-heading text-navy-800 tracking-tightest mb-3">
+            Payment Successful
           </h1>
           <p className="text-gray-600 mb-2">
-            Thank you for enrolling in the EKG Monitor Tech Certification
-            program.
+            You&apos;re enrolled in the EKG Monitor Tech Certification program.
           </p>
-          <p className="text-gray-500 text-sm mb-8">
-            A confirmation email with your receipt and course details will be
-            sent to your email shortly.
+          <p className="text-gray-400 text-sm mb-8">
+            A confirmation email with your receipt and course details will arrive
+            shortly.
           </p>
+
+          <div className="bg-gray-50/70 rounded-2xl p-5 mb-8 border border-gray-100 text-left">
+            <h3 className="font-bold text-navy-800 text-sm mb-3">
+              What happens next:
+            </h3>
+            <ul className="space-y-2.5">
+              {[
+                {
+                  icon: Mail,
+                  text: "Check your email for a confirmation with course details",
+                },
+                {
+                  icon: Clock,
+                  text: "Zoom link will be sent before the course start date",
+                },
+                {
+                  icon: Award,
+                  text: "Course materials will be provided in PDF format",
+                },
+              ].map((item) => (
+                <li key={item.text} className="flex items-start gap-2.5 text-sm text-gray-600">
+                  <item.icon className="h-4 w-4 text-gold-500 flex-shrink-0 mt-0.5" />
+                  {item.text}
+                </li>
+              ))}
+            </ul>
+          </div>
+
           <Button href="/" variant="primary">
             Return Home
           </Button>
@@ -70,16 +107,18 @@ export function PaymentContent() {
     return (
       <Section className="pt-8 sm:pt-28">
         <motion.div
-          initial={{ opacity: 0, scale: 0.9 }}
+          initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.5 }}
+          transition={{ duration: 0.4 }}
           className="max-w-lg mx-auto text-center"
         >
-          <XCircle className="h-20 w-20 text-red-400 mx-auto mb-6" />
-          <h1 className="text-3xl font-bold font-heading text-navy-800 mb-4">
+          <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-red-50 mb-6">
+            <XCircle className="h-10 w-10 text-red-400" />
+          </div>
+          <h1 className="text-3xl font-extrabold font-heading text-navy-800 tracking-tightest mb-3">
             Payment Canceled
           </h1>
-          <p className="text-gray-600 mb-8">
+          <p className="text-gray-500 mb-8">
             Your payment was not processed. You can try again when you&#39;re
             ready.
           </p>
@@ -131,38 +170,43 @@ export function PaymentContent() {
   return (
     <Section className="pt-28">
       <motion.div
-        initial={{ opacity: 0, y: 20 }}
+        initial={{ opacity: 0, y: 16 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
+        transition={{ duration: 0.4 }}
         className="max-w-lg mx-auto"
       >
-        <div className="bg-white rounded-xl shadow-lg border border-gray-100 p-4 sm:p-6 md:p-8">
-          <h1 className="text-2xl font-bold font-heading text-navy-800 mb-6">
+        <div className="bg-white rounded-2xl shadow-card-hover border border-gray-100 p-5 sm:p-7 md:p-8">
+          <h1 className="text-2xl font-extrabold font-heading text-navy-800 tracking-tightest mb-6">
             Complete Your Payment
           </h1>
 
           {error && (
-            <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg text-red-700 text-sm">
+            <div className="mb-6 p-4 bg-red-50 border border-red-100 rounded-xl text-red-600 text-sm">
               {error}
             </div>
           )}
 
-          <div className="space-y-4 mb-8">
-            <div className="flex justify-between py-3 border-b border-gray-100">
-              <span className="text-gray-500">Course</span>
-              <span className="font-medium text-navy-800">
-                {COURSE_INFO.title}
-              </span>
-            </div>
-            <div className="flex justify-between py-3 border-b border-gray-100">
-              <span className="text-gray-500">Duration</span>
-              <span className="font-medium text-navy-800">
-                {COURSE_INFO.duration} — {COURSE_INFO.hours}
-              </span>
-            </div>
-            <div className="flex justify-between py-3">
-              <span className="text-gray-500">Total</span>
-              <span className="text-2xl font-bold text-navy-800">
+          <div className="space-y-0 mb-8">
+            {[
+              { label: "Course", value: COURSE_INFO.title },
+              {
+                label: "Duration",
+                value: `${COURSE_INFO.duration} — ${COURSE_INFO.hours}`,
+              },
+            ].map((row) => (
+              <div
+                key={row.label}
+                className="flex justify-between py-3.5 border-b border-gray-100"
+              >
+                <span className="text-gray-400 text-sm">{row.label}</span>
+                <span className="font-medium text-navy-800 text-sm">
+                  {row.value}
+                </span>
+              </div>
+            ))}
+            <div className="flex justify-between items-baseline pt-4">
+              <span className="text-gray-400 text-sm">Total</span>
+              <span className="text-2xl font-extrabold text-navy-800 font-heading tracking-tightest">
                 {SITE_CONFIG.coursePriceDisplay}
               </span>
             </div>
@@ -192,7 +236,7 @@ export function PaymentContent() {
           </Button>
 
           <div className="flex items-center justify-center gap-2 mt-4 text-gray-400 text-xs">
-            <ShieldCheck className="h-4 w-4" />
+            <ShieldCheck className="h-3.5 w-3.5" />
             Secure payment powered by Stripe
           </div>
         </div>

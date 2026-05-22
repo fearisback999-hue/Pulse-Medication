@@ -10,75 +10,89 @@ import {
   Calendar,
 } from "lucide-react";
 import { Section } from "@/components/ui/Section";
-import { SectionHeading } from "@/components/ui/SectionHeading";
-import { Card } from "@/components/ui/Card";
+import type { LucideIcon } from "lucide-react";
 
-const features = [
+const features: { icon: LucideIcon; title: string; description: string }[] = [
   {
     icon: Video,
-    title: "Live Online Zoom Classes",
+    title: "Live Zoom Instruction",
     description:
-      "Real-time instruction with experienced healthcare educators from anywhere.",
+      "Real-time classes with experienced healthcare educators. Ask questions, get feedback, and learn collaboratively — not from pre-recorded videos.",
   },
   {
     icon: Clock,
     title: "32 Contact Hours",
     description:
-      "Comprehensive training over 4 intensive days of focused learning.",
+      "Four intensive days of focused, structured training that covers everything you need to know for cardiac monitoring roles.",
   },
   {
     icon: Award,
-    title: "Certificate Upon Completion",
+    title: "Certification Included",
     description:
-      "Receive your Monitor Tech Certification upon passing the course.",
+      "Receive your official Monitor Tech Certification upon successful completion, ready to present to employers.",
   },
   {
     icon: Users,
-    title: "Beginner Friendly",
+    title: "No Experience Needed",
     description:
-      "No prior healthcare experience needed. We welcome all backgrounds.",
+      "Designed for career changers and beginners. We start with the fundamentals and build your competence from the ground up.",
   },
   {
     icon: ShieldCheck,
-    title: "California BRN Approved",
+    title: "CA BRN Approved",
     description:
-      "Approved by the California Board of Registered Nursing for CE hours.",
+      "Approved by the California Board of Registered Nursing for continuing education credit hours.",
   },
   {
     icon: Calendar,
-    title: "Flexible Learning",
+    title: "Flexible Online Format",
     description:
-      "Online format allows you to learn from home with a flexible schedule.",
+      "Attend from anywhere with an internet connection. All course materials delivered electronically in PDF format.",
   },
 ];
 
 export function FeatureCards() {
   return (
-    <Section>
-      <SectionHeading
-        title="Why This Program Stands Out"
-        subtitle="Our EKG Monitor Tech Certification is designed to prepare you for a successful career in cardiac monitoring."
-      />
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
-        {features.map((feature, index) => (
-          <motion.div
-            key={feature.title}
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-50px" }}
-            transition={{ delay: index * 0.1, duration: 0.5 }}
-          >
-            <Card variant="feature" className="h-full">
-              <feature.icon className="h-10 w-10 text-gold-500 mb-4" />
+    <Section className="relative">
+      <div className="absolute inset-0 pattern-dots pointer-events-none" />
+      <div className="relative">
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-80px" }}
+          transition={{ duration: 0.5 }}
+          className="text-center mb-12 sm:mb-16"
+        >
+          <p className="text-gold-600 font-semibold text-sm tracking-wide uppercase mb-3">
+            Program Highlights
+          </p>
+          <h2 className="text-3xl sm:text-4xl font-extrabold font-heading text-navy-800 tracking-tightest text-balance">
+            Everything You Need to Succeed
+          </h2>
+        </motion.div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6">
+          {features.map((feature, index) => (
+            <motion.div
+              key={feature.title}
+              initial={{ opacity: 0, y: 16 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-40px" }}
+              transition={{ delay: index * 0.06, duration: 0.4 }}
+              className="group relative bg-white rounded-2xl p-6 sm:p-7 border border-gray-100 shadow-card hover:shadow-card-hover hover:border-gray-200 transition-all duration-300"
+            >
+              <div className="inline-flex items-center justify-center w-11 h-11 rounded-xl bg-navy-700 mb-5">
+                <feature.icon className="h-5 w-5 text-gold-400" />
+              </div>
               <h3 className="text-lg font-bold font-heading text-navy-800 mb-2">
                 {feature.title}
               </h3>
-              <p className="text-gray-600 text-sm leading-relaxed">
+              <p className="text-gray-500 text-[15px] leading-relaxed">
                 {feature.description}
               </p>
-            </Card>
-          </motion.div>
-        ))}
+            </motion.div>
+          ))}
+        </div>
       </div>
     </Section>
   );

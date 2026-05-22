@@ -12,12 +12,24 @@ interface SectionProps {
 const variantStyles: Record<Variant, string> = {
   default: "bg-white",
   navy: "gradient-navy text-white",
-  light: "bg-gray-50",
+  light: "bg-gray-50/70",
 };
 
-export function Section({ variant = "default", className, children, id }: SectionProps) {
+export function Section({
+  variant = "default",
+  className,
+  children,
+  id,
+}: SectionProps) {
   return (
-    <section id={id} className={cn("py-12 sm:py-16 lg:py-20", variantStyles[variant], className)}>
+    <section
+      id={id}
+      className={cn(
+        "py-16 sm:py-20 lg:py-24",
+        variantStyles[variant],
+        className
+      )}
+    >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">{children}</div>
     </section>
   );

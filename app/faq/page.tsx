@@ -13,8 +13,9 @@ export default function FAQPage() {
   return (
     <Section className="pt-8 sm:pt-28">
       <SectionHeading
+        eyebrow="FAQ"
         title="Frequently Asked Questions"
-        subtitle="Find answers to the most common questions about our Monitor Tech Certification program."
+        subtitle="Find answers to common questions about our Monitor Tech Certification program."
       />
       <FAQAccordion />
     </Section>

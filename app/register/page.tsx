@@ -13,6 +13,7 @@ export default function RegisterPage() {
   return (
     <Section className="pt-8 sm:pt-28">
       <SectionHeading
+        eyebrow="Enrollment"
         title="Register for the Course"
         subtitle="Complete the form below to enroll in our EKG Monitor Tech Certification program."
       />

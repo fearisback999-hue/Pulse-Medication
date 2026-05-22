@@ -5,7 +5,6 @@ import { motion } from "framer-motion";
 import { Phone, Mail, MapPin, Clock, Send, CheckCircle } from "lucide-react";
 import { Section } from "@/components/ui/Section";
 import { SectionHeading } from "@/components/ui/SectionHeading";
-import { Card } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
 import { LoadingSpinner } from "@/components/ui/LoadingSpinner";
 import { SITE_CONFIG } from "@/lib/constants/site";
@@ -82,60 +81,62 @@ export function ContactInfo() {
     <>
       <Section className="pt-8 sm:pt-28">
         <SectionHeading
+          eyebrow="Get in Touch"
           title="Contact Us"
           subtitle="Have questions about our EKG Monitor Tech Certification? We're here to help."
         />
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 max-w-4xl mx-auto">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5 max-w-4xl mx-auto">
           {contactCards.map((card, index) => (
             <motion.div
               key={card.title}
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: index * 0.1, duration: 0.5 }}
+              transition={{ delay: index * 0.06, duration: 0.4 }}
+              className="bg-white rounded-2xl p-6 border border-gray-100 shadow-card text-center"
             >
-              <Card className="h-full text-center">
-                <div className="inline-flex items-center justify-center w-14 h-14 rounded-full bg-navy-50 mb-4">
-                  <card.icon className="h-7 w-7 text-navy-700" />
-                </div>
-                <h3 className="text-lg font-bold font-heading text-navy-800 mb-2">
-                  {card.title}
-                </h3>
-                <p className="text-gray-600 mb-4">{card.value}</p>
-                {card.href && (
-                  <a
-                    href={card.href}
-                    target={card.title === "Address" ? "_blank" : undefined}
-                    rel={card.title === "Address" ? "noopener noreferrer" : undefined}
-                    className="text-gold-600 hover:text-gold-500 font-medium text-sm transition-colors"
-                  >
-                    {card.action} &rarr;
-                  </a>
-                )}
-              </Card>
+              <div className="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-navy-50 mb-4">
+                <card.icon className="h-6 w-6 text-navy-700" />
+              </div>
+              <h3 className="text-lg font-bold font-heading text-navy-800 tracking-tight mb-2">
+                {card.title}
+              </h3>
+              <p className="text-gray-500 text-sm mb-3">{card.value}</p>
+              {card.href && (
+                <a
+                  href={card.href}
+                  target={card.title === "Address" ? "_blank" : undefined}
+                  rel={card.title === "Address" ? "noopener noreferrer" : undefined}
+                  className="text-gold-600 hover:text-gold-500 font-medium text-sm transition-colors"
+                >
+                  {card.action} &rarr;
+                </a>
+              )}
             </motion.div>
           ))}
         </div>
       </Section>
 
-      {/* Contact Form */}
       <Section variant="light">
         <div className="max-w-2xl mx-auto">
           <SectionHeading
+            eyebrow="Message Us"
             title="Send Us a Message"
-            subtitle="Fill out the form below and we'll get back to you as soon as possible."
+            subtitle="Fill out the form below and we'll get back to you within 24 hours."
           />
 
           {submitted ? (
             <motion.div
-              initial={{ opacity: 0, scale: 0.9 }}
+              initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
-              className="text-center py-8"
+              className="text-center py-10"
             >
-              <CheckCircle className="h-16 w-16 text-green-500 mx-auto mb-4" />
-              <h3 className="text-xl font-bold font-heading text-navy-800 mb-2">
-                Message Sent!
+              <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-green-50 mb-5">
+                <CheckCircle className="h-8 w-8 text-green-500" />
+              </div>
+              <h3 className="text-xl font-bold font-heading text-navy-800 tracking-tight mb-2">
+                Message Sent
               </h3>
-              <p className="text-gray-600 mb-6">
+              <p className="text-gray-500 mb-6">
                 Thank you for reaching out. We&apos;ll respond within 24 hours.
               </p>
               <Button onClick={() => setSubmitted(false)} variant="outline" size="sm">
@@ -144,71 +145,71 @@ export function ContactInfo() {
             </motion.div>
           ) : (
             <motion.form
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5 }}
+              transition={{ duration: 0.4 }}
               onSubmit={handleSubmit}
-              className="bg-white rounded-xl shadow-lg border border-gray-100 p-4 sm:p-6 md:p-8"
+              className="bg-white rounded-2xl shadow-card border border-gray-100 p-5 sm:p-7 md:p-8"
             >
               {error && (
-                <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg text-red-700 text-sm">
+                <div className="mb-6 p-4 bg-red-50 border border-red-100 rounded-xl text-red-600 text-sm">
                   {error}
                 </div>
               )}
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Name <span className="text-red-500">*</span>
+                  <label className="block text-sm font-medium text-gray-700 mb-1.5">
+                    Name <span className="text-red-400">*</span>
                   </label>
                   <input
                     type="text"
                     required
                     value={formData.name}
                     onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                    className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-navy-500 focus:border-transparent transition-all duration-200"
+                    className="w-full px-4 py-3 rounded-xl border border-gray-200 bg-gray-50/50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-navy-500/20 focus:border-navy-400 transition-all duration-200 text-sm"
                     placeholder="Your name"
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Email <span className="text-red-500">*</span>
+                  <label className="block text-sm font-medium text-gray-700 mb-1.5">
+                    Email <span className="text-red-400">*</span>
                   </label>
                   <input
                     type="email"
                     required
                     value={formData.email}
                     onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                    className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-navy-500 focus:border-transparent transition-all duration-200"
+                    className="w-full px-4 py-3 rounded-xl border border-gray-200 bg-gray-50/50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-navy-500/20 focus:border-navy-400 transition-all duration-200 text-sm"
                     placeholder="your@email.com"
                   />
                 </div>
               </div>
 
               <div className="mb-4">
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Phone Number <span className="text-red-500">*</span>
+                <label className="block text-sm font-medium text-gray-700 mb-1.5">
+                  Phone Number <span className="text-red-400">*</span>
                 </label>
                 <input
                   type="tel"
                   required
                   value={formData.phone}
                   onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                  className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-navy-500 focus:border-transparent transition-all duration-200"
+                  className="w-full px-4 py-3 rounded-xl border border-gray-200 bg-gray-50/50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-navy-500/20 focus:border-navy-400 transition-all duration-200 text-sm"
                   placeholder="(555) 123-4567"
                 />
               </div>
 
               <div className="mb-6">
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Message <span className="text-red-500">*</span>
+                <label className="block text-sm font-medium text-gray-700 mb-1.5">
+                  Message <span className="text-red-400">*</span>
                 </label>
                 <textarea
                   required
                   rows={5}
                   value={formData.message}
                   onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                  className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-navy-500 focus:border-transparent transition-all duration-200 resize-none"
+                  className="w-full px-4 py-3 rounded-xl border border-gray-200 bg-gray-50/50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-navy-500/20 focus:border-navy-400 transition-all duration-200 text-sm resize-none"
                   placeholder="How can we help you?"
                 />
               </div>
@@ -237,10 +238,9 @@ export function ContactInfo() {
         </div>
       </Section>
 
-      {/* Google Maps */}
       <Section>
         <div className="max-w-4xl mx-auto">
-          <div className="rounded-xl overflow-hidden shadow-lg border border-gray-200">
+          <div className="rounded-2xl overflow-hidden shadow-card border border-gray-100">
             <div className="relative w-full" style={{ paddingBottom: "56.25%" }}>
               <iframe
                 title="Pulse Medication Location"

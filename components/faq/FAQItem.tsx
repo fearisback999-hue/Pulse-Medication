@@ -13,28 +13,30 @@ interface FAQItemProps {
 
 export function FAQItem({ question, answer, isOpen, onToggle }: FAQItemProps) {
   return (
-    <div className="border-b border-gray-200">
+    <div className="border-b border-gray-100">
       <button
         onClick={onToggle}
-        className="w-full flex items-center justify-between py-5 text-left group"
+        className="w-full flex items-center justify-between py-5 sm:py-6 text-left group"
       >
         <span
           className={cn(
-            "font-medium text-base transition-colors",
-            isOpen ? "text-navy-800" : "text-gray-700 group-hover:text-navy-700"
+            "font-semibold text-[15px] sm:text-base transition-colors pr-4",
+            isOpen
+              ? "text-navy-800"
+              : "text-gray-700 group-hover:text-navy-700"
           )}
         >
           {question}
         </span>
         <motion.div
           animate={{ rotate: isOpen ? 180 : 0 }}
-          transition={{ duration: 0.3 }}
-          className="flex-shrink-0 ml-4"
+          transition={{ duration: 0.2 }}
+          className="flex-shrink-0"
         >
           <ChevronDown
             className={cn(
               "h-5 w-5 transition-colors",
-              isOpen ? "text-gold-500" : "text-gray-400"
+              isOpen ? "text-gold-500" : "text-gray-300"
             )}
           />
         </motion.div>
@@ -45,10 +47,12 @@ export function FAQItem({ question, answer, isOpen, onToggle }: FAQItemProps) {
             initial={{ height: 0, opacity: 0 }}
             animate={{ height: "auto", opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.3, ease: "easeInOut" }}
+            transition={{ duration: 0.25, ease: "easeInOut" }}
             className="overflow-hidden"
           >
-            <p className="pb-5 text-gray-600 leading-relaxed">{answer}</p>
+            <p className="pb-6 text-gray-500 text-[15px] leading-relaxed">
+              {answer}
+            </p>
           </motion.div>
         )}
       </AnimatePresence>

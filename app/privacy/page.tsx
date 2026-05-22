@@ -10,12 +10,12 @@ export default function PrivacyPolicyPage() {
   return (
     <Section className="pt-8 sm:pt-28">
       <div className="max-w-3xl mx-auto prose prose-navy">
-        <h1 className="text-3xl sm:text-4xl font-bold font-heading text-navy-800 mb-2">Privacy Policy</h1>
+        <h1 className="text-3xl sm:text-4xl font-extrabold font-heading text-navy-800 tracking-tightest mb-2">Privacy Policy</h1>
         <p className="text-gray-500 text-sm mb-8">Last updated: January 1, 2026</p>
 
         <div className="space-y-8 text-gray-700 leading-relaxed">
           <div>
-            <h2 className="text-xl font-bold font-heading text-navy-800 mb-3">1. Information We Collect</h2>
+            <h2 className="text-xl font-bold font-heading text-navy-800 tracking-tight mb-3">1. Information We Collect</h2>
             <p>When you register for a course or contact us, we may collect the following personal information:</p>
             <ul className="list-disc pl-6 mt-2 space-y-1">
               <li>Full name</li>
@@ -28,7 +28,7 @@ export default function PrivacyPolicyPage() {
           </div>
 
           <div>
-            <h2 className="text-xl font-bold font-heading text-navy-800 mb-3">2. How We Use Your Information</h2>
+            <h2 className="text-xl font-bold font-heading text-navy-800 tracking-tight mb-3">2. How We Use Your Information</h2>
             <p>We use the information we collect to:</p>
             <ul className="list-disc pl-6 mt-2 space-y-1">
               <li>Process course registrations and payments</li>
@@ -41,17 +41,17 @@ export default function PrivacyPolicyPage() {
           </div>
 
           <div>
-            <h2 className="text-xl font-bold font-heading text-navy-800 mb-3">3. Payment Security</h2>
+            <h2 className="text-xl font-bold font-heading text-navy-800 tracking-tight mb-3">3. Payment Security</h2>
             <p>All payment transactions are processed through Stripe, a PCI-DSS Level 1 certified payment processor. We do not store your credit card information on our servers. Stripe&apos;s security measures protect your financial data during and after transactions.</p>
           </div>
 
           <div>
-            <h2 className="text-xl font-bold font-heading text-navy-800 mb-3">4. Data Protection</h2>
+            <h2 className="text-xl font-bold font-heading text-navy-800 tracking-tight mb-3">4. Data Protection</h2>
             <p>We implement appropriate security measures to protect your personal information from unauthorized access, alteration, disclosure, or destruction. Your data is stored on secure, encrypted servers.</p>
           </div>
 
           <div>
-            <h2 className="text-xl font-bold font-heading text-navy-800 mb-3">5. Information Sharing</h2>
+            <h2 className="text-xl font-bold font-heading text-navy-800 tracking-tight mb-3">5. Information Sharing</h2>
             <p>We do not sell, trade, or rent your personal information to third parties. We may share information with:</p>
             <ul className="list-disc pl-6 mt-2 space-y-1">
               <li>Payment processors (Stripe) for transaction processing</li>
@@ -61,7 +61,7 @@ export default function PrivacyPolicyPage() {
           </div>
 
           <div>
-            <h2 className="text-xl font-bold font-heading text-navy-800 mb-3">6. Your Rights</h2>
+            <h2 className="text-xl font-bold font-heading text-navy-800 tracking-tight mb-3">6. Your Rights</h2>
             <p>You have the right to:</p>
             <ul className="list-disc pl-6 mt-2 space-y-1">
               <li>Access the personal information we hold about you</li>
@@ -72,12 +72,12 @@ export default function PrivacyPolicyPage() {
           </div>
 
           <div>
-            <h2 className="text-xl font-bold font-heading text-navy-800 mb-3">7. Cookies</h2>
+            <h2 className="text-xl font-bold font-heading text-navy-800 tracking-tight mb-3">7. Cookies</h2>
             <p>Our website may use cookies to enhance your browsing experience. These are small files stored on your device that help us understand how you use our website and improve its functionality.</p>
           </div>
 
           <div>
-            <h2 className="text-xl font-bold font-heading text-navy-800 mb-3">8. Contact Us</h2>
+            <h2 className="text-xl font-bold font-heading text-navy-800 tracking-tight mb-3">8. Contact Us</h2>
             <p>If you have questions about this Privacy Policy or your personal data, please contact us:</p>
             <p className="mt-2">
               <strong>Pulse Medication</strong><br />

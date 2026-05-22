@@ -6,33 +6,56 @@ import { cn } from "@/lib/utils/cn";
 interface SectionHeadingProps {
   title: string;
   subtitle?: string;
+  eyebrow?: string;
   light?: boolean;
   className?: string;
+  align?: "center" | "left";
 }
 
-export function SectionHeading({ title, subtitle, light, className }: SectionHeadingProps) {
+export function SectionHeading({
+  title,
+  subtitle,
+  eyebrow,
+  light,
+  className,
+  align = "center",
+}: SectionHeadingProps) {
   return (
     <motion.div
-      initial={{ opacity: 0, y: 20 }}
+      initial={{ opacity: 0, y: 16 }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-100px" }}
+      viewport={{ once: true, margin: "-80px" }}
       transition={{ duration: 0.5 }}
-      className={cn("text-center mb-8 sm:mb-12 lg:mb-16", className)}
+      className={cn(
+        "mb-10 sm:mb-14",
+        align === "center" && "text-center",
+        className
+      )}
     >
+      {eyebrow && (
+        <p
+          className={cn(
+            "font-semibold text-sm tracking-wide uppercase mb-3",
+            light ? "text-gold-400/80" : "text-gold-600"
+          )}
+        >
+          {eyebrow}
+        </p>
+      )}
       <h2
         className={cn(
-          "text-2xl sm:text-3xl lg:text-4xl font-bold font-heading mb-3 sm:mb-4",
+          "text-3xl sm:text-4xl font-extrabold font-heading tracking-tightest text-balance",
           light ? "text-white" : "text-navy-800"
         )}
       >
         {title}
       </h2>
-      <div className="w-16 h-1 bg-gold-500 rounded-full mx-auto mb-4" />
       {subtitle && (
         <p
           className={cn(
-            "text-lg max-w-2xl mx-auto",
-            light ? "text-gray-300" : "text-gray-600"
+            "text-lg mt-3 max-w-2xl leading-relaxed",
+            align === "center" && "mx-auto",
+            light ? "text-gray-300/80" : "text-gray-500"
           )}
         >
           {subtitle}
