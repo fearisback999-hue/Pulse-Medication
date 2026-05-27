@@ -47,12 +47,21 @@ const config: Config = {
       letterSpacing: {
         tightest: "-0.04em",
       },
+      transitionTimingFunction: {
+        "out-expo": "cubic-bezier(0.23, 1, 0.32, 1)",
+        "in-out-expo": "cubic-bezier(0.77, 0, 0.175, 1)",
+        "out-quart": "cubic-bezier(0.25, 1, 0.5, 1)",
+      },
       boxShadow: {
         "card": "0 1px 3px rgba(0,0,0,0.04), 0 4px 12px rgba(0,0,0,0.04)",
         "card-hover": "0 4px 16px rgba(0,0,0,0.08), 0 8px 32px rgba(0,0,0,0.06)",
+        "card-elevated": "0 8px 30px rgba(0,0,0,0.08), 0 2px 8px rgba(0,0,0,0.04)",
         "glow-gold": "0 0 40px rgba(201,168,76,0.15)",
+        "glow-gold-strong": "0 0 60px rgba(201,168,76,0.25), 0 0 120px rgba(201,168,76,0.1)",
         "glow-navy": "0 0 60px rgba(27,42,74,0.3)",
         "inner-light": "inset 0 1px 0 rgba(255,255,255,0.05)",
+        "glass": "inset 0 1px 0 rgba(255,255,255,0.06), 0 4px 24px rgba(0,0,0,0.12)",
+        "glass-light": "inset 0 1px 0 rgba(255,255,255,0.5), 0 1px 3px rgba(0,0,0,0.04), 0 8px 24px rgba(0,0,0,0.06)",
       },
     },
   },

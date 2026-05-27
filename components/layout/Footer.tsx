@@ -24,7 +24,7 @@ export function Footer() {
         <div className="py-12 sm:py-16 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-12">
           <div className="sm:col-span-2 lg:col-span-1">
             <div className="flex items-center gap-2.5 mb-4">
-              <Activity className="h-6 w-6 text-gold-500" />
+              <Activity className="h-6 w-6 text-gold-500" strokeWidth={1.5} />
               <span className="text-lg font-bold font-heading tracking-tight">
                 Pulse Medication
               </span>
@@ -33,8 +33,8 @@ export function Footer() {
               Providing quality healthcare education and monitor tech
               certification programs for aspiring healthcare professionals.
             </p>
-            <div className="inline-flex items-center gap-2 bg-white/[0.05] border border-white/[0.08] rounded-full px-3 py-1.5">
-              <div className="w-1.5 h-1.5 bg-gold-500 rounded-full" />
+            <div className="inline-flex items-center gap-2 bg-white/[0.05] border border-white/[0.08] rounded-full px-3 py-1.5 shadow-[inset_0_1px_0_rgba(255,255,255,0.04)]">
+              <div className="w-1.5 h-1.5 bg-gold-500 rounded-full breathe" />
               <span className="text-gray-400 text-xs">
                 CA BRN Approved Provider
               </span>
@@ -50,7 +50,7 @@ export function Footer() {
                 <li key={link.href}>
                   <Link
                     href={link.href}
-                    className="text-gray-400/80 hover:text-white transition-colors text-sm"
+                    className="text-gray-400/80 hover:text-white transition-colors duration-200 ease-out-expo text-sm"
                   >
                     {link.label}
                   </Link>
@@ -67,24 +67,24 @@ export function Footer() {
               <li>
                 <a
                   href={`tel:${SITE_CONFIG.phone.replace(/\D/g, "")}`}
-                  className="flex items-center gap-3 text-gray-400/80 hover:text-white transition-colors text-sm"
+                  className="flex items-center gap-3 text-gray-400/80 hover:text-white transition-colors duration-200 ease-out-expo text-sm"
                 >
-                  <Phone className="h-4 w-4 flex-shrink-0 text-gray-500" />
+                  <Phone className="h-4 w-4 flex-shrink-0 text-gray-500" strokeWidth={1.5} />
                   {SITE_CONFIG.phone}
                 </a>
               </li>
               <li>
                 <a
                   href={`mailto:${SITE_CONFIG.email}`}
-                  className="flex items-center gap-3 text-gray-400/80 hover:text-white transition-colors text-sm"
+                  className="flex items-center gap-3 text-gray-400/80 hover:text-white transition-colors duration-200 ease-out-expo text-sm"
                 >
-                  <Mail className="h-4 w-4 flex-shrink-0 text-gray-500" />
+                  <Mail className="h-4 w-4 flex-shrink-0 text-gray-500" strokeWidth={1.5} />
                   {SITE_CONFIG.email}
                 </a>
               </li>
               <li>
                 <div className="flex items-start gap-3 text-gray-400/80 text-sm">
-                  <MapPin className="h-4 w-4 flex-shrink-0 mt-0.5 text-gray-500" />
+                  <MapPin className="h-4 w-4 flex-shrink-0 mt-0.5 text-gray-500" strokeWidth={1.5} />
                   {SITE_CONFIG.address.full}
                 </div>
               </li>
@@ -100,7 +100,7 @@ export function Footer() {
                 <li key={link.href}>
                   <Link
                     href={link.href}
-                    className="text-gray-400/80 hover:text-white transition-colors text-sm"
+                    className="text-gray-400/80 hover:text-white transition-colors duration-200 ease-out-expo text-sm"
                   >
                     {link.label}
                   </Link>

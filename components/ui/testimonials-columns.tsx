@@ -40,7 +40,7 @@ export const TestimonialsColumn = ({
             {testimonials.map(({ text, image, name, role }, i) => (
               <div
                 key={i}
-                className="p-8 rounded-2xl border border-navy-100 shadow-card bg-white flex-shrink-0 w-full max-w-sm"
+                className="p-8 rounded-2xl border border-navy-100/80 shadow-card bg-white flex-shrink-0 w-full max-w-sm transition-[box-shadow] duration-300 ease-out-expo hover:shadow-card-hover"
               >
                 <p className="text-gray-700 text-sm leading-relaxed mb-6">
                   &ldquo;{text}&rdquo;
@@ -51,7 +51,7 @@ export const TestimonialsColumn = ({
                     height={40}
                     src={image}
                     alt={name}
-                    className="h-10 w-10 rounded-full object-cover"
+                    className="h-10 w-10 rounded-full object-cover ring-2 ring-navy-100/50"
                   />
                   <div>
                     <div className="font-semibold text-navy-800 text-sm">
