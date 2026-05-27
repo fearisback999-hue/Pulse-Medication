@@ -1,6 +1,8 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { PulseBeams } from "@/components/ui/pulse-beams";
+import { enrollBeams, enrollGradientColors } from "@/lib/constants/pulse-beams-config";
 
 const EASE_OUT_EXPO = [0.23, 1, 0.32, 1] as const;
 
@@ -15,7 +17,13 @@ const features = [
 
 export const PricingSection = () => {
   return (
-    <section className="bg-white px-4 py-20 sm:py-24">
+    <PulseBeams
+      beams={enrollBeams}
+      gradientColors={enrollGradientColors}
+      baseColor="rgba(201,168,76,0.08)"
+      accentColor="rgba(201,168,76,0.18)"
+      className="bg-white px-4 py-20 sm:py-24"
+    >
       <div className="mx-auto max-w-3xl">
         <motion.div
           initial={{ opacity: 0.5, transform: "translateY(10px)" }}
@@ -88,6 +96,6 @@ export const PricingSection = () => {
           </div>
         </motion.div>
       </div>
-    </section>
+    </PulseBeams>
   );
 };

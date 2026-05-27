@@ -3,7 +3,9 @@
 import { motion } from "framer-motion";
 import { ArrowRight, ShieldCheck, Award, Users } from "lucide-react";
 import { Button } from "@/components/ui/Button";
+import { PulseBeams } from "@/components/ui/pulse-beams";
 import { SITE_CONFIG } from "@/lib/constants/site";
+import { enrollBeams, enrollGradientColors } from "@/lib/constants/pulse-beams-config";
 
 const EASE_OUT_EXPO = [0.23, 1, 0.32, 1] as const;
 
@@ -15,10 +17,19 @@ const trustItems = [
 
 export function CTASection() {
   return (
-    <section className="gradient-navy py-16 sm:py-24 relative overflow-hidden">
-      <div className="absolute inset-0 pattern-grid opacity-50" />
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-gold-500/[0.04] rounded-full blur-3xl pointer-events-none pulse-slow" />
-
+    <PulseBeams
+      beams={enrollBeams}
+      gradientColors={enrollGradientColors}
+      baseColor="rgba(201,168,76,0.12)"
+      accentColor="rgba(201,168,76,0.25)"
+      className="gradient-navy py-16 sm:py-24"
+      background={
+        <>
+          <div className="absolute inset-0 pattern-grid opacity-50" />
+          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-gold-500/[0.04] rounded-full blur-3xl pointer-events-none pulse-slow" />
+        </>
+      }
+    >
       <div className="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
         <motion.div
           initial={{ opacity: 0.5, transform: "translateY(10px)" }}
@@ -81,6 +92,6 @@ export function CTASection() {
           </div>
         </motion.div>
       </div>
-    </section>
+    </PulseBeams>
   );
 }

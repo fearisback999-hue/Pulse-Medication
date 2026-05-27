@@ -164,6 +164,58 @@ function BeatingHeart() {
   );
 }
 
+function HeartEye({ className }: { className?: string }) {
+  return (
+    <motion.svg
+      animate={{ scale: [1, 1.18, 1, 1.22, 1] }}
+      transition={{
+        duration: 0.85,
+        repeat: Infinity,
+        ease: [0.23, 1, 0.32, 1],
+        times: [0, 0.15, 0.3, 0.45, 0.7],
+      }}
+      viewBox="0 0 24 24"
+      className={className}
+      fill="none"
+    >
+      <defs>
+        <radialGradient id="heart-eye-glow" cx="50%" cy="40%" r="60%">
+          <stop offset="0%" stopColor="#FF4D6A" stopOpacity="1" />
+          <stop offset="60%" stopColor="#E8364E" stopOpacity="1" />
+          <stop offset="100%" stopColor="#C41E3A" stopOpacity="0.9" />
+        </radialGradient>
+        <filter id="heart-eye-bloom">
+          <feGaussianBlur stdDeviation="1.5" result="blur" />
+          <feMerge>
+            <feMergeNode in="blur" />
+            <feMergeNode in="SourceGraphic" />
+          </feMerge>
+        </filter>
+      </defs>
+      <path
+        d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"
+        fill="url(#heart-eye-glow)"
+        filter="url(#heart-eye-bloom)"
+      />
+    </motion.svg>
+  );
+}
+
+function RobotHeartEyes() {
+  return (
+    <div className="absolute inset-0 pointer-events-none z-10">
+      {/* Left eye */}
+      <div className="absolute" style={{ top: "33%", left: "40%", transform: "translate(-50%, -50%)" }}>
+        <HeartEye className="w-5 h-5 sm:w-6 sm:h-6 lg:w-7 lg:h-7 drop-shadow-[0_0_8px_rgba(255,77,106,0.6)]" />
+      </div>
+      {/* Right eye */}
+      <div className="absolute" style={{ top: "33%", left: "58%", transform: "translate(-50%, -50%)" }}>
+        <HeartEye className="w-5 h-5 sm:w-6 sm:h-6 lg:w-7 lg:h-7 drop-shadow-[0_0_8px_rgba(255,77,106,0.6)]" />
+      </div>
+    </div>
+  );
+}
+
 const statItems = [
   { value: "4 Days", label: "Intensive Program" },
   { value: "32 Hours", label: "Contact Hours" },
@@ -292,6 +344,7 @@ export function Hero() {
                   className="w-full h-full"
                 />
               </div>
+              <RobotHeartEyes />
             </motion.div>
           </div>
         </Card>
