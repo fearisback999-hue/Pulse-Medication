@@ -22,6 +22,24 @@ export const COURSE_DATES = [
     dates: ["06/12/2026", "06/13/2026", "06/14/2026", "06/16/2026"],
     days: "Friday, Saturday, Sunday & Tuesday (Monday off for self-study)",
   },
+  {
+    id: "july-2026",
+    label: "July 10, 11, 12 & 14, 2026 — 9:00 AM – 5:00 PM PST",
+    dates: ["07/10/2026", "07/11/2026", "07/12/2026", "07/14/2026"],
+    days: "Friday, Saturday, Sunday & Tuesday (Monday off for self-study)",
+  },
+  {
+    id: "august-2026",
+    label: "August 7, 8, 9 & 11, 2026 — 9:00 AM – 5:00 PM PST",
+    dates: ["08/07/2026", "08/08/2026", "08/09/2026", "08/11/2026"],
+    days: "Friday, Saturday, Sunday & Tuesday (Monday off for self-study)",
+  },
+  {
+    id: "september-2026",
+    label: "September 11, 12, 13 & 15, 2026 — 9:00 AM – 5:00 PM PST",
+    dates: ["09/11/2026", "09/12/2026", "09/13/2026", "09/15/2026"],
+    days: "Friday, Saturday, Sunday & Tuesday (Monday off for self-study)",
+  },
 ] as const;
 
 export const COURSE_SCHEDULE = [
