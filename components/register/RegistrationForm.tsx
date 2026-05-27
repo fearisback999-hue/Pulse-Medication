@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { useForm } from "react-hook-form";
+import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
@@ -12,6 +12,7 @@ import { Select } from "@/components/ui/Select";
 import { Checkbox } from "@/components/ui/Checkbox";
 import { Button } from "@/components/ui/Button";
 import { LoadingSpinner } from "@/components/ui/LoadingSpinner";
+import { CourseDateCalendar } from "@/components/ui/CourseDateCalendar";
 import { COURSE_DATES } from "@/lib/constants/course";
 import { US_STATES } from "@/lib/constants/states";
 
@@ -36,13 +37,14 @@ export function RegistrationForm() {
   const {
     register,
     handleSubmit,
+    control,
     formState: { errors },
   } = useForm<RegistrationFormData>({
     resolver: zodResolver(registrationSchema),
     defaultValues: {
       country: "United States",
       courseSelection: "EKG Monitor Tech Certification",
-      courseDate: COURSE_DATES[0]?.label ?? "",
+      courseDate: "",
     },
   });
 
@@ -239,7 +241,7 @@ export function RegistrationForm() {
               Course Selection
             </h3>
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div className="space-y-4">
             <Select
               label="Course"
               required
@@ -252,15 +254,16 @@ export function RegistrationForm() {
               {...register("courseSelection")}
               error={errors.courseSelection?.message}
             />
-            <Select
-              label="Course Date & Time"
-              required
-              options={COURSE_DATES.map((d) => ({
-                value: d.label,
-                label: d.label,
-              }))}
-              {...register("courseDate")}
-              error={errors.courseDate?.message}
+            <Controller
+              name="courseDate"
+              control={control}
+              render={({ field }) => (
+                <CourseDateCalendar
+                  value={field.value}
+                  onChange={field.onChange}
+                  error={errors.courseDate?.message}
+                />
+              )}
             />
           </div>
         </div>
