@@ -27,9 +27,9 @@ const PricingCard = ({
 }: PricingCardProps) => {
   return (
     <motion.div
-      initial={{ opacity: 0, transform: "translateY(20px)" }}
+      initial={{ opacity: 0.5, transform: "translateY(10px)" }}
       whileInView={{ opacity: 1, transform: "translateY(0px)" }}
-      viewport={{ once: true, margin: "-40px" }}
+      viewport={{ once: true, margin: "-30px" }}
       transition={{
         delay: index * 0.08,
         duration: 0.5,
@@ -99,11 +99,11 @@ const plans = [
     ],
   },
   {
-    label: "Professional",
+    label: "Most Popular",
     price: "950",
     description: "Our most popular option. Comprehensive training with direct instructor access and priority support",
     cta: "Start Learning",
-    background: "bg-navy-600",
+    background: "bg-navy-600 ring-2 ring-gold-400 scale-[1.03]",
     features: [
       "Everything in Early Bird",
       "Live Q&A sessions",
@@ -134,9 +134,9 @@ export const PricingSection = () => {
     <section className="bg-white px-4 py-20 sm:py-24">
       <div className="mx-auto max-w-7xl">
         <motion.div
-          initial={{ opacity: 0, transform: "translateY(16px)" }}
+          initial={{ opacity: 0.5, transform: "translateY(10px)" }}
           whileInView={{ opacity: 1, transform: "translateY(0px)" }}
-          viewport={{ once: true }}
+          viewport={{ once: true, margin: "-40px" }}
           transition={{ duration: 0.5, ease: EASE_OUT_EXPO }}
           className="text-center mb-16"
         >

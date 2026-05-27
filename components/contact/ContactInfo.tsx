@@ -89,9 +89,9 @@ export function ContactInfo() {
           {contactCards.map((card, index) => (
             <motion.div
               key={card.title}
-              initial={{ y: 16 }}
+              initial={{ opacity: 0.5, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: index * 0.06, duration: 0.4 }}
+              transition={{ delay: index * 0.05, duration: 0.35 }}
               className="bg-white rounded-2xl p-6 border border-gray-100 shadow-card text-center"
             >
               <div className="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-navy-50 mb-4">
@@ -106,7 +106,7 @@ export function ContactInfo() {
                   href={card.href}
                   target={card.title === "Address" ? "_blank" : undefined}
                   rel={card.title === "Address" ? "noopener noreferrer" : undefined}
-                  className="text-gold-600 hover:text-gold-500 font-medium text-sm transition-colors"
+                  className="text-gold-700 hover:text-gold-600 font-semibold text-sm transition-colors duration-200"
                 >
                   {card.action} &rarr;
                 </a>
@@ -145,9 +145,9 @@ export function ContactInfo() {
             </motion.div>
           ) : (
             <motion.form
-              initial={{ y: 16 }}
+              initial={{ opacity: 0.5, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.4 }}
+              transition={{ duration: 0.35 }}
               onSubmit={handleSubmit}
               className="bg-white rounded-2xl shadow-card border border-gray-100 p-5 sm:p-7 md:p-8"
             >

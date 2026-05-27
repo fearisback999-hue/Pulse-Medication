@@ -74,9 +74,9 @@ export function RegistrationForm() {
 
   return (
     <motion.div
-      initial={{ y: 16 }}
+      initial={{ opacity: 0.7, y: 8 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.4 }}
+      transition={{ duration: 0.35 }}
       className="max-w-3xl mx-auto"
     >
       {/* Progress indicator */}
@@ -84,10 +84,16 @@ export function RegistrationForm() {
         {steps.map((step, index) => (
           <div key={step.label} className="flex items-center">
             <div className="flex items-center gap-2">
-              <div className="inline-flex items-center justify-center w-8 h-8 rounded-lg bg-navy-700 text-white">
+              <div className={`inline-flex items-center justify-center w-8 h-8 rounded-lg ${
+                index === 0
+                  ? "bg-navy-700 text-white"
+                  : "bg-gray-100 text-gray-400 border border-gray-200"
+              }`}>
                 <step.icon className="h-4 w-4" />
               </div>
-              <span className="text-sm font-medium text-navy-800 hidden sm:block">
+              <span className={`text-sm font-medium hidden sm:block ${
+                index === 0 ? "text-navy-800" : "text-gray-400"
+              }`}>
                 {step.label}
               </span>
             </div>

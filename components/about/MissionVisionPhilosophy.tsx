@@ -35,10 +35,10 @@ export function MissionVisionPhilosophy() {
         {items.map((item, index) => (
           <motion.div
             key={item.title}
-            initial={{ y: 16 }}
+            initial={{ opacity: 0.5, y: 10 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: index * 0.1, duration: 0.4 }}
+            viewport={{ once: true, margin: "-30px" }}
+            transition={{ delay: index * 0.08, duration: 0.35 }}
             className="relative bg-white rounded-2xl p-7 border border-gray-100 shadow-card overflow-hidden"
           >
             <div className={`absolute top-0 left-0 right-0 h-1 ${item.accent}`} />

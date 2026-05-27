@@ -23,6 +23,11 @@ export function Navbar() {
     setIsOpen(false);
   }, [pathname]);
 
+  const isActive = (href: string) => {
+    if (href === "/") return pathname === "/";
+    return pathname === href || pathname.startsWith(href + "/");
+  };
+
   return (
     <nav
       className={cn(
@@ -53,13 +58,13 @@ export function Navbar() {
                 href={link.href}
                 className={cn(
                   "relative px-4 py-2 text-sm font-medium rounded-lg transition-colors duration-200 ease-out-expo",
-                  pathname === link.href
+                  isActive(link.href)
                     ? "text-navy-800"
                     : "text-gray-500 hover:text-navy-800 hover:bg-gray-50/80"
                 )}
               >
                 {link.label}
-                {pathname === link.href && (
+                {isActive(link.href) && (
                   <motion.div
                     layoutId="navbar-indicator"
                     className="absolute bottom-0.5 left-4 right-4 h-[2px] bg-gold-500 rounded-full"
@@ -111,7 +116,7 @@ export function Navbar() {
                     href={link.href}
                     className={cn(
                       "block px-4 py-3 rounded-lg text-sm font-medium transition-colors duration-150 ease-out-expo",
-                      pathname === link.href
+                      isActive(link.href)
                         ? "bg-navy-50 text-navy-800"
                         : "text-gray-600 hover:bg-gray-50"
                     )}

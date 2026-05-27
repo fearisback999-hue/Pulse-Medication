@@ -29,10 +29,10 @@ export function WhyChooseUs() {
       <div className="absolute right-0 top-0 w-1/3 h-full bg-gradient-to-l from-navy-50/50 to-transparent pointer-events-none" />
       <div className="relative grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
         <motion.div
-          initial={{ opacity: 0, transform: "translateY(16px)" }}
+          initial={{ opacity: 0.5, transform: "translateY(10px)" }}
           whileInView={{ opacity: 1, transform: "translateY(0px)" }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5, ease: EASE_OUT_EXPO }}
+          viewport={{ once: true, margin: "-40px" }}
+          transition={{ duration: 0.4, ease: EASE_OUT_EXPO }}
         >
           <p className="text-gold-600 font-semibold text-sm tracking-wide uppercase mb-3">
             Why Pulse Medication
@@ -51,9 +51,9 @@ export function WhyChooseUs() {
             {reasons.map((reason, i) => (
               <motion.li
                 key={reason}
-                initial={{ opacity: 0, transform: "translateX(-8px)" }}
+                initial={{ opacity: 0.5, transform: "translateX(-6px)" }}
                 whileInView={{ opacity: 1, transform: "translateX(0px)" }}
-                viewport={{ once: true }}
+                viewport={{ once: true, margin: "-20px" }}
                 transition={{
                   delay: 0.1 + i * 0.05,
                   duration: 0.4,
@@ -77,9 +77,9 @@ export function WhyChooseUs() {
           {stats.map((stat, index) => (
             <motion.div
               key={stat.label}
-              initial={{ opacity: 0, transform: "translateY(12px)" }}
+              initial={{ opacity: 0.5, transform: "translateY(8px)" }}
               whileInView={{ opacity: 1, transform: "translateY(0px)" }}
-              viewport={{ once: true }}
+              viewport={{ once: true, margin: "-30px" }}
               transition={{
                 delay: 0.15 + index * 0.07,
                 duration: 0.45,

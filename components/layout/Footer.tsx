@@ -111,15 +111,9 @@ export function Footer() {
         </div>
 
         <div className="border-t border-white/[0.06] py-6">
-          <div className="flex flex-col sm:flex-row items-center justify-between gap-3 text-center sm:text-left">
-            <p className="text-gray-500/80 text-sm">
-              &copy; {new Date().getFullYear()} Pulse Medication. All rights
-              reserved.
-            </p>
-            <p className="text-gray-600 text-xs">
-              1240 S State College Blvd, Anaheim, CA 92806
-            </p>
-          </div>
+          <p className="text-gray-500/80 text-sm text-center">
+            &#169; {new Date().getFullYear()} Pulse Medication. All rights reserved.
+          </p>
         </div>
       </div>
     </footer>

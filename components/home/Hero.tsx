@@ -148,12 +148,14 @@ export function Hero() {
               initial={{ opacity: 0, transform: "scale(0.96)" }}
               animate={{ opacity: 1, transform: "scale(1)" }}
               transition={{ delay: 0.2, duration: 0.8, ease: EASE_OUT_EXPO }}
-              className="flex-1 relative min-h-[400px] lg:min-h-0"
+              className="flex-1 relative min-h-[400px] lg:min-h-0 overflow-hidden"
             >
-              <SplineScene
-                scene="https://prod.spline.design/kZDDjO5HuC9GJUM2/scene.splinecode"
-                className="w-full h-full"
-              />
+              <div className="absolute inset-0 flex items-center justify-center">
+                <SplineScene
+                  scene="https://prod.spline.design/kZDDjO5HuC9GJUM2/scene.splinecode"
+                  className="w-full h-full"
+                />
+              </div>
             </motion.div>
           </div>
         </Card>
