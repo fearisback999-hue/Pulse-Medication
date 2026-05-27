@@ -203,11 +203,20 @@ function HeartEye({ className }: { className?: string }) {
 }
 
 function RobotHeartEyes({ mouseOffset }: { mouseOffset: { x: number; y: number } }) {
-  const eyeBaseTop = 33;
-  const leftEyeBaseLeft = 40;
-  const rightEyeBaseLeft = 58;
-  const maxShiftX = 8;
-  const maxShiftY = 5;
+  // ── Tuning knobs ──
+  // Base position: where the eyes sit when the mouse is centered.
+  // Adjust these % values in your browser DevTools until the hearts
+  // sit exactly in the robot's eye sockets.
+  const eyeBaseTop = 38;       // vertical center of eyes (%)
+  const leftEyeBaseLeft = 42;  // left eye horizontal (%)
+  const rightEyeBaseLeft = 56; // right eye horizontal (%)
+  const eyeGap = 14;           // distance between eyes (rightEye - leftEye)
+
+  // How far the eyes travel when the mouse is at the edge.
+  // The Spline robot head has a subtle parallax — these small values
+  // keep the hearts glued to the sockets rather than drifting.
+  const maxShiftX = 3;   // horizontal shift (%)
+  const maxShiftY = 2.5; // vertical shift (%)
 
   const shiftX = mouseOffset.x * maxShiftX;
   const shiftY = mouseOffset.y * maxShiftY;
@@ -215,24 +224,26 @@ function RobotHeartEyes({ mouseOffset }: { mouseOffset: { x: number; y: number }
   return (
     <div className="absolute inset-0 pointer-events-none z-10">
       <div
-        className="absolute transition-[top,left] duration-100 ease-out"
+        className="absolute"
         style={{
           top: `${eyeBaseTop + shiftY}%`,
           left: `${leftEyeBaseLeft + shiftX}%`,
           transform: "translate(-50%, -50%)",
+          transition: "top 150ms ease-out, left 150ms ease-out",
         }}
       >
-        <HeartEye className="w-5 h-5 sm:w-6 sm:h-6 lg:w-7 lg:h-7 drop-shadow-[0_0_8px_rgba(255,77,106,0.6)]" />
+        <HeartEye className="w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6 drop-shadow-[0_0_6px_rgba(255,77,106,0.7)]" />
       </div>
       <div
-        className="absolute transition-[top,left] duration-100 ease-out"
+        className="absolute"
         style={{
           top: `${eyeBaseTop + shiftY}%`,
           left: `${rightEyeBaseLeft + shiftX}%`,
           transform: "translate(-50%, -50%)",
+          transition: "top 150ms ease-out, left 150ms ease-out",
         }}
       >
-        <HeartEye className="w-5 h-5 sm:w-6 sm:h-6 lg:w-7 lg:h-7 drop-shadow-[0_0_8px_rgba(255,77,106,0.6)]" />
+        <HeartEye className="w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6 drop-shadow-[0_0_6px_rgba(255,77,106,0.7)]" />
       </div>
     </div>
   );
