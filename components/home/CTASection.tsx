@@ -21,10 +21,10 @@ export function CTASection() {
 
       <div className="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
         <motion.div
-          initial={{ opacity: 0, transform: "translateY(16px)" }}
+          initial={{ opacity: 0.5, transform: "translateY(10px)" }}
           whileInView={{ opacity: 1, transform: "translateY(0px)" }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5, ease: EASE_OUT_EXPO }}
+          viewport={{ once: true, margin: "-40px" }}
+          transition={{ duration: 0.4, ease: EASE_OUT_EXPO }}
         >
           <div className="inline-flex items-center gap-2 mb-6">
             <span className="w-2 h-2 rounded-full bg-gold-400 breathe" />
@@ -49,9 +49,9 @@ export function CTASection() {
           </p>
 
           <motion.div
-            initial={{ opacity: 0, transform: "translateY(8px)" }}
+            initial={{ opacity: 0.5, transform: "translateY(6px)" }}
             whileInView={{ opacity: 1, transform: "translateY(0px)" }}
-            viewport={{ once: true }}
+            viewport={{ once: true, margin: "-20px" }}
             transition={{ delay: 0.15, duration: 0.4, ease: EASE_OUT_EXPO }}
           >
             <Button href="/register" variant="secondary" size="lg">
@@ -64,9 +64,9 @@ export function CTASection() {
             {trustItems.map((item, i) => (
               <motion.div
                 key={item.label}
-                initial={{ opacity: 0, transform: "translateY(6px)" }}
+                initial={{ opacity: 0.5, transform: "translateY(4px)" }}
                 whileInView={{ opacity: 1, transform: "translateY(0px)" }}
-                viewport={{ once: true }}
+                viewport={{ once: true, margin: "-20px" }}
                 transition={{
                   delay: 0.3 + i * 0.06,
                   duration: 0.35,

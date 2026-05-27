@@ -15,17 +15,17 @@ export function Testimonials() {
     role: t.role,
   }));
 
-  const firstColumn = testimonialData.slice(0, 2);
-  const secondColumn = testimonialData.slice(2, 4);
+  const firstColumn = [testimonialData[0], testimonialData[2]];
+  const secondColumn = [testimonialData[1], testimonialData[3]];
 
   return (
     <Section className="relative overflow-hidden py-20 sm:py-24">
       <div className="relative">
         <motion.div
-          initial={{ opacity: 0, transform: "translateY(16px)" }}
+          initial={{ opacity: 0.5, transform: "translateY(10px)" }}
           whileInView={{ opacity: 1, transform: "translateY(0px)" }}
-          viewport={{ once: true, margin: "-80px" }}
-          transition={{ duration: 0.5, ease: EASE_OUT_EXPO }}
+          viewport={{ once: true, margin: "-40px" }}
+          transition={{ duration: 0.4, ease: EASE_OUT_EXPO }}
           className="text-center mb-16"
         >
           <p className="text-gold-600 font-semibold text-sm tracking-wide uppercase mb-3">
@@ -40,12 +40,12 @@ export function Testimonials() {
           </p>
         </motion.div>
 
-        <div className="flex justify-center gap-6 [mask-image:linear-gradient(to_bottom,transparent,black_25%,black_75%,transparent)] max-h-[600px] overflow-hidden">
-          <TestimonialsColumn testimonials={firstColumn} duration={15} />
+        <div className="flex justify-center gap-6 [mask-image:linear-gradient(to_bottom,transparent,black_20%,black_80%,transparent)] max-h-[560px] overflow-hidden">
+          <TestimonialsColumn testimonials={firstColumn} duration={18} />
           <TestimonialsColumn
             testimonials={secondColumn}
             className="hidden md:block"
-            duration={19}
+            duration={22}
           />
         </div>
       </div>

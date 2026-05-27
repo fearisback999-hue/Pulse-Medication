@@ -64,10 +64,10 @@ function FeatureItem({
 
   return (
     <motion.div
-      initial={{ opacity: 0, transform: "translateY(16px)" }}
+      initial={{ opacity: 0.5, transform: "translateY(10px)" }}
       whileInView={{ opacity: 1, transform: "translateY(0px)" }}
-      viewport={{ once: true, margin: "-60px" }}
-      transition={{ delay: index * 0.06, duration: 0.45, ease: EASE_OUT_EXPO }}
+      viewport={{ once: true, margin: "-40px" }}
+      transition={{ delay: index * 0.05, duration: 0.4, ease: EASE_OUT_EXPO }}
       className={`group flex flex-col sm:flex-row items-start gap-5 sm:gap-6 ${
         isEven ? "" : "sm:flex-row-reverse sm:text-right"
       }`}
@@ -96,10 +96,10 @@ export function FeatureCards() {
       <div className="absolute inset-0 pattern-dots pointer-events-none" />
       <div className="relative">
         <motion.div
-          initial={{ opacity: 0, transform: "translateY(16px)" }}
+          initial={{ opacity: 0.5, transform: "translateY(10px)" }}
           whileInView={{ opacity: 1, transform: "translateY(0px)" }}
-          viewport={{ once: true, margin: "-80px" }}
-          transition={{ duration: 0.5, ease: EASE_OUT_EXPO }}
+          viewport={{ once: true, margin: "-40px" }}
+          transition={{ duration: 0.4, ease: EASE_OUT_EXPO }}
           className="mb-14 sm:mb-20"
         >
           <p className="text-gold-600 font-semibold text-sm tracking-wide uppercase mb-3">

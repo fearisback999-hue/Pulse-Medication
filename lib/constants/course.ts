@@ -20,7 +20,7 @@ export const COURSE_DATES = [
     id: "june-2026",
     label: "June 12, 13, 14 & 16, 2026 — 9:00 AM – 5:00 PM PST",
     dates: ["06/12/2026", "06/13/2026", "06/14/2026", "06/16/2026"],
-    days: "Friday, Saturday, Sunday & Tuesday",
+    days: "Friday, Saturday, Sunday & Tuesday (Monday off for self-study)",
   },
 ] as const;
 

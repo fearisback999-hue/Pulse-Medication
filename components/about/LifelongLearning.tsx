@@ -8,7 +8,7 @@ export function LifelongLearning() {
     <Section className="pt-8 sm:pt-28">
       <div className="max-w-4xl mx-auto">
         <motion.div
-          initial={{ y: 16 }}
+          initial={{ opacity: 0.7, y: 8 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
           className="text-center mb-10"
@@ -23,7 +23,7 @@ export function LifelongLearning() {
         </motion.div>
 
         <motion.div
-          initial={{ y: 16 }}
+          initial={{ opacity: 0.7, y: 8 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.15, duration: 0.5 }}
           className="max-w-3xl mx-auto space-y-6 text-gray-600 text-lg leading-relaxed"
