@@ -15,9 +15,9 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
 
 const variantStyles: Record<Variant, string> = {
   primary:
-    "bg-navy-700 text-white hover:bg-navy-600 shadow-md hover:shadow-lg",
+    "bg-navy-700 text-white hover:bg-navy-600 shadow-md hover:shadow-card-elevated",
   secondary:
-    "bg-gold-500 text-navy-900 hover:bg-gold-400 shadow-md hover:shadow-lg font-bold",
+    "bg-gold-500 text-navy-900 hover:bg-gold-400 shadow-md hover:shadow-card-elevated font-bold",
   outline:
     "border-2 border-navy-700 text-navy-700 hover:bg-navy-700 hover:text-white",
   ghost: "text-navy-700 hover:bg-navy-50",
@@ -35,7 +35,9 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     ref
   ) => {
     const classes = cn(
-      "inline-flex items-center justify-center font-semibold rounded-xl transition-all duration-200 cursor-pointer active:scale-[0.98]",
+      "inline-flex items-center justify-center font-semibold rounded-xl cursor-pointer",
+      "transition-[transform,box-shadow,background-color] duration-200 ease-out-expo",
+      "active:scale-[0.97] active:duration-100",
       variantStyles[variant],
       sizeStyles[size],
       className

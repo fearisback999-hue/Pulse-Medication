@@ -3,6 +3,13 @@
 @tailwind utilities;
 
 @layer base {
+  :root {
+    --ease-out-expo: cubic-bezier(0.23, 1, 0.32, 1);
+    --ease-in-out-expo: cubic-bezier(0.77, 0, 0.175, 1);
+    --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
+    --ease-drawer: cubic-bezier(0.32, 0.72, 0, 1);
+  }
+
   html {
     scroll-behavior: smooth;
     -webkit-text-size-adjust: 100%;
@@ -79,6 +86,22 @@
     @apply absolute bottom-0 left-1/2 -translate-x-1/2 w-16 h-1 bg-gold-500 rounded-full;
   }
 
+  .glass-panel {
+    @apply backdrop-blur-md border border-white/[0.08];
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.06),
+      inset 0 -1px 0 rgba(0, 0, 0, 0.1),
+      0 4px 24px rgba(0, 0, 0, 0.12);
+  }
+
+  .glass-panel-light {
+    @apply backdrop-blur-md border border-white/60;
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.5),
+      0 1px 3px rgba(0, 0, 0, 0.04),
+      0 8px 24px rgba(0, 0, 0, 0.06);
+  }
+
   @keyframes ekg-line {
     0% { stroke-dashoffset: 1000; }
     100% { stroke-dashoffset: 0; }
@@ -91,24 +114,67 @@
 
   @keyframes float {
     0%, 100% { transform: translateY(0px); }
-    50% { transform: translateY(-8px); }
+    50% { transform: translateY(-6px); }
   }
 
   .float-animation {
-    animation: float 6s ease-in-out infinite;
+    animation: float 6s var(--ease-in-out-expo) infinite;
   }
 
-  @keyframes spotlight {
-    0% { opacity: 0; }
-    100% { opacity: 1; }
+  @keyframes pulse-slow {
+    0%, 100% { opacity: 0.4; }
+    50% { opacity: 0.8; }
   }
 
-  @keyframes animate-spotlight {
-    0% { opacity: 0; }
-    100% { opacity: 1; }
+  .pulse-slow {
+    animation: pulse-slow 3s var(--ease-in-out-expo) infinite;
+  }
+
+  @keyframes shimmer {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+  }
+
+  .shimmer {
+    animation: shimmer 2.5s var(--ease-in-out-expo) infinite;
+  }
+
+  @keyframes spotlight-entry {
+    0% { opacity: 0; transform: scale(0.96); }
+    100% { opacity: 1; transform: scale(1); }
   }
 
   .animate-spotlight {
-    animation: animate-spotlight 3s ease-out forwards;
+    animation: spotlight-entry 2s var(--ease-out-expo) forwards;
+  }
+
+  @keyframes breathe {
+    0%, 100% { transform: scale(1); opacity: 0.6; }
+    50% { transform: scale(1.1); opacity: 1; }
+  }
+
+  .breathe {
+    animation: breathe 2.5s var(--ease-in-out-expo) infinite;
+  }
+}
+
+@layer utilities {
+  @media (prefers-reduced-motion: reduce) {
+    .ekg-animate,
+    .float-animation,
+    .pulse-slow,
+    .shimmer,
+    .animate-spotlight,
+    .breathe {
+      animation: none;
+    }
+
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
   }
 }

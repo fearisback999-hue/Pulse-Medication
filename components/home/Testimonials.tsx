@@ -5,6 +5,8 @@ import { Section } from "@/components/ui/Section";
 import { TestimonialsColumn } from "@/components/ui/testimonials-columns";
 import { TESTIMONIALS } from "@/lib/constants/testimonials";
 
+const EASE_OUT_EXPO = [0.23, 1, 0.32, 1] as const;
+
 export function Testimonials() {
   const testimonialData = TESTIMONIALS.map((t, idx) => ({
     text: t.quote,
@@ -17,13 +19,13 @@ export function Testimonials() {
   const secondColumn = testimonialData.slice(2, 4);
 
   return (
-    <Section className="relative overflow-hidden py-20">
+    <Section className="relative overflow-hidden py-20 sm:py-24">
       <div className="relative">
         <motion.div
-          initial={{ y: 16 }}
-          whileInView={{ opacity: 1, y: 0 }}
+          initial={{ opacity: 0, transform: "translateY(16px)" }}
+          whileInView={{ opacity: 1, transform: "translateY(0px)" }}
           viewport={{ once: true, margin: "-80px" }}
-          transition={{ duration: 0.5 }}
+          transition={{ duration: 0.5, ease: EASE_OUT_EXPO }}
           className="text-center mb-16"
         >
           <p className="text-gold-600 font-semibold text-sm tracking-wide uppercase mb-3">
@@ -32,7 +34,7 @@ export function Testimonials() {
           <h2 className="text-4xl font-extrabold font-heading text-navy-800 tracking-tightest mb-4">
             Hear From Our Graduates
           </h2>
-          <p className="text-gray-600 max-w-2xl mx-auto">
+          <p className="text-gray-600 max-w-2xl mx-auto leading-relaxed">
             See what healthcare professionals have to say about their experience
             with the Pulse Medication Monitor Tech Certification program.
           </p>
