@@ -170,7 +170,7 @@ function RobotChestOverlay() {
 
   useEffect(() => {
     const handleClick = () => {
-      setTimeout(() => setVisible(true), 2000);
+      setTimeout(() => setVisible(true), 1000);
       window.removeEventListener("click", handleClick);
     };
     window.addEventListener("click", handleClick);
@@ -180,95 +180,114 @@ function RobotChestOverlay() {
   return (
     <div className="absolute inset-0 pointer-events-none z-10 flex items-center justify-center">
       <motion.div
-        initial={{ opacity: 0, scale: 0.8 }}
-        animate={visible ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.8 }}
-        transition={{ duration: 0.6, ease: [0.23, 1, 0.32, 1] }}
-        className="absolute flex flex-col items-center"
-        style={{ top: "52%", left: "50%", transform: "translate(-50%, -50%)" }}
+        initial={{ opacity: 0, scale: 0.6 }}
+        animate={visible ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.6 }}
+        transition={{ duration: 0.8, ease: [0.23, 1, 0.32, 1] }}
+        className="absolute"
+        style={{ top: "55%", left: "50%", transform: "translate(-50%, -50%)" }}
       >
-        {/* Brand name */}
-        <motion.span
-          animate={visible ? { opacity: [0.7, 1, 0.7] } : {}}
-          transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-          className="text-[10px] sm:text-xs lg:text-sm font-extrabold tracking-[0.25em] uppercase mb-1 sm:mb-2"
-          style={{
-            color: "#00fff2",
-            textShadow: "0 0 8px rgba(0,255,242,0.8), 0 0 20px rgba(0,255,242,0.4), 0 0 40px rgba(0,255,242,0.2)",
-          }}
-        >
-          Pulse Medication
-        </motion.span>
-
-        {/* Neon EKG heartbeat line */}
-        <svg
-          viewBox="0 0 200 50"
-          className="w-24 sm:w-32 lg:w-40 h-auto"
-          preserveAspectRatio="xMidYMid meet"
-        >
-          <defs>
-            <linearGradient id="neon-pulse-grad" x1="0%" y1="0%" x2="100%" y2="0%">
-              <stop offset="0%" stopColor="#00fff2" stopOpacity="0" />
-              <stop offset="20%" stopColor="#00fff2" stopOpacity="1" />
-              <stop offset="50%" stopColor="#ff2d78" stopOpacity="1" />
-              <stop offset="80%" stopColor="#00fff2" stopOpacity="1" />
-              <stop offset="100%" stopColor="#00fff2" stopOpacity="0" />
-            </linearGradient>
-            <filter id="neon-glow">
-              <feGaussianBlur stdDeviation="3" result="blur" />
-              <feMerge>
-                <feMergeNode in="blur" />
-                <feMergeNode in="blur" />
-                <feMergeNode in="SourceGraphic" />
-              </feMerge>
-            </filter>
-          </defs>
-          <path
-            d="M0,25 L40,25 L55,25 L65,8 L75,42 L85,12 L92,32 L100,20 L108,25 L145,25 L160,25 L170,8 L180,42 L190,12 L200,25"
-            fill="none"
-            stroke="#00fff2"
-            strokeWidth="1"
-            strokeOpacity="0.15"
-          />
-          <path
-            d="M0,25 L40,25 L55,25 L65,8 L75,42 L85,12 L92,32 L100,20 L108,25 L145,25 L160,25 L170,8 L180,42 L190,12 L200,25"
-            fill="none"
-            stroke="url(#neon-pulse-grad)"
-            strokeWidth="2.5"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            filter="url(#neon-glow)"
-            className="ekg-animate"
-          />
-        </svg>
-
-        {/* Neon heart icon — bigger */}
         <motion.svg
-          animate={visible ? { scale: [1, 1.15, 1, 1.18, 1] } : {}}
+          animate={visible ? { scale: [1, 1.08, 1, 1.12, 1] } : {}}
           transition={{
-            duration: 0.85,
+            duration: 1.1,
             repeat: Infinity,
             ease: [0.23, 1, 0.32, 1],
             times: [0, 0.15, 0.3, 0.45, 0.7],
           }}
-          viewBox="0 0 24 24"
-          className="w-8 h-8 sm:w-10 sm:h-10 lg:w-12 lg:h-12 mt-1 sm:mt-2"
+          viewBox="0 0 200 200"
+          className="w-32 h-32 sm:w-44 sm:h-44 lg:w-56 lg:h-56"
           fill="none"
         >
           <defs>
-            <filter id="neon-heart-glow">
-              <feGaussianBlur stdDeviation="2" result="blur" />
+            {/* Flame gradient: orange/yellow → magenta → blue/purple */}
+            <linearGradient id="flame-heart-grad" x1="0%" y1="0%" x2="100%" y2="50%">
+              <stop offset="0%" stopColor="#FF6B00" />
+              <stop offset="25%" stopColor="#FFB800" />
+              <stop offset="50%" stopColor="#FF2D78" />
+              <stop offset="75%" stopColor="#9333EA" />
+              <stop offset="100%" stopColor="#2563EB" />
+            </linearGradient>
+            <linearGradient id="flame-heart-inner" x1="0%" y1="0%" x2="100%" y2="50%">
+              <stop offset="0%" stopColor="#FFE5B4" />
+              <stop offset="50%" stopColor="#FFFFFF" />
+              <stop offset="100%" stopColor="#E0C3FC" />
+            </linearGradient>
+
+            {/* Heavy smoke/blur glow */}
+            <filter id="flame-smoke" x="-50%" y="-50%" width="200%" height="200%">
+              <feGaussianBlur stdDeviation="6" result="blur1" />
+              <feGaussianBlur in="SourceGraphic" stdDeviation="12" result="blur2" />
               <feMerge>
-                <feMergeNode in="blur" />
+                <feMergeNode in="blur2" />
+                <feMergeNode in="blur1" />
                 <feMergeNode in="SourceGraphic" />
               </feMerge>
             </filter>
+
+            {/* Turbulent flame distortion */}
+            <filter id="flame-turbulence" x="-20%" y="-20%" width="140%" height="140%">
+              <feTurbulence type="fractalNoise" baseFrequency="0.015" numOctaves="2" seed="3">
+                <animate attributeName="baseFrequency" dur="6s" values="0.015;0.025;0.015" repeatCount="indefinite" />
+              </feTurbulence>
+              <feDisplacementMap in="SourceGraphic" scale="6" />
+            </filter>
           </defs>
+
+          {/* Outer smoke aura */}
           <path
-            d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"
-            fill="#ff2d78"
-            filter="url(#neon-heart-glow)"
-            style={{ filter: "drop-shadow(0 0 8px rgba(255,45,120,0.9)) drop-shadow(0 0 16px rgba(255,45,120,0.5)) drop-shadow(0 0 30px rgba(255,45,120,0.25))" }}
+            d="M100 175 C 50 135, 15 100, 15 65 C 15 35, 40 15, 65 15 C 80 15, 92 22, 100 35 C 108 22, 120 15, 135 15 C 160 15, 185 35, 185 65 C 185 100, 150 135, 100 175 Z"
+            stroke="url(#flame-heart-grad)"
+            strokeWidth="14"
+            strokeLinejoin="round"
+            fill="none"
+            filter="url(#flame-smoke)"
+            opacity="0.55"
           />
+          {/* Mid flame body */}
+          <path
+            d="M100 172 C 52 134, 20 100, 20 66 C 20 38, 42 18, 66 18 C 80 18, 92 25, 100 38 C 108 25, 120 18, 134 18 C 158 18, 180 38, 180 66 C 180 100, 148 134, 100 172 Z"
+            stroke="url(#flame-heart-grad)"
+            strokeWidth="7"
+            strokeLinejoin="round"
+            fill="none"
+            filter="url(#flame-turbulence)"
+            opacity="0.95"
+          />
+          {/* Inner bright core stroke */}
+          <path
+            d="M100 168 C 55 132, 25 100, 25 67 C 25 41, 45 22, 67 22 C 81 22, 92 28, 100 40 C 108 28, 119 22, 133 22 C 155 22, 175 41, 175 67 C 175 100, 145 132, 100 168 Z"
+            stroke="url(#flame-heart-inner)"
+            strokeWidth="2"
+            strokeLinejoin="round"
+            fill="none"
+            opacity="0.9"
+          />
+
+          {/* Spark particles */}
+          {[
+            { cx: 35, cy: 45, r: 1.5, color: "#FFB800" },
+            { cx: 50, cy: 30, r: 1, color: "#FF6B00" },
+            { cx: 75, cy: 20, r: 1.2, color: "#FFE5B4" },
+            { cx: 160, cy: 50, r: 1, color: "#9333EA" },
+            { cx: 170, cy: 80, r: 1.5, color: "#2563EB" },
+            { cx: 145, cy: 25, r: 1, color: "#FF2D78" },
+          ].map((p, i) => (
+            <motion.circle
+              key={i}
+              cx={p.cx}
+              cy={p.cy}
+              r={p.r}
+              fill={p.color}
+              animate={visible ? { opacity: [0, 1, 0], cy: [p.cy, p.cy - 10] } : {}}
+              transition={{
+                duration: 1.5 + i * 0.2,
+                repeat: Infinity,
+                delay: i * 0.3,
+                ease: "easeOut",
+              }}
+              style={{ filter: `drop-shadow(0 0 4px ${p.color})` }}
+            />
+          ))}
         </motion.svg>
       </motion.div>
     </div>
