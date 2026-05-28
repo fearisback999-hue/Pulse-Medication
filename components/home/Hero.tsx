@@ -181,7 +181,7 @@ function RobotChestOverlay() {
         animate={visible ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.8 }}
         transition={{ duration: 1.2, ease: [0.23, 1, 0.32, 1] }}
         className="absolute z-0 flex items-start justify-center"
-        style={{ top: "-27.5%", left: "-10%", transform: "translateX(-50%)", width: "120%", height: "120%" }}
+        style={{ top: "0%", left: "-10%", transform: "translateX(-50%)", width: "120%", height: "120%" }}
       >
         <motion.svg
           animate={visible ? { scale: [1, 1.04, 1, 1.06, 1] } : {}}
@@ -191,38 +191,23 @@ function RobotChestOverlay() {
             ease: [0.23, 1, 0.32, 1],
             times: [0, 0.15, 0.3, 0.45, 0.7],
           }}
-          viewBox="-60 -60 320 320"
+          viewBox="0 0 200 280"
           className="w-full h-full"
           preserveAspectRatio="xMidYMid meet"
           fill="none"
         >
           <defs>
-            {/* Flame gradient: orange/yellow → magenta → blue/purple */}
-            <linearGradient id="flame-heart-grad" x1="0%" y1="0%" x2="100%" y2="50%">
-              <stop offset="0%" stopColor="#FF6B00" />
-              <stop offset="25%" stopColor="#FFB800" />
-              <stop offset="50%" stopColor="#FF2D78" />
-              <stop offset="75%" stopColor="#9333EA" />
-              <stop offset="100%" stopColor="#2563EB" />
-            </linearGradient>
-            <linearGradient id="flame-heart-inner" x1="0%" y1="0%" x2="100%" y2="50%">
-              <stop offset="0%" stopColor="#FFE5B4" />
-              <stop offset="50%" stopColor="#FFFFFF" />
-              <stop offset="100%" stopColor="#E0C3FC" />
-            </linearGradient>
-
-            {/* Soft radial halo behind the heart for blended edges */}
-            <radialGradient id="flame-halo" cx="50%" cy="50%" r="60%">
-              <stop offset="0%" stopColor="#FF2D78" stopOpacity="0.45" />
-              <stop offset="40%" stopColor="#9333EA" stopOpacity="0.25" />
-              <stop offset="75%" stopColor="#2563EB" stopOpacity="0.1" />
-              <stop offset="100%" stopColor="#2563EB" stopOpacity="0" />
+            {/* Soft red halo behind the heart */}
+            <radialGradient id="neon-heart-halo" cx="50%" cy="50%" r="55%">
+              <stop offset="0%" stopColor="#FF1A1A" stopOpacity="0.55" />
+              <stop offset="50%" stopColor="#FF0000" stopOpacity="0.2" />
+              <stop offset="100%" stopColor="#FF0000" stopOpacity="0" />
             </radialGradient>
 
-            {/* Heavy outer bloom — extends way past stroke for soft falloff */}
-            <filter id="flame-bloom" x="-100%" y="-100%" width="300%" height="300%">
-              <feGaussianBlur stdDeviation="20" result="b1" />
-              <feGaussianBlur in="SourceGraphic" stdDeviation="35" result="b2" />
+            {/* Heavy outer bloom for the neon spread */}
+            <filter id="neon-heart-bloom" x="-100%" y="-100%" width="300%" height="300%">
+              <feGaussianBlur stdDeviation="18" result="b1" />
+              <feGaussianBlur in="SourceGraphic" stdDeviation="32" result="b2" />
               <feMerge>
                 <feMergeNode in="b2" />
                 <feMergeNode in="b1" />
@@ -230,93 +215,93 @@ function RobotChestOverlay() {
               </feMerge>
             </filter>
 
-            {/* Medium smoke around stroke */}
-            <filter id="flame-smoke" x="-50%" y="-50%" width="200%" height="200%">
-              <feGaussianBlur stdDeviation="8" result="blur1" />
-              <feGaussianBlur in="SourceGraphic" stdDeviation="16" result="blur2" />
+            {/* Medium glow around the tube */}
+            <filter id="neon-heart-glow" x="-50%" y="-50%" width="200%" height="200%">
+              <feGaussianBlur stdDeviation="3.5" result="g1" />
+              <feGaussianBlur in="SourceGraphic" stdDeviation="8" result="g2" />
               <feMerge>
-                <feMergeNode in="blur2" />
-                <feMergeNode in="blur1" />
+                <feMergeNode in="g2" />
+                <feMergeNode in="g1" />
                 <feMergeNode in="SourceGraphic" />
               </feMerge>
             </filter>
-
-            {/* Turbulent flame distortion */}
-            <filter id="flame-turbulence" x="-30%" y="-30%" width="160%" height="160%">
-              <feTurbulence type="fractalNoise" baseFrequency="0.015" numOctaves="2" seed="3">
-                <animate attributeName="baseFrequency" dur="6s" values="0.015;0.025;0.015" repeatCount="indefinite" />
-              </feTurbulence>
-              <feDisplacementMap in="SourceGraphic" scale="6" />
-            </filter>
           </defs>
 
-          {/* Soft ambient halo — gradient bloom that fades to transparent */}
-          <ellipse cx="100" cy="100" rx="140" ry="130" fill="url(#flame-halo)" filter="url(#flame-bloom)" />
+          {/* Ambient red halo */}
+          <ellipse cx="100" cy="140" rx="100" ry="120" fill="url(#neon-heart-halo)" filter="url(#neon-heart-bloom)" />
 
-          {/* Extra-blurred outer smoke layer (no hard edge) */}
-          <path
-            d="M100 175 C 50 135, 15 100, 15 65 C 15 35, 40 15, 65 15 C 80 15, 92 22, 100 35 C 108 22, 120 15, 135 15 C 160 15, 185 35, 185 65 C 185 100, 150 135, 100 175 Z"
-            stroke="url(#flame-heart-grad)"
-            strokeWidth="24"
-            strokeLinejoin="round"
-            fill="none"
-            filter="url(#flame-bloom)"
-            opacity="0.4"
-          />
+          {/* Aortic arches and arteries on top */}
+          <g stroke="#ff1a1a" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round" fill="none" filter="url(#neon-heart-glow)">
+            <path d="M 95 70 C 100 50, 115 38, 130 42 C 142 46, 145 55, 138 65" />
+            <path d="M 110 65 C 120 45, 135 35, 148 45 C 155 52, 152 60, 145 62" />
+            <path d="M 125 70 C 135 50, 148 45, 155 55 C 158 62, 152 70, 142 70" />
+            <path d="M 85 70 C 78 55, 70 50, 62 58" />
+          </g>
 
-          {/* Outer smoke aura */}
+          {/* Main anatomical heart body */}
           <path
-            d="M100 175 C 50 135, 15 100, 15 65 C 15 35, 40 15, 65 15 C 80 15, 92 22, 100 35 C 108 22, 120 15, 135 15 C 160 15, 185 35, 185 65 C 185 100, 150 135, 100 175 Z"
-            stroke="url(#flame-heart-grad)"
-            strokeWidth="14"
+            d="M 92 75
+               C 70 70, 45 80, 38 110
+               C 32 140, 42 175, 60 200
+               C 75 220, 92 240, 100 255
+               C 110 235, 125 215, 140 195
+               C 158 170, 170 140, 165 110
+               C 160 85, 140 70, 120 75
+               C 112 78, 100 78, 92 75 Z"
+            stroke="#ff1a1a"
+            strokeWidth="4"
             strokeLinejoin="round"
-            fill="none"
-            filter="url(#flame-smoke)"
-            opacity="0.55"
-          />
-          {/* Mid flame body */}
-          <path
-            d="M100 172 C 52 134, 20 100, 20 66 C 20 38, 42 18, 66 18 C 80 18, 92 25, 100 38 C 108 25, 120 18, 134 18 C 158 18, 180 38, 180 66 C 180 100, 148 134, 100 172 Z"
-            stroke="url(#flame-heart-grad)"
-            strokeWidth="7"
-            strokeLinejoin="round"
-            fill="none"
-            filter="url(#flame-turbulence)"
-            opacity="0.95"
-          />
-          {/* Inner bright core stroke */}
-          <path
-            d="M100 168 C 55 132, 25 100, 25 67 C 25 41, 45 22, 67 22 C 81 22, 92 28, 100 40 C 108 28, 119 22, 133 22 C 155 22, 175 41, 175 67 C 175 100, 145 132, 100 168 Z"
-            stroke="url(#flame-heart-inner)"
-            strokeWidth="2"
-            strokeLinejoin="round"
-            fill="none"
-            opacity="0.9"
+            strokeLinecap="round"
+            filter="url(#neon-heart-glow)"
           />
 
-          {/* Spark particles */}
+          {/* Inner coronary artery lines */}
+          <g stroke="#ff1a1a" strokeWidth="2.5" strokeLinecap="round" fill="none" filter="url(#neon-heart-glow)" opacity="0.9">
+            <path d="M 70 110 C 75 140, 85 170, 100 200" />
+            <path d="M 130 100 C 128 130, 120 165, 115 195" />
+            <path d="M 80 140 C 95 145, 110 145, 125 145" />
+            <path d="M 75 175 C 90 178, 105 178, 120 175" />
+          </g>
+
+          {/* Inner bright white-pink highlight stroke */}
+          <path
+            d="M 92 75
+               C 70 70, 45 80, 38 110
+               C 32 140, 42 175, 60 200
+               C 75 220, 92 240, 100 255
+               C 110 235, 125 215, 140 195
+               C 158 170, 170 140, 165 110
+               C 160 85, 140 70, 120 75
+               C 112 78, 100 78, 92 75 Z"
+            stroke="#ffe5e5"
+            strokeWidth="1.2"
+            strokeLinejoin="round"
+            strokeLinecap="round"
+            opacity="0.85"
+          />
+
+          {/* Spark particles — red glow */}
           {[
-            { cx: 35, cy: 45, r: 1.5, color: "#FFB800" },
-            { cx: 50, cy: 30, r: 1, color: "#FF6B00" },
-            { cx: 75, cy: 20, r: 1.2, color: "#FFE5B4" },
-            { cx: 160, cy: 50, r: 1, color: "#9333EA" },
-            { cx: 170, cy: 80, r: 1.5, color: "#2563EB" },
-            { cx: 145, cy: 25, r: 1, color: "#FF2D78" },
+            { cx: 50, cy: 100, r: 1.3 },
+            { cx: 155, cy: 90, r: 1 },
+            { cx: 165, cy: 145, r: 1.2 },
+            { cx: 40, cy: 160, r: 1 },
+            { cx: 100, cy: 55, r: 1.4 },
           ].map((p, i) => (
             <motion.circle
               key={i}
               cx={p.cx}
               cy={p.cy}
               r={p.r}
-              fill={p.color}
-              animate={visible ? { opacity: [0, 1, 0], cy: [p.cy, p.cy - 10] } : {}}
+              fill="#ff4d4d"
+              animate={visible ? { opacity: [0, 1, 0], cy: [p.cy, p.cy - 8] } : {}}
               transition={{
                 duration: 1.5 + i * 0.2,
                 repeat: Infinity,
                 delay: i * 0.3,
                 ease: "easeOut",
               }}
-              style={{ filter: `drop-shadow(0 0 4px ${p.color})` }}
+              style={{ filter: "drop-shadow(0 0 4px #ff1a1a)" }}
             />
           ))}
         </motion.svg>
