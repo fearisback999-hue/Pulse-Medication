@@ -288,10 +288,10 @@ function RobotChestOverlay() {
         </motion.svg>
       </motion.div>
 
-      {/* Logo + EKG on robot's RIGHT pec (viewer's upper-left of chest) */}
+      {/* Logo + EKG on robot's upper-right pec (viewer's right) */}
       <div
         className="absolute z-20"
-        style={{ top: "40%", left: "40%", transform: "translate(-50%, -50%) rotate(-6deg)" }}
+        style={{ top: "42%", left: "57%", transform: "translate(-50%, -50%) rotate(6deg)" }}
       >
         <motion.div
           initial={{ opacity: 0, x: -10 }}
@@ -302,10 +302,10 @@ function RobotChestOverlay() {
         <motion.span
           animate={visible ? { opacity: [0.7, 1, 0.7] } : {}}
           transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-          className="text-[7px] sm:text-[8px] lg:text-[10px] font-extrabold tracking-[0.2em] uppercase whitespace-nowrap"
+          className="text-[5px] sm:text-[6px] lg:text-[7px] font-extrabold tracking-[0.15em] uppercase whitespace-nowrap"
           style={{
             color: "#00fff2",
-            textShadow: "0 0 4px rgba(0,255,242,0.8), 0 0 10px rgba(0,255,242,0.4)",
+            textShadow: "0 0 3px rgba(0,255,242,0.9), 0 0 7px rgba(0,255,242,0.5)",
           }}
         >
           Pulse Medication
@@ -313,7 +313,7 @@ function RobotChestOverlay() {
 
         <svg
           viewBox="0 0 200 50"
-          className="w-14 sm:w-16 lg:w-20 h-auto"
+          className="w-10 sm:w-11 lg:w-14 h-auto"
           preserveAspectRatio="xMidYMid meet"
         >
           <defs>
