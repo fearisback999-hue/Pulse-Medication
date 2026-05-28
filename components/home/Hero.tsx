@@ -180,7 +180,8 @@ function RobotChestOverlay() {
         initial={{ opacity: 0, scale: 0.8 }}
         animate={visible ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.8 }}
         transition={{ duration: 1.2, ease: [0.23, 1, 0.32, 1] }}
-        className="absolute inset-0 z-0 flex items-start justify-center pt-[5%]"
+        className="absolute z-0 flex items-start justify-center"
+        style={{ top: "-17.5%", left: "50%", transform: "translateX(-50%)", width: "120%", height: "120%" }}
       >
         <motion.svg
           animate={visible ? { scale: [1, 1.04, 1, 1.06, 1] } : {}}
@@ -191,7 +192,7 @@ function RobotChestOverlay() {
             times: [0, 0.15, 0.3, 0.45, 0.7],
           }}
           viewBox="-60 -60 320 320"
-          className="w-[120%] h-[120%]"
+          className="w-full h-full"
           preserveAspectRatio="xMidYMid meet"
           fill="none"
         >
