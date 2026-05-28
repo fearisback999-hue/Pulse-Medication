@@ -234,45 +234,10 @@ function RobotChestOverlay() {
             </filter>
           </defs>
 
-          {/* Ambient halo — slowly expands to fill the whole background */}
-          <motion.ellipse
-            cx="100"
-            cy="95"
-            rx="130"
-            ry="115"
-            fill="url(#neon-heart-halo)"
-            filter="url(#neon-heart-bloom)"
-            initial={{ rx: 130, ry: 115, opacity: 0.6 }}
-            animate={
-              visible
-                ? { rx: [130, 320, 310, 320], ry: [115, 320, 310, 320], opacity: [0.6, 0.85, 0.8, 0.85] }
-                : {}
-            }
-            transition={{
-              duration: 8,
-              times: [0, 0.6, 0.8, 1],
-              ease: [0.23, 1, 0.32, 1],
-              repeat: Infinity,
-              repeatType: "reverse",
-              repeatDelay: 0,
-            }}
-          />
-
-          {/* Outer wide bloom */}
+          {/* Main neon tube — solid red, no surrounding bloom or sparks */}
           <path
             d="M100 175 C 50 135, 15 100, 15 65 C 15 35, 40 15, 65 15 C 80 15, 92 22, 100 35 C 108 22, 120 15, 135 15 C 160 15, 185 35, 185 65 C 185 100, 150 135, 100 175 Z"
-            stroke="url(#neon-heart-stroke)"
-            strokeWidth="16"
-            strokeLinejoin="round"
-            fill="none"
-            filter="url(#neon-heart-bloom)"
-            opacity="0.55"
-          />
-
-          {/* Main neon tube */}
-          <path
-            d="M100 175 C 50 135, 15 100, 15 65 C 15 35, 40 15, 65 15 C 80 15, 92 22, 100 35 C 108 22, 120 15, 135 15 C 160 15, 185 35, 185 65 C 185 100, 150 135, 100 175 Z"
-            stroke="url(#neon-heart-stroke)"
+            stroke="#FF1A1A"
             strokeWidth="6"
             strokeLinejoin="round"
             fill="none"
@@ -288,33 +253,6 @@ function RobotChestOverlay() {
             fill="none"
             opacity="0.95"
           />
-
-          {/* Gold spark particles drifting up to match the aura */}
-          {[
-            { cx: 30, cy: 80, r: 1.3, color: "#FFD27A" },
-            { cx: 170, cy: 70, r: 1, color: "#E0C372" },
-            { cx: 185, cy: 110, r: 1.2, color: "#C9A84C" },
-            { cx: 25, cy: 130, r: 1, color: "#D4AD4B" },
-            { cx: 100, cy: 5, r: 1.4, color: "#FFD27A" },
-            { cx: 60, cy: 25, r: 1, color: "#E0C372" },
-            { cx: 140, cy: 25, r: 1.1, color: "#FFD27A" },
-          ].map((p, i) => (
-            <motion.circle
-              key={i}
-              cx={p.cx}
-              cy={p.cy}
-              r={p.r}
-              fill={p.color}
-              animate={visible ? { opacity: [0, 1, 0], cy: [p.cy, p.cy - 10] } : {}}
-              transition={{
-                duration: 1.5 + i * 0.2,
-                repeat: Infinity,
-                delay: i * 0.3,
-                ease: "easeOut",
-              }}
-              style={{ filter: `drop-shadow(0 0 4px ${p.color})` }}
-            />
-          ))}
         </motion.svg>
       </motion.div>
 
