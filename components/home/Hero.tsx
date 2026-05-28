@@ -208,8 +208,8 @@ function RobotHeartEyes({ mouseOffset }: { mouseOffset: { x: number; y: number }
   // Adjust these % values in your browser DevTools until the hearts
   // sit exactly in the robot's eye sockets.
   const [debugMode, setDebugMode] = useState(false);
-  const [leftEye,  setLeftEye]  = useState({ top: 38, left: 42 });
-  const [rightEye, setRightEye] = useState({ top: 38, left: 56 });
+  const [leftEye,  setLeftEye]  = useState({ top: 24, left: 45 });
+  const [rightEye, setRightEye] = useState({ top: 24, left: 53 });
   const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -273,7 +273,7 @@ function RobotHeartEyes({ mouseOffset }: { mouseOffset: { x: number; y: number }
           {debugMode && (
             <span className="absolute -top-4 left-1/2 -translate-x-1/2 text-[10px] text-yellow-300 font-bold select-none">{label}</span>
           )}
-          <HeartEye className="w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6 drop-shadow-[0_0_6px_rgba(255,77,106,0.7)]" />
+          <HeartEye className="w-5 h-5 sm:w-6 sm:h-6 lg:w-7 lg:h-7 drop-shadow-[0_0_6px_rgba(255,77,106,0.7)]" />
         </div>
       ))}
     </div>
