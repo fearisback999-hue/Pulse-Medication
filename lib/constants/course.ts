@@ -9,10 +9,11 @@ export const COURSE_INFO = {
   description:
     "Welcome to our specialized four-day program, offered entirely online via live Zoom sessions, designed to provide comprehensive training in interpreting basic cardiac rhythms (dysrhythmias).",
   fullDescription:
-    "This course is tailored for ECG Monitor Technicians and allied healthcare professionals working in Emergency Departments, Critical Care Units, Post-Anesthesia Care Units, Operating Rooms, and Telemetry Units. The course is also beginner-friendly and welcomes students without prior healthcare experience.",
-  materials: "Soft copy materials sent via email.",
+    "This course is tailored for ECG Monitor Technicians and other allied health professionals working in Emergency Departments, Critical Care Units, Post-Anesthesia Care Units, Operating Rooms, and Telemetry Units. However, we enthusiastically welcome individuals without a medical background who are keen to learn about this vital aspect of cardiac monitoring. By the end of the program, you will have a solid foundation in dysrhythmia interpretation — a skill that is crucial in many healthcare settings.",
+  materials: "Soft copy will be sent via email.",
   ceHours:
-    "Provider approved by the California Board of Registered Nursing for 32 contact hours.",
+    "Provider approved by the California Board of Registered Nursing (Provider Number 17440), for 32 contact hours.",
+  providerNumber: "17440",
 } as const;
 
 export const COURSE_DATES = [
@@ -86,12 +87,12 @@ export const COURSE_SCHEDULE = [
 ] as const;
 
 export const COURSE_FEATURES = [
-  "Live instructor-led Zoom learning",
-  "Beginner friendly",
-  "Flexible online format",
-  "Professional healthcare curriculum",
-  "Certificate upon successful completion",
-  "Remediation and retesting opportunities",
-  "CEU eligible contact hours",
+  "Synchronous Online Learning — real-time instructor-led sessions from anywhere",
+  "Inclusive to non-medical participants — no prior healthcare background required",
+  "High course completion rate",
+  "Opportunity for remediation and retesting",
+  "Digital certificate of completion sent via email",
+  "32 CEU clock hours approved for professional development",
+  "Soft copy course materials sent via email",
   "Real-world telemetry and rhythm interpretation training",
 ] as const;
