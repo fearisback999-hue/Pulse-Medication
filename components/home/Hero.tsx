@@ -234,8 +234,29 @@ function RobotChestOverlay() {
             </filter>
           </defs>
 
-          {/* Ambient halo */}
-          <ellipse cx="100" cy="95" rx="130" ry="115" fill="url(#neon-heart-halo)" filter="url(#neon-heart-bloom)" />
+          {/* Ambient halo — slowly expands to fill the whole background */}
+          <motion.ellipse
+            cx="100"
+            cy="95"
+            rx="130"
+            ry="115"
+            fill="url(#neon-heart-halo)"
+            filter="url(#neon-heart-bloom)"
+            initial={{ rx: 130, ry: 115, opacity: 0.6 }}
+            animate={
+              visible
+                ? { rx: [130, 320, 310, 320], ry: [115, 320, 310, 320], opacity: [0.6, 0.85, 0.8, 0.85] }
+                : {}
+            }
+            transition={{
+              duration: 8,
+              times: [0, 0.6, 0.8, 1],
+              ease: [0.23, 1, 0.32, 1],
+              repeat: Infinity,
+              repeatType: "reverse",
+              repeatDelay: 0,
+            }}
+          />
 
           {/* Outer wide bloom */}
           <path
