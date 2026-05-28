@@ -174,14 +174,14 @@ function RobotChestOverlay() {
   }, []);
 
   return (
-    <div className="absolute inset-0 pointer-events-none z-10">
-      {/* Flame heart ABOVE robot's head */}
+    <div className="absolute inset-0 pointer-events-none">
+      {/* Flame heart aligned to TOP, BEHIND robot (z-0) */}
       <motion.div
-        initial={{ opacity: 0, scale: 0.6, y: 20 }}
-        animate={visible ? { opacity: 1, scale: 1, y: 0 } : { opacity: 0, scale: 0.6, y: 20 }}
+        initial={{ opacity: 0, scale: 0.6 }}
+        animate={visible ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.6 }}
         transition={{ duration: 0.8, ease: [0.23, 1, 0.32, 1] }}
-        className="absolute"
-        style={{ top: "8%", left: "50%", transform: "translate(-50%, -50%)" }}
+        className="absolute z-0"
+        style={{ top: "0%", left: "50%", transform: "translate(-50%, 0)" }}
       >
         <motion.svg
           animate={visible ? { scale: [1, 1.08, 1, 1.12, 1] } : {}}
@@ -192,7 +192,7 @@ function RobotChestOverlay() {
             times: [0, 0.15, 0.3, 0.45, 0.7],
           }}
           viewBox="0 0 200 200"
-          className="w-28 h-28 sm:w-36 sm:h-36 lg:w-48 lg:h-48"
+          className="w-32 h-32 sm:w-44 sm:h-44 lg:w-56 lg:h-56"
           fill="none"
         >
           <defs>
@@ -293,16 +293,16 @@ function RobotChestOverlay() {
         initial={{ opacity: 0, x: -10 }}
         animate={visible ? { opacity: 1, x: 0 } : { opacity: 0, x: -10 }}
         transition={{ duration: 0.6, delay: 0.3, ease: [0.23, 1, 0.32, 1] }}
-        className="absolute flex flex-col items-start gap-1"
-        style={{ top: "55%", left: "42%", transform: "translate(-50%, -50%)" }}
+        className="absolute z-20 flex flex-col items-start gap-0.5"
+        style={{ top: "44%", left: "42%", transform: "translate(-50%, -50%)" }}
       >
         <motion.span
           animate={visible ? { opacity: [0.7, 1, 0.7] } : {}}
           transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-          className="text-[9px] sm:text-[11px] lg:text-xs font-extrabold tracking-[0.2em] uppercase whitespace-nowrap"
+          className="text-[7px] sm:text-[8px] lg:text-[10px] font-extrabold tracking-[0.2em] uppercase whitespace-nowrap"
           style={{
             color: "#00fff2",
-            textShadow: "0 0 6px rgba(0,255,242,0.8), 0 0 14px rgba(0,255,242,0.4)",
+            textShadow: "0 0 4px rgba(0,255,242,0.8), 0 0 10px rgba(0,255,242,0.4)",
           }}
         >
           Pulse Medication
@@ -310,7 +310,7 @@ function RobotChestOverlay() {
 
         <svg
           viewBox="0 0 200 50"
-          className="w-20 sm:w-28 lg:w-32 h-auto"
+          className="w-14 sm:w-16 lg:w-20 h-auto"
           preserveAspectRatio="xMidYMid meet"
         >
           <defs>
@@ -475,13 +475,13 @@ export function Hero() {
               transition={{ delay: 0.2, duration: 0.8, ease: EASE_OUT_EXPO }}
               className="flex-1 relative min-h-[400px] lg:min-h-0 overflow-hidden"
             >
-              <div className="absolute inset-0 flex items-center justify-center">
+              <RobotChestOverlay />
+              <div className="absolute inset-0 flex items-center justify-center z-10">
                 <SplineScene
                   scene="https://prod.spline.design/kZDDjO5HuC9GJUM2/scene.splinecode"
                   className="w-full h-full"
                 />
               </div>
-              <RobotChestOverlay />
             </motion.div>
           </div>
         </Card>
