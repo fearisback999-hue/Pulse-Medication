@@ -164,52 +164,99 @@ function BeatingHeart() {
   );
 }
 
-function FixedHeartEye() {
+function RobotChestOverlay() {
   return (
-    <motion.svg
-      animate={{ scale: [1, 1.18, 1, 1.22, 1] }}
-      transition={{
-        duration: 0.85,
-        repeat: Infinity,
-        ease: [0.23, 1, 0.32, 1],
-        times: [0, 0.15, 0.3, 0.45, 0.7],
-      }}
-      viewBox="0 0 24 24"
-      className="w-5 h-5 sm:w-6 sm:h-6 lg:w-7 lg:h-7"
-      fill="none"
-    >
-      <path
-        d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"
-        fill="#FF4D6A"
-      />
-    </motion.svg>
-  );
-}
+    <div className="absolute inset-0 pointer-events-none z-10 flex items-center justify-center">
+      <div
+        className="absolute flex flex-col items-center"
+        style={{ top: "52%", left: "50%", transform: "translate(-50%, -50%)" }}
+      >
+        {/* Brand name */}
+        <motion.span
+          animate={{ opacity: [0.7, 1, 0.7] }}
+          transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+          className="text-[10px] sm:text-xs lg:text-sm font-extrabold tracking-[0.25em] uppercase mb-1 sm:mb-2"
+          style={{
+            color: "#00fff2",
+            textShadow: "0 0 8px rgba(0,255,242,0.8), 0 0 20px rgba(0,255,242,0.4), 0 0 40px rgba(0,255,242,0.2)",
+          }}
+        >
+          Pulse Medication
+        </motion.span>
 
-function FixedHeartEyes() {
-  return (
-    <div className="absolute inset-0 pointer-events-none z-10">
-      {/* Dark mask circles to cover Spline's drifting hearts */}
-      <div
-        className="absolute w-8 h-8 sm:w-10 sm:h-10 lg:w-12 lg:h-12 rounded-full bg-[#1a1a2e]"
-        style={{ top: "24%", left: "45%", transform: "translate(-50%, -50%)" }}
-      />
-      <div
-        className="absolute w-8 h-8 sm:w-10 sm:h-10 lg:w-12 lg:h-12 rounded-full bg-[#1a1a2e]"
-        style={{ top: "24%", left: "53%", transform: "translate(-50%, -50%)" }}
-      />
-      {/* Fixed beating hearts on top */}
-      <div
-        className="absolute flex items-center justify-center"
-        style={{ top: "24%", left: "45%", transform: "translate(-50%, -50%)" }}
-      >
-        <FixedHeartEye />
-      </div>
-      <div
-        className="absolute flex items-center justify-center"
-        style={{ top: "24%", left: "53%", transform: "translate(-50%, -50%)" }}
-      >
-        <FixedHeartEye />
+        {/* Neon EKG heartbeat line */}
+        <svg
+          viewBox="0 0 200 50"
+          className="w-24 sm:w-32 lg:w-40 h-auto"
+          preserveAspectRatio="xMidYMid meet"
+        >
+          <defs>
+            <linearGradient id="neon-pulse-grad" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stopColor="#00fff2" stopOpacity="0" />
+              <stop offset="20%" stopColor="#00fff2" stopOpacity="1" />
+              <stop offset="50%" stopColor="#ff2d78" stopOpacity="1" />
+              <stop offset="80%" stopColor="#00fff2" stopOpacity="1" />
+              <stop offset="100%" stopColor="#00fff2" stopOpacity="0" />
+            </linearGradient>
+            <filter id="neon-glow">
+              <feGaussianBlur stdDeviation="3" result="blur" />
+              <feMerge>
+                <feMergeNode in="blur" />
+                <feMergeNode in="blur" />
+                <feMergeNode in="SourceGraphic" />
+              </feMerge>
+            </filter>
+          </defs>
+          {/* Background dim line */}
+          <path
+            d="M0,25 L40,25 L55,25 L65,8 L75,42 L85,12 L92,32 L100,20 L108,25 L145,25 L160,25 L170,8 L180,42 L190,12 L200,25"
+            fill="none"
+            stroke="#00fff2"
+            strokeWidth="1"
+            strokeOpacity="0.15"
+          />
+          {/* Neon animated line */}
+          <path
+            d="M0,25 L40,25 L55,25 L65,8 L75,42 L85,12 L92,32 L100,20 L108,25 L145,25 L160,25 L170,8 L180,42 L190,12 L200,25"
+            fill="none"
+            stroke="url(#neon-pulse-grad)"
+            strokeWidth="2.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            filter="url(#neon-glow)"
+            className="ekg-animate"
+          />
+        </svg>
+
+        {/* Neon heart icon below the EKG */}
+        <motion.svg
+          animate={{ scale: [1, 1.15, 1, 1.18, 1] }}
+          transition={{
+            duration: 0.85,
+            repeat: Infinity,
+            ease: [0.23, 1, 0.32, 1],
+            times: [0, 0.15, 0.3, 0.45, 0.7],
+          }}
+          viewBox="0 0 24 24"
+          className="w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6 mt-1"
+          fill="none"
+        >
+          <defs>
+            <filter id="neon-heart-glow">
+              <feGaussianBlur stdDeviation="2" result="blur" />
+              <feMerge>
+                <feMergeNode in="blur" />
+                <feMergeNode in="SourceGraphic" />
+              </feMerge>
+            </filter>
+          </defs>
+          <path
+            d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"
+            fill="#ff2d78"
+            filter="url(#neon-heart-glow)"
+            style={{ filter: "drop-shadow(0 0 6px rgba(255,45,120,0.8)) drop-shadow(0 0 12px rgba(255,45,120,0.4))" }}
+          />
+        </motion.svg>
       </div>
     </div>
   );
@@ -343,7 +390,7 @@ export function Hero() {
                   className="w-full h-full"
                 />
               </div>
-              <FixedHeartEyes />
+              <RobotChestOverlay />
             </motion.div>
           </div>
         </Card>
