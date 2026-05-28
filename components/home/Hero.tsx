@@ -169,22 +169,19 @@ function RobotChestOverlay() {
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
-    const handleClick = () => {
-      setTimeout(() => setVisible(true), 1000);
-      window.removeEventListener("click", handleClick);
-    };
-    window.addEventListener("click", handleClick);
-    return () => window.removeEventListener("click", handleClick);
+    const timer = setTimeout(() => setVisible(true), 2000);
+    return () => clearTimeout(timer);
   }, []);
 
   return (
-    <div className="absolute inset-0 pointer-events-none z-10 flex items-center justify-center">
+    <div className="absolute inset-0 pointer-events-none z-10">
+      {/* Flame heart ABOVE robot's head */}
       <motion.div
-        initial={{ opacity: 0, scale: 0.6 }}
-        animate={visible ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.6 }}
+        initial={{ opacity: 0, scale: 0.6, y: 20 }}
+        animate={visible ? { opacity: 1, scale: 1, y: 0 } : { opacity: 0, scale: 0.6, y: 20 }}
         transition={{ duration: 0.8, ease: [0.23, 1, 0.32, 1] }}
         className="absolute"
-        style={{ top: "55%", left: "50%", transform: "translate(-50%, -50%)" }}
+        style={{ top: "8%", left: "50%", transform: "translate(-50%, -50%)" }}
       >
         <motion.svg
           animate={visible ? { scale: [1, 1.08, 1, 1.12, 1] } : {}}
@@ -195,7 +192,7 @@ function RobotChestOverlay() {
             times: [0, 0.15, 0.3, 0.45, 0.7],
           }}
           viewBox="0 0 200 200"
-          className="w-32 h-32 sm:w-44 sm:h-44 lg:w-56 lg:h-56"
+          className="w-28 h-28 sm:w-36 sm:h-36 lg:w-48 lg:h-48"
           fill="none"
         >
           <defs>
@@ -289,6 +286,68 @@ function RobotChestOverlay() {
             />
           ))}
         </motion.svg>
+      </motion.div>
+
+      {/* Logo + EKG on robot's RIGHT chest (viewer's left) */}
+      <motion.div
+        initial={{ opacity: 0, x: -10 }}
+        animate={visible ? { opacity: 1, x: 0 } : { opacity: 0, x: -10 }}
+        transition={{ duration: 0.6, delay: 0.3, ease: [0.23, 1, 0.32, 1] }}
+        className="absolute flex flex-col items-start gap-1"
+        style={{ top: "55%", left: "42%", transform: "translate(-50%, -50%)" }}
+      >
+        <motion.span
+          animate={visible ? { opacity: [0.7, 1, 0.7] } : {}}
+          transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+          className="text-[9px] sm:text-[11px] lg:text-xs font-extrabold tracking-[0.2em] uppercase whitespace-nowrap"
+          style={{
+            color: "#00fff2",
+            textShadow: "0 0 6px rgba(0,255,242,0.8), 0 0 14px rgba(0,255,242,0.4)",
+          }}
+        >
+          Pulse Medication
+        </motion.span>
+
+        <svg
+          viewBox="0 0 200 50"
+          className="w-20 sm:w-28 lg:w-32 h-auto"
+          preserveAspectRatio="xMidYMid meet"
+        >
+          <defs>
+            <linearGradient id="chest-ekg-grad" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stopColor="#00fff2" stopOpacity="0" />
+              <stop offset="20%" stopColor="#00fff2" stopOpacity="1" />
+              <stop offset="50%" stopColor="#ff2d78" stopOpacity="1" />
+              <stop offset="80%" stopColor="#00fff2" stopOpacity="1" />
+              <stop offset="100%" stopColor="#00fff2" stopOpacity="0" />
+            </linearGradient>
+            <filter id="chest-ekg-glow">
+              <feGaussianBlur stdDeviation="2" result="blur" />
+              <feMerge>
+                <feMergeNode in="blur" />
+                <feMergeNode in="blur" />
+                <feMergeNode in="SourceGraphic" />
+              </feMerge>
+            </filter>
+          </defs>
+          <path
+            d="M0,25 L40,25 L55,25 L65,8 L75,42 L85,12 L92,32 L100,20 L108,25 L145,25 L160,25 L170,8 L180,42 L190,12 L200,25"
+            fill="none"
+            stroke="#00fff2"
+            strokeWidth="1"
+            strokeOpacity="0.15"
+          />
+          <path
+            d="M0,25 L40,25 L55,25 L65,8 L75,42 L85,12 L92,32 L100,20 L108,25 L145,25 L160,25 L170,8 L180,42 L190,12 L200,25"
+            fill="none"
+            stroke="url(#chest-ekg-grad)"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            filter="url(#chest-ekg-glow)"
+            className="ekg-animate"
+          />
+        </svg>
       </motion.div>
     </div>
   );
