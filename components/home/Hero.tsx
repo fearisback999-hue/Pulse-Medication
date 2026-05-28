@@ -197,11 +197,11 @@ function RobotChestOverlay() {
           fill="none"
         >
           <defs>
-            {/* Warm orange-red halo behind the heart */}
+            {/* Gold halo behind the heart — matches the small floating gold hearts */}
             <radialGradient id="neon-heart-halo" cx="50%" cy="50%" r="55%">
-              <stop offset="0%" stopColor="#FF6A00" stopOpacity="0.55" />
-              <stop offset="50%" stopColor="#FF1A1A" stopOpacity="0.22" />
-              <stop offset="100%" stopColor="#FF0000" stopOpacity="0" />
+              <stop offset="0%" stopColor="#E0C372" stopOpacity="0.6" />
+              <stop offset="50%" stopColor="#C9A84C" stopOpacity="0.25" />
+              <stop offset="100%" stopColor="#C9A84C" stopOpacity="0" />
             </radialGradient>
 
             {/* Stroke gradient — orange to red neon tube */}
@@ -289,15 +289,15 @@ function RobotChestOverlay() {
             opacity="0.95"
           />
 
-          {/* Spark particles — orange/red glow drifting up */}
+          {/* Gold spark particles drifting up to match the aura */}
           {[
-            { cx: 30, cy: 80, r: 1.3, color: "#FFB347" },
-            { cx: 170, cy: 70, r: 1, color: "#FF6A00" },
-            { cx: 185, cy: 110, r: 1.2, color: "#FF1A1A" },
-            { cx: 25, cy: 130, r: 1, color: "#FF5A1F" },
-            { cx: 100, cy: 5, r: 1.4, color: "#FFB347" },
-            { cx: 60, cy: 25, r: 1, color: "#FF6A00" },
-            { cx: 140, cy: 25, r: 1.1, color: "#FFB347" },
+            { cx: 30, cy: 80, r: 1.3, color: "#FFD27A" },
+            { cx: 170, cy: 70, r: 1, color: "#E0C372" },
+            { cx: 185, cy: 110, r: 1.2, color: "#C9A84C" },
+            { cx: 25, cy: 130, r: 1, color: "#D4AD4B" },
+            { cx: 100, cy: 5, r: 1.4, color: "#FFD27A" },
+            { cx: 60, cy: 25, r: 1, color: "#E0C372" },
+            { cx: 140, cy: 25, r: 1.1, color: "#FFD27A" },
           ].map((p, i) => (
             <motion.circle
               key={i}
@@ -331,8 +331,8 @@ function RobotChestOverlay() {
           transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
           className="text-[10px] sm:text-xs lg:text-sm font-extrabold tracking-[0.25em] uppercase whitespace-nowrap"
           style={{
-            color: "#E0C372",
-            textShadow: "0 0 6px rgba(201,168,76,0.9), 0 0 14px rgba(201,168,76,0.5), 0 0 26px rgba(201,168,76,0.25)",
+            color: "#FF3A3A",
+            textShadow: "0 0 6px rgba(255,58,58,0.9), 0 0 14px rgba(255,26,26,0.55), 0 0 26px rgba(255,0,0,0.3)",
           }}
         >
           Pulse Medication
@@ -345,11 +345,11 @@ function RobotChestOverlay() {
         >
           <defs>
             <linearGradient id="chest-ekg-grad" x1="0%" y1="0%" x2="100%" y2="0%">
-              <stop offset="0%" stopColor="#C9A84C" stopOpacity="0" />
-              <stop offset="20%" stopColor="#E0C372" stopOpacity="1" />
-              <stop offset="50%" stopColor="#FFD27A" stopOpacity="1" />
-              <stop offset="80%" stopColor="#E0C372" stopOpacity="1" />
-              <stop offset="100%" stopColor="#C9A84C" stopOpacity="0" />
+              <stop offset="0%" stopColor="#FF1A1A" stopOpacity="0" />
+              <stop offset="20%" stopColor="#FF3A3A" stopOpacity="1" />
+              <stop offset="50%" stopColor="#FF6A6A" stopOpacity="1" />
+              <stop offset="80%" stopColor="#FF3A3A" stopOpacity="1" />
+              <stop offset="100%" stopColor="#FF1A1A" stopOpacity="0" />
             </linearGradient>
             <filter id="chest-ekg-glow">
               <feGaussianBlur stdDeviation="2" result="blur" />
@@ -363,9 +363,9 @@ function RobotChestOverlay() {
           <path
             d="M0,25 L40,25 L55,25 L65,8 L75,42 L85,12 L92,32 L100,20 L108,25 L145,25 L160,25 L170,8 L180,42 L190,12 L200,25"
             fill="none"
-            stroke="#C9A84C"
+            stroke="#FF1A1A"
             strokeWidth="1"
-            strokeOpacity="0.2"
+            strokeOpacity="0.25"
           />
           <path
             d="M0,25 L40,25 L55,25 L65,8 L75,42 L85,12 L92,32 L100,20 L108,25 L145,25 L160,25 L170,8 L180,42 L190,12 L200,25"
