@@ -181,7 +181,7 @@ function RobotChestOverlay() {
         animate={visible ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.8 }}
         transition={{ duration: 1.2, ease: [0.23, 1, 0.32, 1] }}
         className="absolute z-0 flex items-start justify-center"
-        style={{ top: "0%", left: "-10%", transform: "translateX(-50%)", width: "120%", height: "120%" }}
+        style={{ top: "-20%", left: "-10%", transform: "translateX(-50%)", width: "102%", height: "102%" }}
       >
         <motion.svg
           animate={visible ? { scale: [1, 1.04, 1, 1.06, 1] } : {}}
@@ -230,24 +230,28 @@ function RobotChestOverlay() {
           {/* Ambient red halo */}
           <ellipse cx="100" cy="140" rx="100" ry="120" fill="url(#neon-heart-halo)" filter="url(#neon-heart-bloom)" />
 
-          {/* Aortic arches and arteries on top */}
-          <g stroke="#ff1a1a" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round" fill="none" filter="url(#neon-heart-glow)">
-            <path d="M 95 70 C 100 50, 115 38, 130 42 C 142 46, 145 55, 138 65" />
-            <path d="M 110 65 C 120 45, 135 35, 148 45 C 155 52, 152 60, 145 62" />
-            <path d="M 125 70 C 135 50, 148 45, 155 55 C 158 62, 152 70, 142 70" />
-            <path d="M 85 70 C 78 55, 70 50, 62 58" />
+          {/* Aortic arch and pulmonary trunk on top — large curved tubes */}
+          <g stroke="#ff1a1a" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" fill="none" filter="url(#neon-heart-glow)">
+            {/* Aortic arch — big curve from heart up and over to right */}
+            <path d="M 88 78 C 88 50, 118 32, 138 42 C 152 50, 155 65, 145 72" />
+            {/* Pulmonary trunk — second arch slightly inside */}
+            <path d="M 108 72 C 115 48, 138 38, 152 50 C 160 58, 156 70, 148 72" />
+            {/* Right side superior vena cava tube */}
+            <path d="M 132 80 C 142 60, 155 55, 162 65 C 165 72, 160 80, 152 82" />
+            {/* Left vein curl */}
+            <path d="M 78 80 C 70 65, 62 60, 56 70" />
           </g>
 
-          {/* Main anatomical heart body */}
+          {/* Main anatomical heart body — pear-shaped with point at bottom */}
           <path
-            d="M 92 75
-               C 70 70, 45 80, 38 110
-               C 32 140, 42 175, 60 200
-               C 75 220, 92 240, 100 255
-               C 110 235, 125 215, 140 195
-               C 158 170, 170 140, 165 110
-               C 160 85, 140 70, 120 75
-               C 112 78, 100 78, 92 75 Z"
+            d="M 88 78
+               C 65 78, 42 92, 38 122
+               C 35 152, 48 185, 70 210
+               C 85 230, 98 248, 102 260
+               C 108 245, 122 225, 138 205
+               C 158 178, 168 148, 162 118
+               C 156 90, 138 75, 118 78
+               C 110 80, 96 80, 88 78 Z"
             stroke="#ff1a1a"
             strokeWidth="4"
             strokeLinejoin="round"
@@ -255,24 +259,29 @@ function RobotChestOverlay() {
             filter="url(#neon-heart-glow)"
           />
 
-          {/* Inner coronary artery lines */}
+          {/* Inner coronary arteries — branching pattern like the reference */}
           <g stroke="#ff1a1a" strokeWidth="2.5" strokeLinecap="round" fill="none" filter="url(#neon-heart-glow)" opacity="0.9">
-            <path d="M 70 110 C 75 140, 85 170, 100 200" />
-            <path d="M 130 100 C 128 130, 120 165, 115 195" />
-            <path d="M 80 140 C 95 145, 110 145, 125 145" />
-            <path d="M 75 175 C 90 178, 105 178, 120 175" />
+            {/* Main left descending artery — diagonal down-right from top */}
+            <path d="M 105 90 C 100 120, 92 150, 85 185" />
+            {/* Right coronary artery — curves around the right side */}
+            <path d="M 118 90 C 125 115, 130 145, 125 180" />
+            {/* Cross branches */}
+            <path d="M 75 145 C 90 148, 110 150, 130 148" />
+            <path d="M 70 180 C 88 184, 108 184, 125 178" />
+            {/* Small branch off the LAD */}
+            <path d="M 95 130 C 85 138, 78 145, 72 155" />
           </g>
 
           {/* Inner bright white-pink highlight stroke */}
           <path
-            d="M 92 75
-               C 70 70, 45 80, 38 110
-               C 32 140, 42 175, 60 200
-               C 75 220, 92 240, 100 255
-               C 110 235, 125 215, 140 195
-               C 158 170, 170 140, 165 110
-               C 160 85, 140 70, 120 75
-               C 112 78, 100 78, 92 75 Z"
+            d="M 88 78
+               C 65 78, 42 92, 38 122
+               C 35 152, 48 185, 70 210
+               C 85 230, 98 248, 102 260
+               C 108 245, 122 225, 138 205
+               C 158 178, 168 148, 162 118
+               C 156 90, 138 75, 118 78
+               C 110 80, 96 80, 88 78 Z"
             stroke="#ffe5e5"
             strokeWidth="1.2"
             strokeLinejoin="round"
