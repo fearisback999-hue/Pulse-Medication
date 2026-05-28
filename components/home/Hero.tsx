@@ -164,6 +164,57 @@ function BeatingHeart() {
   );
 }
 
+function FixedHeartEye() {
+  return (
+    <motion.svg
+      animate={{ scale: [1, 1.18, 1, 1.22, 1] }}
+      transition={{
+        duration: 0.85,
+        repeat: Infinity,
+        ease: [0.23, 1, 0.32, 1],
+        times: [0, 0.15, 0.3, 0.45, 0.7],
+      }}
+      viewBox="0 0 24 24"
+      className="w-5 h-5 sm:w-6 sm:h-6 lg:w-7 lg:h-7"
+      fill="none"
+    >
+      <path
+        d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"
+        fill="#FF4D6A"
+      />
+    </motion.svg>
+  );
+}
+
+function FixedHeartEyes() {
+  return (
+    <div className="absolute inset-0 pointer-events-none z-10">
+      {/* Dark mask circles to cover Spline's drifting hearts */}
+      <div
+        className="absolute w-8 h-8 sm:w-10 sm:h-10 lg:w-12 lg:h-12 rounded-full bg-[#1a1a2e]"
+        style={{ top: "24%", left: "45%", transform: "translate(-50%, -50%)" }}
+      />
+      <div
+        className="absolute w-8 h-8 sm:w-10 sm:h-10 lg:w-12 lg:h-12 rounded-full bg-[#1a1a2e]"
+        style={{ top: "24%", left: "53%", transform: "translate(-50%, -50%)" }}
+      />
+      {/* Fixed beating hearts on top */}
+      <div
+        className="absolute flex items-center justify-center"
+        style={{ top: "24%", left: "45%", transform: "translate(-50%, -50%)" }}
+      >
+        <FixedHeartEye />
+      </div>
+      <div
+        className="absolute flex items-center justify-center"
+        style={{ top: "24%", left: "53%", transform: "translate(-50%, -50%)" }}
+      >
+        <FixedHeartEye />
+      </div>
+    </div>
+  );
+}
+
 const statItems = [
   { value: "4 Days", label: "Intensive Program" },
   { value: "32 Hours", label: "Contact Hours" },
@@ -279,12 +330,12 @@ export function Hero() {
               </motion.div>
             </div>
 
-            {/* Right: 3D Spline Scene (pointer-events disabled to lock heart eyes in sockets) */}
+            {/* Right: 3D Spline Scene */}
             <motion.div
               initial={{ opacity: 0, transform: "scale(0.96)" }}
               animate={{ opacity: 1, transform: "scale(1)" }}
               transition={{ delay: 0.2, duration: 0.8, ease: EASE_OUT_EXPO }}
-              className="flex-1 relative min-h-[400px] lg:min-h-0 overflow-hidden pointer-events-none"
+              className="flex-1 relative min-h-[400px] lg:min-h-0 overflow-hidden"
             >
               <div className="absolute inset-0 flex items-center justify-center">
                 <SplineScene
@@ -292,6 +343,7 @@ export function Hero() {
                   className="w-full h-full"
                 />
               </div>
+              <FixedHeartEyes />
             </motion.div>
           </div>
         </Card>
