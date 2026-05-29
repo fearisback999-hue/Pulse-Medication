@@ -164,6 +164,73 @@ function BeatingHeart() {
   );
 }
 
+function MonitorScreen() {
+  return (
+    <div className="absolute inset-4 sm:inset-8 z-0 rounded-2xl overflow-hidden border-2 border-gray-700/80 bg-black shadow-2xl">
+      {/* Green phosphor grid */}
+      <div
+        className="absolute inset-0 opacity-[0.12]"
+        style={{
+          backgroundImage:
+            "linear-gradient(#00ff88 1px, transparent 1px), linear-gradient(90deg, #00ff88 1px, transparent 1px)",
+          backgroundSize: "28px 28px",
+        }}
+      />
+      {/* Soft green glow from the trace */}
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(0,255,136,0.08),transparent_70%)]" />
+
+      {/* Top readout row */}
+      <div className="absolute top-3 left-4 right-4 flex items-center justify-between z-10">
+        <span className="text-[10px] sm:text-xs font-bold tracking-[0.3em] uppercase text-green-400 [text-shadow:0_0_8px_rgba(0,255,136,0.8)]">
+          EKG · Lead II
+        </span>
+        <span className="text-lg sm:text-2xl font-black font-mono text-green-400 [text-shadow:0_0_12px_rgba(0,255,136,0.9)]">
+          72 BPM
+        </span>
+      </div>
+
+      {/* Animated EKG waveform */}
+      <svg
+        viewBox="0 0 800 140"
+        className="absolute top-1/2 left-0 w-full h-2/3 -translate-y-1/2"
+        preserveAspectRatio="none"
+      >
+        <defs>
+          <filter id="monitor-ekg-glow">
+            <feGaussianBlur stdDeviation="2.5" result="blur" />
+            <feMerge>
+              <feMergeNode in="blur" />
+              <feMergeNode in="SourceGraphic" />
+            </feMerge>
+          </filter>
+        </defs>
+        <path
+          d="M0,70 L80,70 L95,70 L105,62 L115,70 L150,70 L165,68 L175,30 L185,110 L195,48 L205,70 L240,70
+             L320,70 L335,70 L345,62 L355,70 L390,70 L405,68 L415,30 L425,110 L435,48 L445,70 L480,70
+             L560,70 L575,70 L585,62 L595,70 L630,70 L645,68 L655,30 L665,110 L675,48 L685,70 L800,70"
+          fill="none"
+          stroke="#00ff88"
+          strokeWidth="3"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          filter="url(#monitor-ekg-glow)"
+          className="ekg-sweep-animation"
+        />
+      </svg>
+
+      {/* Bottom vitals row */}
+      <div className="absolute bottom-3 left-4 right-4 flex items-center justify-between z-10">
+        <span className="text-[10px] sm:text-xs font-bold tracking-[0.25em] uppercase text-rose-400 [text-shadow:0_0_8px_rgba(255,77,106,0.8)]">
+          SpO₂ 98%
+        </span>
+        <span className="text-[10px] sm:text-xs font-bold tracking-[0.25em] uppercase text-cyan-400 [text-shadow:0_0_8px_rgba(0,207,255,0.8)]">
+          120/80
+        </span>
+      </div>
+    </div>
+  );
+}
+
 const statItems = [
   { value: "4 Days", label: "Intensive Program" },
   { value: "32 Hours", label: "Contact Hours" },
@@ -286,6 +353,9 @@ export function Hero() {
               transition={{ delay: 0.2, duration: 0.8, ease: EASE_OUT_EXPO }}
               className="flex-1 relative min-h-[640px] lg:min-h-0 overflow-visible lg:min-w-[480px]"
             >
+              {/* Black EKG monitor screen as the backdrop */}
+              <MonitorScreen />
+              {/* Red 3D heart floating in front of the screen */}
               <div className="absolute inset-0 z-10">
                 <GlbHeart className="w-full h-full" />
               </div>
