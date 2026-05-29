@@ -65,7 +65,7 @@ export function GlbHeart({ url = "/models/hero-heart.glb", className }: GlbHeart
         <Suspense fallback={null}>
           {/* Bounds auto-fits the model to the frame so it can't be cropped;
               the small margin keeps a little padding even at the beat's peak. */}
-          <Bounds fit clip observe margin={1.05}>
+          <Bounds fit clip observe margin={1.085}>
             <HeartModel url={url} />
           </Bounds>
           <Environment preset="studio" />

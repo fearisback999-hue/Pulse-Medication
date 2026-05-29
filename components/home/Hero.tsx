@@ -189,9 +189,9 @@ export function Hero() {
             fill="white"
           />
 
-          <div className="flex flex-col lg:flex-row min-h-[640px] lg:min-h-[780px]">
+          <div className="flex flex-col lg:flex-row min-h-[760px] lg:min-h-[900px]">
             {/* Left: Text Content */}
-            <div className="flex-1 lg:flex-[0.85] p-8 sm:p-12 lg:p-16 relative z-10 flex flex-col justify-center">
+            <div className="flex-1 lg:flex-[0.92] p-8 sm:p-12 lg:p-16 relative z-10 flex flex-col justify-center">
               <motion.div
                 initial={{ opacity: 0, transform: "translateY(16px)" }}
                 animate={{ opacity: 1, transform: "translateY(0px)" }}
@@ -284,7 +284,7 @@ export function Hero() {
               initial={{ opacity: 0, transform: "scale(0.96)" }}
               animate={{ opacity: 1, transform: "scale(1)" }}
               transition={{ delay: 0.2, duration: 0.8, ease: EASE_OUT_EXPO }}
-              className="flex-1 lg:flex-[1.7] relative min-h-[560px] lg:min-h-0 overflow-visible lg:min-w-[560px]"
+              className="flex-1 lg:flex-[1.35] relative min-h-[560px] lg:min-h-0 overflow-visible lg:min-w-[520px]"
             >
               <div className="absolute inset-0 z-10">
                 <GlbHeart className="w-full h-full" />
