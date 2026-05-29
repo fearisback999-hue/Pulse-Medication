@@ -25,11 +25,12 @@ function HeartModel({ url }: { url: string }) {
     const t = state.clock.getElapsedTime();
     // Heartbeat pulse (lub-dub at ~70 BPM = 0.85s cycle) — no rotation
     const cycle = (t % 0.85) / 0.85;
+    // Small amplitude so the (now much larger) heart never clips the frame.
     let scale = 1;
-    if (cycle < 0.15) scale = 1 + 0.06 * (cycle / 0.15);
-    else if (cycle < 0.3) scale = 1.06 - 0.06 * ((cycle - 0.15) / 0.15);
-    else if (cycle < 0.45) scale = 1 + 0.09 * ((cycle - 0.3) / 0.15);
-    else if (cycle < 0.7) scale = 1.09 - 0.09 * ((cycle - 0.45) / 0.25);
+    if (cycle < 0.15) scale = 1 + 0.025 * (cycle / 0.15);
+    else if (cycle < 0.3) scale = 1.025 - 0.025 * ((cycle - 0.15) / 0.15);
+    else if (cycle < 0.45) scale = 1 + 0.04 * ((cycle - 0.3) / 0.15);
+    else if (cycle < 0.7) scale = 1.04 - 0.04 * ((cycle - 0.45) / 0.25);
     groupRef.current.scale.setScalar(scale);
   });
 
@@ -64,7 +65,7 @@ export function GlbHeart({ url = "/models/hero-heart.glb", className }: GlbHeart
         <Suspense fallback={null}>
           {/* Bounds auto-fits the model to the frame so it can't be cropped;
               the small margin keeps a little padding even at the beat's peak. */}
-          <Bounds fit clip observe margin={1.12}>
+          <Bounds fit clip observe margin={1.05}>
             <HeartModel url={url} />
           </Bounds>
           <Environment preset="studio" />
