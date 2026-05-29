@@ -112,6 +112,17 @@
     animation: ekg-line 3s linear infinite;
   }
 
+  @keyframes ekg-sweep {
+    0% { stroke-dashoffset: 900; }
+    100% { stroke-dashoffset: 0; }
+  }
+
+  .ekg-sweep-animation {
+    stroke-dasharray: 900;
+    stroke-dashoffset: 900;
+    animation: ekg-sweep 2.5s linear infinite;
+  }
+
   @keyframes float {
     0%, 100% { transform: translateY(0px); }
     50% { transform: translateY(-6px); }
@@ -200,6 +211,7 @@
 @layer utilities {
   @media (prefers-reduced-motion: reduce) {
     .ekg-animate,
+    .ekg-sweep-animation,
     .float-animation,
     .pulse-slow,
     .shimmer,

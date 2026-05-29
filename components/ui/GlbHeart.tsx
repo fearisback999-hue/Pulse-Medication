@@ -5,27 +5,31 @@ import { Canvas, useFrame } from "@react-three/fiber";
 import { useGLTF, OrbitControls, Environment, Center } from "@react-three/drei";
 import * as THREE from "three";
 
-function HeartModel({ url, color }: { url: string; color: string }) {
+function HeartModel({ url }: { url: string }) {
   const { scene } = useGLTF(url, true);
   const groupRef = useRef<THREE.Group>(null);
 
   // The compressed model lost its textures (renders white), so paint it
-  // with an anatomical red, slightly glossy so it catches the lighting.
+  // with anatomical reds — varied per mesh for wet cardiac-tissue depth.
   const tinted = useMemo(() => {
     const clone = scene.clone(true);
-    const base = new THREE.Color(color);
+    const anatomicalColors = ["#7a0000", "#8B0000", "#6B0000", "#9B1010", "#A01828"];
+    let meshIndex = 0;
     clone.traverse((child) => {
       if ((child as THREE.Mesh).isMesh) {
         const mesh = child as THREE.Mesh;
+        const shade = anatomicalColors[meshIndex % anatomicalColors.length];
         mesh.material = new THREE.MeshStandardMaterial({
-          color: base,
-          roughness: 0.4,
-          metalness: 0.1,
+          color: new THREE.Color(shade),
+          roughness: 0.3 + (meshIndex % 3) * 0.08, // vary roughness slightly
+          metalness: 0.05,
+          envMapIntensity: 1.4,
         });
+        meshIndex++;
       }
     });
     return clone;
-  }, [scene, color]);
+  }, [scene]);
 
   useFrame((state) => {
     if (!groupRef.current) return;
@@ -52,28 +56,28 @@ function HeartModel({ url, color }: { url: string; color: string }) {
 interface GlbHeartProps {
   url?: string;
   className?: string;
-  color?: string;
 }
 
-export function GlbHeart({
-  url = "/models/hero-heart.glb",
-  className,
-  color = "#c4243a",
-}: GlbHeartProps) {
+export function GlbHeart({ url = "/models/hero-heart.glb", className }: GlbHeartProps) {
   return (
     <div className={className}>
       <Canvas
-        camera={{ position: [0, 0, 6], fov: 42 }}
+        camera={{ position: [0, 0, 4], fov: 38 }}
         dpr={[1, 2]}
         gl={{ antialias: true, alpha: true }}
       >
-        <ambientLight intensity={0.5} />
-        <directionalLight position={[5, 5, 5]} intensity={1.3} color="#fff5e6" />
-        <directionalLight position={[-5, 3, -2]} intensity={0.7} color="#ff6b8a" />
-        <pointLight position={[0, -3, 3]} intensity={0.6} color="#C9A84C" />
+        <ambientLight intensity={0.6} />
+        {/* Main warm key light from top-right */}
+        <directionalLight position={[4, 6, 4]} intensity={1.8} color="#fff0e0" />
+        {/* Cool fill from the left to reveal depth */}
+        <directionalLight position={[-4, 2, -2]} intensity={0.6} color="#ffcccc" />
+        {/* Rim/backlight for the wet-tissue gloss */}
+        <pointLight position={[0, -2, 4]} intensity={1.2} color="#ff4444" />
+        {/* Subtle bounce light from below */}
+        <pointLight position={[0, -5, 0]} intensity={0.3} color="#cc0000" />
 
         <Suspense fallback={null}>
-          <HeartModel url={url} color={color} />
+          <HeartModel url={url} />
           <Environment preset="studio" />
         </Suspense>
 

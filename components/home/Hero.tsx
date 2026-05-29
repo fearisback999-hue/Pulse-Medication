@@ -175,66 +175,66 @@ function RobotChestOverlay() {
 
   return (
     <div className="absolute inset-0 pointer-events-none">
-      {/* Logo + EKG anchored to TOP-RIGHT corner */}
+      {/* Clinical EKG monitor anchored to TOP-RIGHT corner */}
       <motion.div
         initial={{ opacity: 0, y: -10 }}
         animate={visible ? { opacity: 1, y: 0 } : { opacity: 0, y: -10 }}
         transition={{ duration: 0.7, delay: 3, ease: [0.23, 1, 0.32, 1] }}
-        className="absolute z-20 flex flex-col items-end gap-1.5 px-3 py-2 rounded-xl backdrop-blur-md bg-black/40 border border-gold-500/20 shadow-lg"
-        style={{ top: "5%", right: "5%" }}
+        className="absolute z-20 flex flex-col items-start gap-0 rounded-xl overflow-hidden shadow-2xl border border-gray-600"
+        style={{ top: "4%", right: "3%", minWidth: "180px" }}
       >
-        <motion.span
-          animate={visible ? { opacity: [0.85, 1, 0.85] } : {}}
-          transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-          className="text-xs sm:text-sm lg:text-base font-extrabold tracking-[0.25em] uppercase whitespace-nowrap"
-          style={{
-            color: "#FFD27A",
-            textShadow: "0 0 8px rgba(255,210,122,1), 0 0 18px rgba(201,168,76,0.7), 0 0 32px rgba(201,168,76,0.35)",
-          }}
-        >
-          Pulse Medication
-        </motion.span>
+        {/* Header bar (dark gray, like a real Philips/GE monitor top bar) */}
+        <div className="w-full bg-gray-800 px-3 py-1.5 flex items-center justify-between">
+          <span className="text-[10px] font-bold tracking-widest uppercase text-gray-300">
+            ECG
+          </span>
+          <span className="text-[10px] font-bold tracking-widest text-green-400">
+            HR: 72
+          </span>
+        </div>
 
-        <svg
-          viewBox="0 0 200 50"
-          className="w-20 sm:w-24 lg:w-28 h-auto"
-          preserveAspectRatio="xMidYMid meet"
+        {/* Black monitor screen */}
+        <div
+          className="bg-black w-full px-2 py-3 relative overflow-hidden"
+          style={{ height: "80px" }}
         >
-          <defs>
-            <linearGradient id="chest-ekg-grad" x1="0%" y1="0%" x2="100%" y2="0%">
-              <stop offset="0%" stopColor="#C9A84C" stopOpacity="0" />
-              <stop offset="20%" stopColor="#E0C372" stopOpacity="1" />
-              <stop offset="50%" stopColor="#FFD27A" stopOpacity="1" />
-              <stop offset="80%" stopColor="#E0C372" stopOpacity="1" />
-              <stop offset="100%" stopColor="#C9A84C" stopOpacity="0" />
-            </linearGradient>
-            <filter id="chest-ekg-glow">
-              <feGaussianBlur stdDeviation="2" result="blur" />
-              <feMerge>
-                <feMergeNode in="blur" />
-                <feMergeNode in="blur" />
-                <feMergeNode in="SourceGraphic" />
-              </feMerge>
-            </filter>
-          </defs>
-          <path
-            d="M0,25 L40,25 L55,25 L65,8 L75,42 L85,12 L92,32 L100,20 L108,25 L145,25 L160,25 L170,8 L180,42 L190,12 L200,25"
-            fill="none"
-            stroke="#C9A84C"
-            strokeWidth="1"
-            strokeOpacity="0.2"
+          {/* Green grid lines like a real monitor */}
+          <div
+            className="absolute inset-0 opacity-10"
+            style={{
+              backgroundImage:
+                "linear-gradient(#00ff00 1px, transparent 1px), linear-gradient(90deg, #00ff00 1px, transparent 1px)",
+              backgroundSize: "20px 20px",
+            }}
           />
-          <path
-            d="M0,25 L40,25 L55,25 L65,8 L75,42 L85,12 L92,32 L100,20 L108,25 L145,25 L160,25 L170,8 L180,42 L190,12 L200,25"
-            fill="none"
-            stroke="url(#chest-ekg-grad)"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            filter="url(#chest-ekg-glow)"
-            className="ekg-animate"
-          />
-        </svg>
+          {/* Animated EKG waveform */}
+          <svg viewBox="0 0 300 60" className="w-full h-full" preserveAspectRatio="none">
+            <defs>
+              <filter id="ekg-glow">
+                <feGaussianBlur stdDeviation="1.5" result="blur" />
+                <feMerge>
+                  <feMergeNode in="blur" />
+                  <feMergeNode in="SourceGraphic" />
+                </feMerge>
+              </filter>
+            </defs>
+            {/* Classic PQRST EKG waveform path */}
+            <path
+              d="M0,30 L40,30 L50,30 L55,26 L60,30 L70,30 L75,28 L80,4 L85,52 L90,20 L95,30 L100,30 L140,30 L145,26 L150,30 L160,30 L165,28 L170,4 L175,52 L180,20 L185,30 L190,30 L230,30 L235,26 L240,30 L250,30 L255,28 L260,4 L265,52 L270,20 L275,30 L300,30"
+              fill="none"
+              stroke="#00ff88"
+              strokeWidth="1.5"
+              filter="url(#ekg-glow)"
+              className="ekg-sweep-animation"
+            />
+          </svg>
+        </div>
+
+        {/* Vital-sign footer */}
+        <div className="w-full bg-gray-900 px-3 py-1 flex items-center justify-between border-t border-gray-700">
+          <span className="text-[9px] text-gray-400 font-mono">SpO₂: 98%</span>
+          <span className="text-[9px] text-gray-400 font-mono">BP: 120/80</span>
+        </div>
       </motion.div>
     </div>
   );
@@ -360,7 +360,7 @@ export function Hero() {
               initial={{ opacity: 0, transform: "scale(0.96)" }}
               animate={{ opacity: 1, transform: "scale(1)" }}
               transition={{ delay: 0.2, duration: 0.8, ease: EASE_OUT_EXPO }}
-              className="flex-1 relative min-h-[520px] lg:min-h-0 overflow-visible"
+              className="flex-1 relative min-h-[640px] lg:min-h-0 overflow-visible lg:min-w-[480px]"
             >
               <RobotChestOverlay />
               <div className="absolute inset-0 z-10">
