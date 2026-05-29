@@ -6,6 +6,7 @@ import { createAdminClient } from "@/lib/supabase/server";
 const supabaseConfigured =
   !!process.env.NEXT_PUBLIC_SUPABASE_URL &&
   !!process.env.SUPABASE_SERVICE_ROLE_KEY;
+const allowMock = process.env.ALLOW_MOCK_PAYMENTS === "true";
 
 export async function POST(request: Request) {
   try {
@@ -22,12 +23,24 @@ export async function POST(request: Request) {
     const data = parsed.data;
 
     if (!supabaseConfigured) {
-      const registrationId = randomUUID();
-      console.warn(
-        "[register] Supabase env vars not set — returning mock registrationId so form flow continues.",
-        { registrationId, email: data.email }
+      if (allowMock) {
+        const registrationId = randomUUID();
+        console.warn(
+          "[register] ALLOW_MOCK_PAYMENTS=true — returning mock registrationId (not saved).",
+          { registrationId, email: data.email }
+        );
+        return NextResponse.json({ registrationId, mock: true });
+      }
+      console.error(
+        "[register] Supabase is not configured — cannot save registration."
       );
-      return NextResponse.json({ registrationId, mock: true });
+      return NextResponse.json(
+        {
+          error:
+            "Registration is temporarily unavailable. Please try again later or contact us.",
+        },
+        { status: 503 }
+      );
     }
 
     const supabase = createAdminClient();

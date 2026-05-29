@@ -24,9 +24,12 @@ export function PaymentContent() {
   const [loading, setLoading] = useState(true);
   const [processingPayment, setProcessingPayment] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [paymentVerified, setPaymentVerified] = useState(false);
 
   const success = searchParams.get("success");
   const canceled = searchParams.get("canceled");
+  const sessionId = searchParams.get("session_id");
+  const isMock = searchParams.get("mock") === "true";
   const registrationId =
     searchParams.get("registrationId") ??
     (typeof window !== "undefined"
@@ -35,7 +38,22 @@ export function PaymentContent() {
 
   useEffect(() => {
     if (success) {
-      setLoading(false);
+      // Don't trust the URL — confirm with Stripe that the session was paid
+      // before showing the success screen. (mock dev flow is allowed through.)
+      if (isMock) {
+        setPaymentVerified(true);
+        setLoading(false);
+        return;
+      }
+      fetch("/api/payment/verify-session", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ sessionId }),
+      })
+        .then((res) => res.json())
+        .then((data) => setPaymentVerified(!!data.paid))
+        .catch(() => setPaymentVerified(false))
+        .finally(() => setLoading(false));
       return;
     }
     if (!registrationId) {
@@ -43,7 +61,47 @@ export function PaymentContent() {
       return;
     }
     setLoading(false);
-  }, [registrationId, success, router]);
+  }, [registrationId, success, isMock, sessionId, router]);
+
+  if (loading) {
+    return (
+      <Section className="pt-8 sm:pt-28">
+        <div className="flex justify-center">
+          <LoadingSpinner size="lg" />
+        </div>
+      </Section>
+    );
+  }
+
+  if (success && !paymentVerified) {
+    return (
+      <Section className="pt-8 sm:pt-28">
+        <motion.div
+          initial={{ scale: 0.97 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.4 }}
+          className="max-w-lg mx-auto text-center"
+        >
+          <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-red-50 mb-6">
+            <XCircle className="h-10 w-10 text-red-400" />
+          </div>
+          <h1 className="text-3xl font-extrabold font-heading text-navy-800 tracking-tightest mb-3">
+            Payment Not Confirmed
+          </h1>
+          <p className="text-gray-500 mb-8">
+            We couldn&apos;t verify your payment. If you were charged, please
+            contact us and we&apos;ll sort it out right away.
+          </p>
+          <Button
+            href={`/payment?registrationId=${registrationId}`}
+            variant="primary"
+          >
+            Try Again
+          </Button>
+        </motion.div>
+      </Section>
+    );
+  }
 
   if (success) {
     return (
@@ -129,16 +187,6 @@ export function PaymentContent() {
             Try Again
           </Button>
         </motion.div>
-      </Section>
-    );
-  }
-
-  if (loading) {
-    return (
-      <Section className="pt-8 sm:pt-28">
-        <div className="flex justify-center">
-          <LoadingSpinner size="lg" />
-        </div>
       </Section>
     );
   }

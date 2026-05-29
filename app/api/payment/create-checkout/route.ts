@@ -8,6 +8,10 @@ const supabaseConfigured =
   !!process.env.NEXT_PUBLIC_SUPABASE_URL &&
   !!process.env.SUPABASE_SERVICE_ROLE_KEY;
 const stripeConfigured = !!process.env.STRIPE_SECRET_KEY;
+// The fake-success fallback ONLY runs when explicitly opted in for local dev.
+// Without this flag, missing keys must fail loudly so we never charge nothing
+// while telling the customer "Payment Successful".
+const allowMock = process.env.ALLOW_MOCK_PAYMENTS === "true";
 
 export async function POST(request: Request) {
   try {
@@ -23,14 +27,27 @@ export async function POST(request: Request) {
     const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
 
     if (!supabaseConfigured || !stripeConfigured) {
-      console.warn(
-        "[checkout] Supabase or Stripe keys not set — returning mock success URL so flow continues.",
-        { registrationId, supabaseConfigured, stripeConfigured }
+      if (allowMock) {
+        console.warn(
+          "[checkout] ALLOW_MOCK_PAYMENTS=true — returning mock success URL (NO real charge).",
+          { registrationId, supabaseConfigured, stripeConfigured }
+        );
+        return NextResponse.json({
+          sessionUrl: `${siteUrl}/payment?success=true&mock=true`,
+          mock: true,
+        });
+      }
+      console.error(
+        "[checkout] Payment is not configured — refusing to fake a successful payment.",
+        { supabaseConfigured, stripeConfigured }
       );
-      return NextResponse.json({
-        sessionUrl: `${siteUrl}/payment?success=true&mock=true`,
-        mock: true,
-      });
+      return NextResponse.json(
+        {
+          error:
+            "Payments are not configured yet. Please contact us to complete your enrollment.",
+        },
+        { status: 503 }
+      );
     }
 
     const supabase = createAdminClient();
