@@ -9,24 +9,13 @@ function HeartModel({ url }: { url: string }) {
   const { scene } = useGLTF(url, true);
   const groupRef = useRef<THREE.Group>(null);
 
-  // The compressed model lost its textures (renders white), so paint it
-  // with anatomical reds — varied per mesh for wet cardiac-tissue depth.
-  const tinted = useMemo(() => {
+  // This model ships with baked PBR textures (red body, gold coronaries,
+  // pink aorta), so keep its original materials — just hide the stray
+  // leftover "Cube" mesh that came with the export.
+  const model = useMemo(() => {
     const clone = scene.clone(true);
-    const anatomicalColors = ["#7a0000", "#8B0000", "#6B0000", "#9B1010", "#A01828"];
-    let meshIndex = 0;
     clone.traverse((child) => {
-      if ((child as THREE.Mesh).isMesh) {
-        const mesh = child as THREE.Mesh;
-        const shade = anatomicalColors[meshIndex % anatomicalColors.length];
-        mesh.material = new THREE.MeshStandardMaterial({
-          color: new THREE.Color(shade),
-          roughness: 0.3 + (meshIndex % 3) * 0.08, // vary roughness slightly
-          metalness: 0.05,
-          envMapIntensity: 1.4,
-        });
-        meshIndex++;
-      }
+      if (child.name === "Cube") child.visible = false;
     });
     return clone;
   }, [scene]);
@@ -47,7 +36,7 @@ function HeartModel({ url }: { url: string }) {
   return (
     <Center>
       <group ref={groupRef}>
-        <primitive object={tinted} />
+        <primitive object={model} />
       </group>
     </Center>
   );
@@ -66,15 +55,11 @@ export function GlbHeart({ url = "/models/hero-heart.glb", className }: GlbHeart
         dpr={[1, 2]}
         gl={{ antialias: true, alpha: true }}
       >
-        <ambientLight intensity={0.6} />
-        {/* Main warm key light from top-right */}
-        <directionalLight position={[4, 6, 4]} intensity={1.8} color="#fff0e0" />
-        {/* Cool fill from the left to reveal depth */}
-        <directionalLight position={[-4, 2, -2]} intensity={0.6} color="#ffcccc" />
-        {/* Rim/backlight for the wet-tissue gloss */}
-        <pointLight position={[0, -2, 4]} intensity={1.2} color="#ff4444" />
-        {/* Subtle bounce light from below */}
-        <pointLight position={[0, -5, 0]} intensity={0.3} color="#cc0000" />
+        {/* Neutral lighting so the model's baked PBR colors read true */}
+        <ambientLight intensity={0.5} />
+        <directionalLight position={[4, 6, 4]} intensity={1.6} color="#ffffff" />
+        <directionalLight position={[-4, 2, -2]} intensity={0.5} color="#ffffff" />
+        <pointLight position={[0, -2, 4]} intensity={0.6} color="#ffffff" />
 
         <Suspense fallback={null}>
           <HeartModel url={url} />
