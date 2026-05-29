@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { ArrowRight, ShieldCheck } from "lucide-react";
 import { Button } from "@/components/ui/Button";
-import { SplineScene } from "@/components/ui/splite";
+import { GlbHeart } from "@/components/ui/GlbHeart";
 import { Card } from "@/components/ui/shadcn-card";
 import { Spotlight } from "@/components/ui/spotlight";
 
@@ -444,11 +444,8 @@ export function Hero() {
               className="flex-1 relative min-h-[400px] lg:min-h-0 overflow-hidden"
             >
               <RobotChestOverlay />
-              <div className="absolute inset-0 flex items-center justify-center z-10">
-                <SplineScene
-                  scene="https://prod.spline.design/kZDDjO5HuC9GJUM2/scene.splinecode"
-                  className="w-full h-full"
-                />
+              <div className="absolute inset-0 z-10">
+                <GlbHeart className="w-full h-full" />
               </div>
             </motion.div>
           </div>
