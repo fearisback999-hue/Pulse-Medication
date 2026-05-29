@@ -1,6 +1,5 @@
 "use client";
 
-import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { ArrowRight, ShieldCheck } from "lucide-react";
 import { Button } from "@/components/ui/Button";
@@ -165,81 +164,6 @@ function BeatingHeart() {
   );
 }
 
-function RobotChestOverlay() {
-  const [visible, setVisible] = useState(false);
-
-  useEffect(() => {
-    const timer = setTimeout(() => setVisible(true), 2000);
-    return () => clearTimeout(timer);
-  }, []);
-
-  return (
-    <div className="absolute inset-0 pointer-events-none">
-      {/* Clinical EKG monitor anchored to TOP-RIGHT corner */}
-      <motion.div
-        initial={{ opacity: 0, y: -10 }}
-        animate={visible ? { opacity: 1, y: 0 } : { opacity: 0, y: -10 }}
-        transition={{ duration: 0.7, delay: 3, ease: [0.23, 1, 0.32, 1] }}
-        className="absolute z-20 flex flex-col items-start gap-0 rounded-xl overflow-hidden shadow-2xl border border-gray-600"
-        style={{ top: "4%", right: "3%", minWidth: "180px" }}
-      >
-        {/* Header bar (dark gray, like a real Philips/GE monitor top bar) */}
-        <div className="w-full bg-gray-800 px-3 py-1.5 flex items-center justify-between">
-          <span className="text-[10px] font-bold tracking-widest uppercase text-gray-300">
-            ECG
-          </span>
-          <span className="text-[10px] font-bold tracking-widest text-green-400">
-            HR: 72
-          </span>
-        </div>
-
-        {/* Black monitor screen */}
-        <div
-          className="bg-black w-full px-2 py-3 relative overflow-hidden"
-          style={{ height: "80px" }}
-        >
-          {/* Green grid lines like a real monitor */}
-          <div
-            className="absolute inset-0 opacity-10"
-            style={{
-              backgroundImage:
-                "linear-gradient(#00ff00 1px, transparent 1px), linear-gradient(90deg, #00ff00 1px, transparent 1px)",
-              backgroundSize: "20px 20px",
-            }}
-          />
-          {/* Animated EKG waveform */}
-          <svg viewBox="0 0 300 60" className="w-full h-full" preserveAspectRatio="none">
-            <defs>
-              <filter id="ekg-glow">
-                <feGaussianBlur stdDeviation="1.5" result="blur" />
-                <feMerge>
-                  <feMergeNode in="blur" />
-                  <feMergeNode in="SourceGraphic" />
-                </feMerge>
-              </filter>
-            </defs>
-            {/* Classic PQRST EKG waveform path */}
-            <path
-              d="M0,30 L40,30 L50,30 L55,26 L60,30 L70,30 L75,28 L80,4 L85,52 L90,20 L95,30 L100,30 L140,30 L145,26 L150,30 L160,30 L165,28 L170,4 L175,52 L180,20 L185,30 L190,30 L230,30 L235,26 L240,30 L250,30 L255,28 L260,4 L265,52 L270,20 L275,30 L300,30"
-              fill="none"
-              stroke="#00ff88"
-              strokeWidth="1.5"
-              filter="url(#ekg-glow)"
-              className="ekg-sweep-animation"
-            />
-          </svg>
-        </div>
-
-        {/* Vital-sign footer */}
-        <div className="w-full bg-gray-900 px-3 py-1 flex items-center justify-between border-t border-gray-700">
-          <span className="text-[9px] text-gray-400 font-mono">SpO₂: 98%</span>
-          <span className="text-[9px] text-gray-400 font-mono">BP: 120/80</span>
-        </div>
-      </motion.div>
-    </div>
-  );
-}
-
 const statItems = [
   { value: "4 Days", label: "Intensive Program" },
   { value: "32 Hours", label: "Contact Hours" },
@@ -355,14 +279,13 @@ export function Hero() {
               </motion.div>
             </div>
 
-            {/* Right: 3D Spline Scene */}
+            {/* Right: 3D Heart Scene */}
             <motion.div
               initial={{ opacity: 0, transform: "scale(0.96)" }}
               animate={{ opacity: 1, transform: "scale(1)" }}
               transition={{ delay: 0.2, duration: 0.8, ease: EASE_OUT_EXPO }}
               className="flex-1 relative min-h-[640px] lg:min-h-0 overflow-visible lg:min-w-[480px]"
             >
-              <RobotChestOverlay />
               <div className="absolute inset-0 z-10">
                 <GlbHeart className="w-full h-full" />
               </div>
