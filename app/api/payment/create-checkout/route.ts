@@ -29,13 +29,10 @@ export async function POST(request: Request) {
     if (!supabaseConfigured || !stripeConfigured) {
       if (allowMock) {
         console.warn(
-          "[checkout] ALLOW_MOCK_PAYMENTS=true — returning mock success URL (NO real charge).",
+          "[checkout] ALLOW_MOCK_PAYMENTS=true — returning mock clientSecret (NO real charge).",
           { registrationId, supabaseConfigured, stripeConfigured }
         );
-        return NextResponse.json({
-          sessionUrl: `${siteUrl}/payment?success=true&mock=true`,
-          mock: true,
-        });
+        return NextResponse.json({ clientSecret: "mock", mock: true });
       }
       console.error(
         "[checkout] Payment is not configured — refusing to fake a successful payment.",
@@ -71,7 +68,11 @@ export async function POST(request: Request) {
       );
     }
 
+    // Embedded Checkout keeps the customer on our /payment page instead of
+    // redirecting to Stripe's hosted page. We return the session's
+    // client_secret and mount Stripe's <EmbeddedCheckout> with it.
     const session = await getStripeServer().checkout.sessions.create({
+      ui_mode: "embedded",
       line_items: [
         {
           price_data: {
@@ -86,8 +87,7 @@ export async function POST(request: Request) {
         },
       ],
       mode: "payment",
-      success_url: `${siteUrl}/payment?success=true&session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `${siteUrl}/payment?canceled=true&registrationId=${registrationId}`,
+      return_url: `${siteUrl}/payment?success=true&session_id={CHECKOUT_SESSION_ID}`,
       customer_email: registration.email,
       metadata: { registrationId },
     });
@@ -97,7 +97,7 @@ export async function POST(request: Request) {
       .update({ stripe_session_id: session.id })
       .eq("id", registrationId);
 
-    return NextResponse.json({ sessionUrl: session.url });
+    return NextResponse.json({ clientSecret: session.client_secret });
   } catch (err) {
     console.error("Checkout error:", err);
     return NextResponse.json(
