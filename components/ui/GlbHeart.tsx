@@ -1,38 +1,18 @@
 "use client";
 
-import { Suspense, useRef, useMemo } from "react";
+import { Suspense, useRef } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
 import { useGLTF, OrbitControls, Environment, Center } from "@react-three/drei";
 import * as THREE from "three";
 
-function HeartModel({ url, color }: { url: string; color: string }) {
+function HeartModel({ url }: { url: string }) {
   const { scene } = useGLTF(url, true);
   const groupRef = useRef<THREE.Group>(null);
-
-  // Recolor the model's materials with an anatomical heart tone.
-  const tinted = useMemo(() => {
-    const clone = scene.clone(true);
-    const target = new THREE.Color(color);
-    clone.traverse((child) => {
-      if ((child as THREE.Mesh).isMesh) {
-        const mesh = child as THREE.Mesh;
-        const mat = new THREE.MeshStandardMaterial({
-          color: target,
-          roughness: 0.35,
-          metalness: 0.05,
-        });
-        mesh.material = mat;
-      }
-    });
-    return clone;
-  }, [scene, color]);
 
   useFrame((state) => {
     if (!groupRef.current) return;
     const t = state.clock.getElapsedTime();
-    // Slow rotation
-    groupRef.current.rotation.y = t * 0.25;
-    // Heartbeat pulse (lub-dub at ~70 BPM = 0.85s cycle)
+    // Heartbeat pulse (lub-dub at ~70 BPM = 0.85s cycle) — no rotation
     const cycle = (t % 0.85) / 0.85;
     let scale = 1;
     if (cycle < 0.15) scale = 1 + 0.06 * (cycle / 0.15);
@@ -45,7 +25,7 @@ function HeartModel({ url, color }: { url: string; color: string }) {
   return (
     <Center>
       <group ref={groupRef}>
-        <primitive object={tinted} />
+        <primitive object={scene} />
       </group>
     </Center>
   );
@@ -54,14 +34,9 @@ function HeartModel({ url, color }: { url: string; color: string }) {
 interface GlbHeartProps {
   url?: string;
   className?: string;
-  color?: string;
 }
 
-export function GlbHeart({
-  url = "/models/hero-heart.glb",
-  className,
-  color = "#c4243a",
-}: GlbHeartProps) {
+export function GlbHeart({ url = "/models/hero-heart.glb", className }: GlbHeartProps) {
   return (
     <div className={className}>
       <Canvas
@@ -75,7 +50,7 @@ export function GlbHeart({
         <pointLight position={[0, -3, 3]} intensity={0.5} color="#C9A84C" />
 
         <Suspense fallback={null}>
-          <HeartModel url={url} color={color} />
+          <HeartModel url={url} />
           <Environment preset="studio" />
         </Suspense>
 
