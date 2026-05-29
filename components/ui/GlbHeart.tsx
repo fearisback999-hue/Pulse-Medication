@@ -1,13 +1,31 @@
 "use client";
 
-import { Suspense, useRef } from "react";
+import { Suspense, useRef, useMemo } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
 import { useGLTF, OrbitControls, Environment, Center } from "@react-three/drei";
 import * as THREE from "three";
 
-function HeartModel({ url }: { url: string }) {
+function HeartModel({ url, color }: { url: string; color: string }) {
   const { scene } = useGLTF(url, true);
   const groupRef = useRef<THREE.Group>(null);
+
+  // Recolor the model's materials with an anatomical heart tone.
+  const tinted = useMemo(() => {
+    const clone = scene.clone(true);
+    const target = new THREE.Color(color);
+    clone.traverse((child) => {
+      if ((child as THREE.Mesh).isMesh) {
+        const mesh = child as THREE.Mesh;
+        const mat = new THREE.MeshStandardMaterial({
+          color: target,
+          roughness: 0.35,
+          metalness: 0.05,
+        });
+        mesh.material = mat;
+      }
+    });
+    return clone;
+  }, [scene, color]);
 
   useFrame((state) => {
     if (!groupRef.current) return;
@@ -27,7 +45,7 @@ function HeartModel({ url }: { url: string }) {
   return (
     <Center>
       <group ref={groupRef}>
-        <primitive object={scene} />
+        <primitive object={tinted} />
       </group>
     </Center>
   );
@@ -36,9 +54,14 @@ function HeartModel({ url }: { url: string }) {
 interface GlbHeartProps {
   url?: string;
   className?: string;
+  color?: string;
 }
 
-export function GlbHeart({ url = "/models/hero-heart.glb", className }: GlbHeartProps) {
+export function GlbHeart({
+  url = "/models/hero-heart.glb",
+  className,
+  color = "#c4243a",
+}: GlbHeartProps) {
   return (
     <div className={className}>
       <Canvas
@@ -52,7 +75,7 @@ export function GlbHeart({ url = "/models/hero-heart.glb", className }: GlbHeart
         <pointLight position={[0, -3, 3]} intensity={0.5} color="#C9A84C" />
 
         <Suspense fallback={null}>
-          <HeartModel url={url} />
+          <HeartModel url={url} color={color} />
           <Environment preset="studio" />
         </Suspense>
 
