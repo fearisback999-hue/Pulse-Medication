@@ -20,7 +20,7 @@ export function CEHoursInfo() {
               icon: ShieldCheck,
               title: "CA BRN Approved",
               description:
-                "Provider approved by the California Board of Registered Nursing.",
+                "Provider approved by the California Board of Registered Nursing (Provider Number 17440).",
             },
             {
               icon: Award,

@@ -1,32 +1,38 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import {
   CheckCircle,
   XCircle,
-  ArrowRight,
   ShieldCheck,
   Award,
   Clock,
   Mail,
 } from "lucide-react";
+import {
+  EmbeddedCheckout,
+  EmbeddedCheckoutProvider,
+} from "@stripe/react-stripe-js";
 import { Section } from "@/components/ui/Section";
 import { Button } from "@/components/ui/Button";
 import { LoadingSpinner } from "@/components/ui/LoadingSpinner";
 import { SITE_CONFIG } from "@/lib/constants/site";
 import { COURSE_INFO } from "@/lib/constants/course";
+import { getStripe } from "@/lib/stripe/client";
 
 export function PaymentContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const [loading, setLoading] = useState(true);
-  const [processingPayment, setProcessingPayment] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [paymentVerified, setPaymentVerified] = useState(false);
 
   const success = searchParams.get("success");
   const canceled = searchParams.get("canceled");
+  const sessionId = searchParams.get("session_id");
+  const isMock = searchParams.get("mock") === "true";
   const registrationId =
     searchParams.get("registrationId") ??
     (typeof window !== "undefined"
@@ -35,7 +41,22 @@ export function PaymentContent() {
 
   useEffect(() => {
     if (success) {
-      setLoading(false);
+      // Don't trust the URL — confirm with Stripe that the session was paid
+      // before showing the success screen. (mock dev flow is allowed through.)
+      if (isMock) {
+        setPaymentVerified(true);
+        setLoading(false);
+        return;
+      }
+      fetch("/api/payment/verify-session", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ sessionId }),
+      })
+        .then((res) => res.json())
+        .then((data) => setPaymentVerified(!!data.paid))
+        .catch(() => setPaymentVerified(false))
+        .finally(() => setLoading(false));
       return;
     }
     if (!registrationId) {
@@ -43,7 +64,47 @@ export function PaymentContent() {
       return;
     }
     setLoading(false);
-  }, [registrationId, success, router]);
+  }, [registrationId, success, isMock, sessionId, router]);
+
+  if (loading) {
+    return (
+      <Section className="pt-8 sm:pt-28">
+        <div className="flex justify-center">
+          <LoadingSpinner size="lg" />
+        </div>
+      </Section>
+    );
+  }
+
+  if (success && !paymentVerified) {
+    return (
+      <Section className="pt-8 sm:pt-28">
+        <motion.div
+          initial={{ scale: 0.97 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.4 }}
+          className="max-w-lg mx-auto text-center"
+        >
+          <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-red-50 mb-6">
+            <XCircle className="h-10 w-10 text-red-400" />
+          </div>
+          <h1 className="text-3xl font-extrabold font-heading text-navy-800 tracking-tightest mb-3">
+            Payment Not Confirmed
+          </h1>
+          <p className="text-gray-500 mb-8">
+            We couldn&apos;t verify your payment. If you were charged, please
+            contact us and we&apos;ll sort it out right away.
+          </p>
+          <Button
+            href={`/payment?registrationId=${registrationId}`}
+            variant="primary"
+          >
+            Try Again
+          </Button>
+        </motion.div>
+      </Section>
+    );
+  }
 
   if (success) {
     return (
@@ -133,39 +194,25 @@ export function PaymentContent() {
     );
   }
 
-  if (loading) {
-    return (
-      <Section className="pt-8 sm:pt-28">
-        <div className="flex justify-center">
-          <LoadingSpinner size="lg" />
-        </div>
-      </Section>
-    );
-  }
-
-  const handlePayment = async () => {
-    setProcessingPayment(true);
-    setError(null);
-
-    try {
-      const res = await fetch("/api/payment/create-checkout", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ registrationId }),
-      });
-
-      if (!res.ok) {
-        const body = await res.json();
-        throw new Error(body.error || "Failed to create checkout session.");
-      }
-
-      const { sessionUrl } = await res.json();
-      window.location.href = sessionUrl;
-    } catch (err) {
-      setError(err instanceof Error ? err.message : "Something went wrong.");
-      setProcessingPayment(false);
+  // EmbeddedCheckoutProvider needs a stable callback returning the
+  // client_secret. We fetch it from our API, which creates a Stripe Checkout
+  // Session in embedded mode for this registration.
+  const fetchClientSecret = useCallback(async () => {
+    const res = await fetch("/api/payment/create-checkout", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ registrationId }),
+    });
+    if (!res.ok) {
+      const body = await res.json().catch(() => ({}));
+      const message =
+        body.error || "Failed to start checkout. Please try again.";
+      setError(message);
+      throw new Error(message);
     }
-  };
+    const { clientSecret } = await res.json();
+    return clientSecret as string;
+  }, [registrationId]);
 
   return (
     <Section className="pt-28">
@@ -173,7 +220,7 @@ export function PaymentContent() {
         initial={{ y: 16 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.4 }}
-        className="max-w-lg mx-auto"
+        className="max-w-2xl mx-auto"
       >
         <div className="bg-white rounded-2xl shadow-card-hover border border-gray-100 p-5 sm:p-7 md:p-8">
           <h1 className="text-2xl font-extrabold font-heading text-navy-800 tracking-tightest mb-6">
@@ -186,7 +233,7 @@ export function PaymentContent() {
             </div>
           )}
 
-          <div className="space-y-0 mb-8">
+          <div className="space-y-0 mb-6">
             {[
               { label: "Course", value: COURSE_INFO.title },
               {
@@ -212,28 +259,16 @@ export function PaymentContent() {
             </div>
           </div>
 
-          <Button
-            onClick={handlePayment}
-            variant="secondary"
-            size="lg"
-            className="w-full"
-            disabled={processingPayment}
-          >
-            {processingPayment ? (
-              <span className="flex items-center gap-2">
-                <LoadingSpinner
-                  size="sm"
-                  className="border-navy-900 border-t-transparent"
-                />
-                Redirecting to checkout...
-              </span>
-            ) : (
-              <>
-                Pay {SITE_CONFIG.coursePriceDisplay}
-                <ArrowRight className="ml-2 h-5 w-5" />
-              </>
-            )}
-          </Button>
+          {/* Stripe's Embedded Checkout — card form lives right here on
+              our page; on success Stripe redirects to return_url. */}
+          <div className="rounded-xl overflow-hidden border border-gray-100">
+            <EmbeddedCheckoutProvider
+              stripe={getStripe()}
+              options={{ fetchClientSecret }}
+            >
+              <EmbeddedCheckout />
+            </EmbeddedCheckoutProvider>
+          </div>
 
           <div className="flex items-center justify-center gap-2 mt-4 text-gray-400 text-xs">
             <ShieldCheck className="h-3.5 w-3.5" />

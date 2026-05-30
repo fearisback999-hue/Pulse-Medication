@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Activity, Phone, Mail, MapPin } from "lucide-react";
+import { Activity, Phone, Mail } from "lucide-react";
 import { SITE_CONFIG } from "@/lib/constants/site";
 
 const quickLinks = [
@@ -81,12 +81,6 @@ export function Footer() {
                   <Mail className="h-4 w-4 flex-shrink-0 text-gray-500" strokeWidth={1.5} />
                   {SITE_CONFIG.email}
                 </a>
-              </li>
-              <li>
-                <div className="flex items-start gap-3 text-gray-400/80 text-sm">
-                  <MapPin className="h-4 w-4 flex-shrink-0 mt-0.5 text-gray-500" strokeWidth={1.5} />
-                  {SITE_CONFIG.address.full}
-                </div>
               </li>
             </ul>
           </div>

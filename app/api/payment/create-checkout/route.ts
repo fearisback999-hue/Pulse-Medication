@@ -4,6 +4,15 @@ import { createAdminClient } from "@/lib/supabase/server";
 import { SITE_CONFIG } from "@/lib/constants/site";
 import { COURSE_INFO } from "@/lib/constants/course";
 
+const supabaseConfigured =
+  !!process.env.NEXT_PUBLIC_SUPABASE_URL &&
+  !!process.env.SUPABASE_SERVICE_ROLE_KEY;
+const stripeConfigured = !!process.env.STRIPE_SECRET_KEY;
+// The fake-success fallback ONLY runs when explicitly opted in for local dev.
+// Without this flag, missing keys must fail loudly so we never charge nothing
+// while telling the customer "Payment Successful".
+const allowMock = process.env.ALLOW_MOCK_PAYMENTS === "true";
+
 export async function POST(request: Request) {
   try {
     const { registrationId } = await request.json();
@@ -12,6 +21,29 @@ export async function POST(request: Request) {
       return NextResponse.json(
         { error: "Registration ID is required." },
         { status: 400 }
+      );
+    }
+
+    const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
+
+    if (!supabaseConfigured || !stripeConfigured) {
+      if (allowMock) {
+        console.warn(
+          "[checkout] ALLOW_MOCK_PAYMENTS=true — returning mock clientSecret (NO real charge).",
+          { registrationId, supabaseConfigured, stripeConfigured }
+        );
+        return NextResponse.json({ clientSecret: "mock", mock: true });
+      }
+      console.error(
+        "[checkout] Payment is not configured — refusing to fake a successful payment.",
+        { supabaseConfigured, stripeConfigured }
+      );
+      return NextResponse.json(
+        {
+          error:
+            "Payments are not configured yet. Please contact us to complete your enrollment.",
+        },
+        { status: 503 }
       );
     }
 
@@ -36,9 +68,11 @@ export async function POST(request: Request) {
       );
     }
 
-    const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
-
+    // Embedded Checkout keeps the customer on our /payment page instead of
+    // redirecting to Stripe's hosted page. We return the session's
+    // client_secret and mount Stripe's <EmbeddedCheckout> with it.
     const session = await getStripeServer().checkout.sessions.create({
+      ui_mode: "embedded",
       line_items: [
         {
           price_data: {
@@ -53,8 +87,7 @@ export async function POST(request: Request) {
         },
       ],
       mode: "payment",
-      success_url: `${siteUrl}/payment?success=true&session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `${siteUrl}/payment?canceled=true&registrationId=${registrationId}`,
+      return_url: `${siteUrl}/payment?success=true&session_id={CHECKOUT_SESSION_ID}`,
       customer_email: registration.email,
       metadata: { registrationId },
     });
@@ -64,7 +97,7 @@ export async function POST(request: Request) {
       .update({ stripe_session_id: session.id })
       .eq("id", registrationId);
 
-    return NextResponse.json({ sessionUrl: session.url });
+    return NextResponse.json({ clientSecret: session.client_secret });
   } catch (err) {
     console.error("Checkout error:", err);
     return NextResponse.json(
