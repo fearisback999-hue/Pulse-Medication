@@ -3,7 +3,7 @@
 import { motion } from "framer-motion";
 import { ArrowRight, ShieldCheck } from "lucide-react";
 import { Button } from "@/components/ui/Button";
-import { GlbHeart } from "@/components/ui/GlbHeart";
+import { EkgHeart } from "@/components/ui/EkgHeart";
 import { Card } from "@/components/ui/shadcn-card";
 import { Spotlight } from "@/components/ui/spotlight";
 
@@ -279,7 +279,7 @@ export function Hero() {
               </motion.div>
             </div>
 
-            {/* Right: 3D Heart Scene */}
+            {/* Right: EKG heart monitor animation */}
             <motion.div
               initial={{ opacity: 0, transform: "scale(0.96)" }}
               animate={{ opacity: 1, transform: "scale(1)" }}
@@ -287,7 +287,7 @@ export function Hero() {
               className="flex-1 lg:flex-[1.35] relative min-h-[560px] lg:min-h-0 overflow-visible lg:min-w-[520px]"
             >
               <div className="absolute inset-0 z-10">
-                <GlbHeart className="w-full h-full" />
+                <EkgHeart className="w-full h-full" />
               </div>
             </motion.div>
           </div>
