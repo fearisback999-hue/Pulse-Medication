@@ -4,8 +4,6 @@ import { motion } from "framer-motion";
 import { ArrowRight, ShieldCheck } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { EkgHeart } from "@/components/ui/EkgHeart";
-import { Card } from "@/components/ui/shadcn-card";
-import { Spotlight } from "@/components/ui/spotlight";
 
 const EASE_OUT_EXPO = [0.23, 1, 0.32, 1] as const;
 
@@ -173,33 +171,26 @@ const statItems = [
 
 export function Hero() {
   return (
-    <section className="relative min-h-[100dvh] flex items-center gradient-navy overflow-hidden pt-20">
-      <div className="absolute inset-0 pattern-grid" />
-      <div className="absolute inset-0 bg-gradient-to-b from-navy-950/20 via-transparent to-navy-950/60" />
+    <section className="relative min-h-[100dvh] flex items-stretch gradient-navy overflow-hidden">
+      {/* Full-bleed video: edge-to-edge across the entire viewport */}
+      <div className="absolute inset-0 z-0">
+        <EkgHeart className="w-full h-full" />
+        {/* Readability gradients over the video */}
+        <div className="absolute inset-0 bg-gradient-to-r from-navy-950/95 via-navy-950/60 to-navy-950/10" />
+        <div className="absolute inset-0 bg-gradient-to-t from-navy-950/70 via-transparent to-navy-950/40" />
+      </div>
+
+      {/* Decorative accents on top of the video */}
       <EKGLine />
       <BeatingHeart />
+      <div className="absolute top-20 right-10 w-72 h-72 bg-gold-500/[0.03] rounded-full blur-3xl pulse-slow z-[1]" />
+      <div className="absolute bottom-20 left-10 w-96 h-96 bg-navy-400/[0.06] rounded-full blur-3xl z-[1]" />
 
-      <div className="absolute top-20 right-10 w-72 h-72 bg-gold-500/[0.03] rounded-full blur-3xl pulse-slow" />
-      <div className="absolute bottom-20 left-10 w-96 h-96 bg-navy-400/[0.06] rounded-full blur-3xl" />
-
-      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-10 w-full">
-        <Card className="w-full border-white/[0.08] bg-black/[0.3] relative overflow-hidden rounded-2xl shadow-glass">
-          {/* Full-bleed video background filling the entire card */}
-          <div className="absolute inset-0">
-            <EkgHeart className="w-full h-full" />
-            {/* Readability gradient: dark over the text side, clear on the right */}
-            <div className="absolute inset-0 bg-gradient-to-r from-navy-950/95 via-navy-950/70 to-navy-950/10" />
-            <div className="absolute inset-0 bg-gradient-to-t from-navy-950/60 via-transparent to-navy-950/30" />
-          </div>
-
-          <Spotlight
-            className="-top-40 left-0 md:left-60 md:-top-20"
-            fill="white"
-          />
-
-          <div className="flex flex-col lg:flex-row min-h-[760px] lg:min-h-[calc(100dvh-9rem)]">
-            {/* Left: Text Content */}
-            <div className="flex-1 lg:flex-[0.92] p-8 sm:p-12 lg:p-16 relative z-10 flex flex-col justify-center">
+      {/* Foreground content */}
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 sm:pt-28 pb-12 w-full flex items-center">
+        <div className="flex flex-col lg:flex-row w-full min-h-[760px] lg:min-h-[calc(100dvh-7rem)]">
+          {/* Left: Text Content */}
+          <div className="flex-1 lg:flex-[0.92] py-8 sm:py-12 lg:py-16 relative z-10 flex flex-col justify-center">
               <motion.div
                 initial={{ opacity: 0, transform: "translateY(16px)" }}
                 animate={{ opacity: 1, transform: "translateY(0px)" }}
@@ -287,10 +278,9 @@ export function Hero() {
               </motion.div>
             </div>
 
-            {/* Right: open space showcasing the video background */}
-            <div className="hidden lg:block flex-1 lg:flex-[1.35]" />
-          </div>
-        </Card>
+          {/* Right: open space showcasing the video background */}
+          <div className="hidden lg:block flex-1 lg:flex-[1.35]" />
+        </div>
       </div>
     </section>
   );
