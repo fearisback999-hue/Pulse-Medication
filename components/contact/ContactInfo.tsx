@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { Phone, Mail, MapPin, Clock, Send, CheckCircle } from "lucide-react";
+import { Phone, Mail, Clock, Send, CheckCircle } from "lucide-react";
 import { Section } from "@/components/ui/Section";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Button } from "@/components/ui/Button";
@@ -23,13 +23,6 @@ const contactCards = [
     value: SITE_CONFIG.email,
     href: `mailto:${SITE_CONFIG.email}`,
     action: "Email Us",
-  },
-  {
-    icon: MapPin,
-    title: "Address",
-    value: SITE_CONFIG.address.full,
-    href: `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(SITE_CONFIG.address.full)}`,
-    action: "Get Directions",
   },
   {
     icon: Clock,

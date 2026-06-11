@@ -1,9 +1,10 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { CheckCircle } from "lucide-react";
 import { Section } from "@/components/ui/Section";
 import { SectionHeading } from "@/components/ui/SectionHeading";
-import { COURSE_OBJECTIVES } from "@/lib/constants/objectives";
+import { COURSE_OBJECTIVES, ARRHYTHMIA_GROUPS } from "@/lib/constants/objectives";
 
 export function CourseObjectives() {
   return (
@@ -13,7 +14,7 @@ export function CourseObjectives() {
         title="Course Objectives"
         subtitle="At the conclusion of the class, the participant will be able to:"
       />
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 max-w-6xl mx-auto">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 max-w-6xl mx-auto mb-16">
         {COURSE_OBJECTIVES.map((objective, index) => (
           <motion.div
             key={index}
@@ -31,6 +32,42 @@ export function CourseObjectives() {
             </p>
           </motion.div>
         ))}
+      </div>
+
+      {/* Arrhythmias covered */}
+      <div className="max-w-6xl mx-auto">
+        <div className="text-center mb-8">
+          <p className="text-gold-600 font-semibold text-sm tracking-wide uppercase mb-2">
+            Rhythm Strip Identification
+          </p>
+          <h3 className="text-2xl sm:text-3xl font-extrabold font-heading text-navy-800 tracking-tightest">
+            Arrhythmias You Will Learn to Identify
+          </h3>
+        </div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+          {ARRHYTHMIA_GROUPS.map((group, gIdx) => (
+            <motion.div
+              key={group.title}
+              initial={{ opacity: 0.5, y: 10 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-30px" }}
+              transition={{ delay: gIdx * 0.05, duration: 0.35 }}
+              className="bg-white rounded-2xl border border-gray-100 shadow-card p-6"
+            >
+              <h4 className="text-lg font-bold font-heading text-navy-800 tracking-tight mb-4">
+                {group.title}
+              </h4>
+              <ul className="space-y-2.5">
+                {group.items.map((item) => (
+                  <li key={item} className="flex items-start gap-2.5">
+                    <CheckCircle className="w-4 h-4 text-gold-500 flex-shrink-0 mt-0.5" strokeWidth={2} />
+                    <span className="text-gray-600 text-sm">{item}</span>
+                  </li>
+                ))}
+              </ul>
+            </motion.div>
+          ))}
+        </div>
       </div>
     </Section>
   );
