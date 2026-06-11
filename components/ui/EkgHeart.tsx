@@ -2,14 +2,16 @@
 
 /**
  * EkgHeart — looping video hero.
- * Plays the cardiac/EKG clip fully in frame (object-contain so nothing
- * gets cropped), with WebM + MP4 fallbacks and a poster for first paint.
+ * Scales to fill the column height and bleeds wider as needed so the
+ * clip stays large and fully uncropped (object-contain = no cropping).
  */
 export function EkgHeart({ className }: { className?: string }) {
   return (
-    <div className={className}>
+    <div
+      className={`${className ?? ""} flex items-center justify-center overflow-visible`}
+    >
       <video
-        className="w-full h-full object-contain"
+        className="h-full w-auto max-w-none min-w-full object-contain"
         autoPlay
         loop
         muted
