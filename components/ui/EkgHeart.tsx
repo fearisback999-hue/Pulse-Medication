@@ -1,15 +1,16 @@
 "use client";
 
 /**
- * EkgHeart — looping video hero filling the entire column edge-to-edge.
- * Uses object-cover so the clip fills the whole highlighted area; the
- * monitor stays centered so only the empty side gutters get trimmed.
+ * EkgHeart — looping video hero.
+ * Fills its container completely (object-cover) and zooms the footage
+ * in ~40%, anchored toward the monitor on the right, so the subject
+ * reads MASSIVE on screen instead of a distant wide shot.
  */
 export function EkgHeart({ className }: { className?: string }) {
   return (
-    <div className={className}>
+    <div className={`${className ?? ""} overflow-hidden`}>
       <video
-        className="w-full h-full object-cover object-center"
+        className="w-full h-full object-cover object-[70%_45%] scale-[1.4]"
         autoPlay
         loop
         muted
