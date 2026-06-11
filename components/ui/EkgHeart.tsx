@@ -1,17 +1,15 @@
 "use client";
 
 /**
- * EkgHeart — looping video hero.
- * Scales to fill the column height and bleeds wider as needed so the
- * clip stays large and fully uncropped (object-contain = no cropping).
+ * EkgHeart — looping video hero filling the entire column edge-to-edge.
+ * Uses object-cover so the clip fills the whole highlighted area; the
+ * monitor stays centered so only the empty side gutters get trimmed.
  */
 export function EkgHeart({ className }: { className?: string }) {
   return (
-    <div
-      className={`${className ?? ""} flex items-center justify-center overflow-visible`}
-    >
+    <div className={className}>
       <video
-        className="h-full w-auto max-w-none min-w-full object-contain"
+        className="w-full h-full object-cover object-center"
         autoPlay
         loop
         muted
