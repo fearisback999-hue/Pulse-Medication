@@ -184,6 +184,14 @@ export function Hero() {
 
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-10 w-full">
         <Card className="w-full border-white/[0.08] bg-black/[0.3] relative overflow-hidden rounded-2xl shadow-glass">
+          {/* Full-bleed video background filling the entire card */}
+          <div className="absolute inset-0">
+            <EkgHeart className="w-full h-full" />
+            {/* Readability gradient: dark over the text side, clear on the right */}
+            <div className="absolute inset-0 bg-gradient-to-r from-navy-950/95 via-navy-950/70 to-navy-950/10" />
+            <div className="absolute inset-0 bg-gradient-to-t from-navy-950/60 via-transparent to-navy-950/30" />
+          </div>
+
           <Spotlight
             className="-top-40 left-0 md:left-60 md:-top-20"
             fill="white"
@@ -279,17 +287,8 @@ export function Hero() {
               </motion.div>
             </div>
 
-            {/* Right: EKG heart monitor animation */}
-            <motion.div
-              initial={{ opacity: 0, transform: "scale(0.96)" }}
-              animate={{ opacity: 1, transform: "scale(1)" }}
-              transition={{ delay: 0.2, duration: 0.8, ease: EASE_OUT_EXPO }}
-              className="flex-1 lg:flex-[1.35] relative min-h-[560px] lg:min-h-0 overflow-visible lg:min-w-[520px]"
-            >
-              <div className="absolute inset-0 z-10">
-                <EkgHeart className="w-full h-full" />
-              </div>
-            </motion.div>
+            {/* Right: open space showcasing the video background */}
+            <div className="hidden lg:block flex-1 lg:flex-[1.35]" />
           </div>
         </Card>
       </div>
